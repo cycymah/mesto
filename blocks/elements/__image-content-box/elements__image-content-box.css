@@ -1,0 +1,8 @@
+.elements__image-content-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 15px 0 21px;
+  align-content: center;
+}

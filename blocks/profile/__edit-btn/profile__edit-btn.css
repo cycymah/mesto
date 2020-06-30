@@ -1,0 +1,8 @@
+.profile__edit-btn {
+  background:url('../../../images/edit-btn.svg') no-repeat;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border: none;
+  padding: 0;
+}
