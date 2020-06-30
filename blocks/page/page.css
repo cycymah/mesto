@@ -1,0 +1,7 @@
+@import url('./__header/page__header.css');
+
+.page {
+  display: flex;
+  align-items: center;
+  background-color: black;
+}
