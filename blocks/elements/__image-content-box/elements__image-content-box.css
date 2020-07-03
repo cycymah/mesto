@@ -1,8 +1,10 @@
 .elements__image-content-box {
   display: flex;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  padding: 0 15px 0 21px;
+  padding: 20px 15px 27px 21px;
   align-content: center;
 }

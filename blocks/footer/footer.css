@@ -1,3 +1,7 @@
 .footer {
-  border: 1px solid red;
+  color: #545454;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
 }

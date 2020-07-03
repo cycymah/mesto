@@ -1,0 +1,21 @@
+.form__submit-btn {
+  width: 358px;
+  min-height: 50.15px;
+  background: #000000;
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  border: 0;
+  margin-top: 48px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  transition: 0.5s ease-in-out;
+  outline: none;
+}
+
+.form__submit-btn:hover {
+  transition: 0.5s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.8);
+}
