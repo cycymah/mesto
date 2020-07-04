@@ -4,8 +4,8 @@
   width: 41px;
   height: 41px;
   position: absolute;
-  top: -41px;
-  right: -41px;
+  top: -40px;
+  right: -40px;
   border: 0;
   cursor: pointer;
   padding: 0;
@@ -16,4 +16,13 @@
 .form__close-btn:hover {
   transition: 0.5s ease-in-out;
   opacity: 0.6;
+}
+
+@media screen and (max-width: 480px) {
+  .form__close-btn {
+    top: -25px;
+    right: -25px;
+    width: 20px;
+    height: 20px;
+  }
 }

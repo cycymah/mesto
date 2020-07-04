@@ -1,11 +1,17 @@
 .form__input {
+  width: 100%;
   margin-bottom: 30px;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  min-height: 2;
+  min-height: 27px;
   outline: none;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.form__input:last-child {
-margin: 0;
+
+.form__input:last-of-type {
+  margin: 0;
 }
 

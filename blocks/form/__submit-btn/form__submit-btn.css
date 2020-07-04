@@ -1,6 +1,6 @@
 .form__submit-btn {
-  width: 358px;
-  min-height: 50.15px;
+  width: 100%;
+  min-height: 50px;
   background: #000000;
   border-radius: 2px;
   color: white;
@@ -13,9 +13,16 @@
   line-height: 22px;
   transition: 0.5s ease-in-out;
   outline: none;
+  padding: 0;
 }
 
 .form__submit-btn:hover {
   transition: 0.5s ease-in-out;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media screen and (max-width: 480px) {
+  .form__submit-btn {
+    margin-top: auto;
+  }
 }
