@@ -2,6 +2,7 @@
 @import url('./__title/form__title.css');
 @import url('./__input/form__input.css');
 @import url('./__submit-btn/form__submit-btn.css');
+@import url('./__section/form__section.css');
 
 .form {
   display: flex;
@@ -22,6 +23,7 @@
 
 @media screen and (max-width: 480px) {
   .form {
+    min-height: 300px;
     padding: 16px 16px 40px 16px;
   }
 }
