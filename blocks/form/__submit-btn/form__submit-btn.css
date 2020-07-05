@@ -9,14 +9,14 @@
   margin-top: 48px;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
-  line-height: 22px;
-  transition: 0.5s ease-in-out;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  transition: .5s ease-in-out;
   outline: none;
   padding: 0;
 }
 
 .form__submit-btn:hover {
-  transition: 0.5s ease-in-out;
-  background-color: rgba(0, 0, 0, 0.8);
+  transition: .5s ease-in-out;
+  background-color: rgba(0, 0, 0, .8);
 }

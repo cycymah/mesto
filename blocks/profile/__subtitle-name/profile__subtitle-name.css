@@ -1,8 +1,7 @@
 .profile__subtitle-name {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 22px;
+
+  font-size: 1.1rem;
+  line-height: 1.25;
   margin: 0;
   width: 100%;
 }

@@ -8,6 +8,8 @@
 .profile {
   display: flex;
   align-items: center;
+  font-style: normal;
+  font-weight: normal;
 }
 
 @media screen and (max-width: 690px) {
