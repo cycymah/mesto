@@ -10,6 +10,8 @@
 
 @media screen and (max-width: 690px) {
   .profile__subtitle-name {
+    font-size: 0.9rem;
+    line-height: 1.1;
     text-align: center;
     margin: 14px auto 0;
   }

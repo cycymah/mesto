@@ -1,14 +1,15 @@
 .profile__profile-info {
   display: flex;
   flex-wrap: wrap;
-  width: 60%;
+  width: 70%;
   margin-left: 30px;
   align-items: baseline;
 }
 
 @media screen and (max-width: 690px) {
   .profile__profile-info {
+    width: 90%;
     justify-content: center;
-    margin: 14px auto 36px;
+    margin: 30px auto 36px;
   }
 }
