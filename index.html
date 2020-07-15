@@ -23,72 +23,7 @@
       </section>
       <section class="elements">
         <ul class="elements__list">
-          <li class="elements__item">
-            <figure class="elements__item-card">
-              <img src="./images/img-1.jpg" alt="Заброшенная кирпичная церковь, гора на фоне" class="elements__image">
-              <figcaption class="elements__image-content-box">
-                <p class="elements__image-description">
-                  Карачаево-Черкесия
-                </p>
-                <button class="elements__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-          <li class="elements__item">
-            <figure class="elements__item-card">
-              <img src="./images/img-2.png" alt="Гора Эльбрус виднеется вдалеке" class="elements__image">
-              <figcaption class="elements__image-content-box">
-                <p class="elements__image-description">
-                  Гора Эльбрус
-                </p>
-                <button class="elements__like"></button>
-              </figcaption>
-            </figure>
-          </li>      
-          <li class="elements__item">
-            <figure class="elements__item-card">
-              <img src="./images/img-3.png" alt="Огромная гора вдали на фоне леса" class="elements__image">
-              <figcaption class="elements__image-content-box">
-                <p class="elements__image-description">
-                  Домбай
-                </p>
-                <button class="elements__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-          <li class="elements__item">
-            <figure class="elements__item-card">
-              <img src="./images/img-4.jpg" alt="Город Игарка, на заднем фоне р. Енисей по которой идет лед" class="elements__image">
-              <figcaption class="elements__image-content-box">
-                <p class="elements__image-description">
-                  Игарка
-                </p>
-                <button class="elements__like"></button>
-              </figcaption>
-            </figure>
-          </li>    
-          <li class="elements__item">
-            <figure class="elements__item-card">
-              <img src="./images/img-5.jpg" alt="Вид с высоты на город Барнаул" class="elements__image">
-              <figcaption class="elements__image-content-box">
-                <p class="elements__image-description">
-                  Барнаул
-                </p>
-                <button class="elements__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-          <li class="elements__item">
-            <figure class="elements__item-card">
-              <img src="./images/img-6.jpg" alt="Вид на старинный пешеходный мост, через бирюзовую реку" class="elements__image">
-              <figcaption class="elements__image-content-box">
-                <p class="elements__image-description">
-                  Алтай
-                </p>
-                <button class="elements__like"></button>
-              </figcaption>
-            </figure>
-          </li>                            
+                        
         </ul>
       </section>
     </main>
@@ -98,10 +33,10 @@
       </p>
     </footer>
   </div>
-  <div class="modal page__modal">
+  <div class="modal page__modal modal_target_profile">
     <div class="modal__overlay"></div>
     <div class="form">
-        <button class="form__close-btn " type="button"></button>
+        <button class="form__close-btn form__close-btn_target_profile " type="button"></button>
         <h2 class="form__title">
           Редактировать профиль
         </h2>
@@ -112,6 +47,34 @@
         </form>
     </div>
   </div>
+  <div class="modal page__modal modal_target_addCard">
+    <div class="modal__overlay"></div>
+    <div class="form">
+        <button class="form__close-btn form__close-btn_target_add" type="button"></button>
+        <h2 class="form__title">
+          Новое место
+        </h2>
+        <form action="#" class="form__section" name="form">
+          <input type="text" class="form__input form__input_field_name" placeholder="Название" name="title">
+          <input type="text" class="form__input form__input_field_about" placeholder="Ссылка на картинку" name="picturesource">
+          <button class="form__submit-btn" type="submit">Сохранить</button>
+        </form>
+    </div>
+  </div>
+  <template id="listItem">
+    <li class="elements__item">
+      <button class="elements__trash" type="button"></button>
+      <figure class="elements__item-card">
+        <img src="./images/img-1.jpg" alt="" class="elements__image">
+        <figcaption class="elements__image-content-box">
+          <p class="elements__image-description">
+            asdasd
+          </p>
+          <button class="elements__like"></button>
+        </figcaption>
+      </figure>
+    </li>
+  </template>
   <script src="./js/script.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
 @import url('./__image-content-box/elements__image-content-box.css');
 @import url('./__image-description/elements__image-description.css');
 @import url('./__like/elements__like.css');
+@import url('./__trash/elements__trash.css');
 
 
 .elements {

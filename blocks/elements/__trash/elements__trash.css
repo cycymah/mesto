@@ -1,17 +1,20 @@
-.elements__like {
-  background: url('../../../images/like.svg') no-repeat;
+.elements__trash {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  background: url('../../../images/trash.svg') no-repeat;
   background-size: contain;
   cursor: pointer;
-  width: 21px;
+  width: 18px;
   height: 19px;
   border: none;
   padding: 0;
   outline: none;
   transition: .5s ease-in-out;
-  margin-left: auto;
 }
 
-.elements__like:hover {
+.elements__trash:hover {
   transition: .5s ease-in-out;
   opacity: 0.6;
+  margin-left: 0;
 }

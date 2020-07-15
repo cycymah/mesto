@@ -1,0 +1,67 @@
+          <li class="elements__item">
+            <button class="elements__trash"></button>
+            <figure class="elements__item-card">
+              <img src="./images/img-1.jpg" alt="Заброшенная кирпичная церковь, гора на фоне" class="elements__image">
+              <figcaption class="elements__image-content-box">
+                <p class="elements__image-description">
+                  Карачаево-Черкесия
+                </p>
+                <button class="elements__like"></button>
+              </figcaption>
+            </figure>
+          </li>
+          <li class="elements__item">
+            <figure class="elements__item-card">
+              <img src="./images/img-2.png" alt="Гора Эльбрус виднеется вдалеке" class="elements__image">
+              <figcaption class="elements__image-content-box">
+                <p class="elements__image-description">
+                  Гора Эльбрус
+                </p>
+                <button class="elements__like"></button>
+              </figcaption>
+            </figure>
+          </li>      
+          <li class="elements__item">
+            <figure class="elements__item-card">
+              <img src="./images/img-3.png" alt="Огромная гора вдали на фоне леса" class="elements__image">
+              <figcaption class="elements__image-content-box">
+                <p class="elements__image-description">
+                  Домбай
+                </p>
+                <button class="elements__like"></button>
+              </figcaption>
+            </figure>
+          </li>
+          <li class="elements__item">
+            <figure class="elements__item-card">
+              <img src="./images/img-4.jpg" alt="Город Игарка, на заднем фоне р. Енисей по которой идет лед" class="elements__image">
+              <figcaption class="elements__image-content-box">
+                <p class="elements__image-description">
+                  Игарка
+                </p>
+                <button class="elements__like"></button>
+              </figcaption>
+            </figure>
+          </li>    
+          <li class="elements__item">
+            <figure class="elements__item-card">
+              <img src="./images/img-5.jpg" alt="Вид с высоты на город Барнаул" class="elements__image">
+              <figcaption class="elements__image-content-box">
+                <p class="elements__image-description">
+                  Барнаул
+                </p>
+                <button class="elements__like"></button>
+              </figcaption>
+            </figure>
+          </li>
+          <li class="elements__item">
+            <figure class="elements__item-card">
+              <img src="./images/img-6.jpg" alt="Вид на старинный пешеходный мост, через бирюзовую реку" class="elements__image">
+              <figcaption class="elements__image-content-box">
+                <p class="elements__image-description">
+                  Алтай
+                </p>
+                <button class="elements__like"></button>
+              </figcaption>
+            </figure>
+          </li>    
