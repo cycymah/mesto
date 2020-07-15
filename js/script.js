@@ -89,13 +89,17 @@ function modalOff() {
 };
 
 //Удаление элементов (корзина)
-const trashButton = document.querySelector('.elements__trash');             //Корзина
+const trashButton = document.querySelector('.elements__trash');  
+const trashButtons = document.querySelectorAll('.elements__trash');           //Корзина
 
 function itemTrash(evt) {
-  const listItem = trashButton.closest('.elements__item');
-  listItem.remove();
-  console.log('!!!');
-}
+  
+  trashButtons.forEach(function(elm) {
+    const listItem = trashButton.closest('.elements__item');
+    listItem.remove();
+    console.log('!!!');
+  });
+};
 
 //Закрытие с соханиением
 function formSubmitHandler (evt) {
@@ -111,6 +115,6 @@ profileEdit.addEventListener('click', profileOn);           //Открытие �
 addButton.addEventListener('click', addCardOn);             //Открытие формы добавления карточек
 formClose.addEventListener('click', modalOff);              //Закрытие формы профайла
 formCloseAdd.addEventListener('click', modalOff);           //Закрытие формы добавления карточек
-trashButton.addEventListener('click', itemTrash(evt));      //Удаление в корзину
+trashButton.addEventListener('click', itemTrash);      //Удаление в корзину
 
 //При загрузке страницы
