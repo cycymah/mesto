@@ -9,19 +9,25 @@ const formClose = document.querySelector('.form__close-btn_target_profile');//К
 const addButton = document.querySelector('.profile__add-button');           //Кнопка добавления карточки 
 const formCloseAdd = document.querySelector('.form__close-btn_target_add'); //Кнопка закрытия модалки с карточками
 
-//Текстовый контент
+//Добавляемый контент
 const profileName = document.querySelector('.profile__title-name');         
 const profileAbout = document.querySelector('.profile__subtitle-name');
+// const addTitle = 
 
 //Формы
-const formElement = document.querySelector('.form__section');
+const formProfile = document.querySelector('.form__section_target_profile');
+const formAdd = document.querySelector('.form__section_target_add');
 
 //Инпуты
 const inputProfile = document.querySelector('.form__input_field_name');
 const inputAbout = document.querySelector('.form__input_field_about');
+const inputTitle = document.querySelector('.form__input_field_title');
+const inputSrc = document.querySelector('.form__input_field_src');
+
 
 //Отдельные блоки
 const list = document.querySelector('.elements__list');                     //Список элементов
+
 //Массив карточек
 const initialCards = [
   {
@@ -49,28 +55,18 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-
-// function addListCard () {
-//     for (let i = 0; i < initialCards.length; i++) {
-//       list.append(listElement);
-      
-//   }
-// }
-// window.onload = function () {
-//   list.append(listElement);
-// }
+//Template объект
+const listTemplate = document.querySelector('#listItem').content;
 
 //Добавление элементов в список
-
-function addListItem () {
-  const listTemplate = document.querySelector('#listItem').content;
-  for (let i = 0; i < initialCards.length; i++) {
+function addListItem (arr, blockUl) {
+  for (let i = 0; i < arr.length; i++) {
     const listElement = listTemplate.cloneNode(true);  
-    list.append(listElement);
-  }
+    blockUl.append(listElement);
+  };
 };
 
-window.onload = addListItem();
+addListItem(initialCards, list);        //Вызов функции для создания карточек по массиву
 
 //Открытие-закрытие модалок
 function profileOn() {
@@ -88,18 +84,48 @@ function modalOff() {
   profileShow.classList.remove('modal_activ');
 };
 
-//Удаление элементов (корзина)
-const trashButton = document.querySelector('.elements__trash');  
-const trashButtons = document.querySelectorAll('.elements__trash');           //Корзина
 
-function itemTrash(evt) {
-  
-  trashButtons.forEach(function(elm) {
-    const listItem = trashButton.closest('.elements__item');
-    listItem.remove();
-    console.log('!!!');
+// Лайки
+function likesAll() {
+  const likeButtons = document.querySelectorAll('.elements__like');
+
+  likeButtons.forEach((like) => {
+    like.addEventListener('click', (evt) => {
+      like.classList.toggle('elements__like_active');
+      console.log(evt);
+    })
+  })
+}
+likesAll();
+//Удаление элементов (корзина)
+function trashAllItems(){
+  const allTrash = document.querySelectorAll('.elements__trash'); //Все корзины
+  allTrash.forEach((elem) => {                                      //Для каждой отдельной корзины
+  elem.addEventListener('click', () => {                          //Слушаем клики
+    const listElem = elem.closest('.elements__item');             //Ищем ближайщий __item
+    listElem.remove();                                            //Удаляем карточку
+    })
   });
 };
+trashAllItems();                                                  //Вызываем функцию для всех существующих уже эл-тов
+
+// Добавление карточки
+function addCard (titleImage, srcImage) {
+  const listElement = listTemplate.cloneNode(true);  
+  listElement.querySelector('.elements__image-description').textContent = titleImage;
+  listElement.querySelector('.elements__image').src = srcImage;
+  list.prepend(listElement);
+}
+
+function formSubmitCard (evt) {
+  evt.preventDefault();
+  addCard(inputTitle.value, inputSrc.value);
+  inputTitle.value = '';
+  inputSrc.src = '';
+  modalOff();
+  trashAllItems();
+  likesAll();
+}
 
 //Закрытие с соханиением
 function formSubmitHandler (evt) {
@@ -109,12 +135,13 @@ function formSubmitHandler (evt) {
     modalOff();
 }
 
-//События
-formElement.addEventListener('submit', formSubmitHandler);  //Добавление инфы в профайл
-profileEdit.addEventListener('click', profileOn);           //Открытие формы профайла
-addButton.addEventListener('click', addCardOn);             //Открытие формы добавления карточек
-formClose.addEventListener('click', modalOff);              //Закрытие формы профайла
-formCloseAdd.addEventListener('click', modalOff);           //Закрытие формы добавления карточек
-trashButton.addEventListener('click', itemTrash);      //Удаление в корзину
 
-//При загрузке страницы
+
+//События
+formProfile.addEventListener('submit', formSubmitHandler);  //Добавление инфы в профайл
+profileEdit.addEventListener('click', profileOn);           //Открытие формы профайла
+formClose.addEventListener('click', modalOff);              //Закрытие формы профайла
+addButton.addEventListener('click', addCardOn);             //Открытие формы добавления карточек
+formCloseAdd.addEventListener('click', modalOff);           //Закрытие формы добавления карточек
+formAdd.addEventListener('submit', formSubmitCard);         //Добавление картинке по субмит
+
