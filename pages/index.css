@@ -43,6 +43,7 @@
 @import url('../blocks/modal/__overlay/modal__overlay.css');
 @import url('../blocks/modal/_activ/modal_activ.css');
 @import url('../blocks/modal/__overlay/_background_dark/modal__overlay_background_dark.css');
+@import url('../blocks/modal/_animation/_close/modal_animation_close.css');
 
 /* Блока формы */
 @import url('../blocks/form/form.css');

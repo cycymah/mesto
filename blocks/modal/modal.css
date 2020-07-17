@@ -1,9 +1,3 @@
-@keyframes openMod {
-  from { opacity: 0; }
-    to { opacity: .5; }
-}
-
-
 .modal {
   width: 100vw;
   height: 100vh;
@@ -13,6 +7,5 @@
   position: fixed;
   top: 0;
   left: 0;
-  -webkit-animation: openMod .2s;
-  animation: openMod .2s;
+  transition: all .4 linear;
 }

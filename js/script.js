@@ -123,9 +123,9 @@ function likesAll() {
   likeButtons.forEach((like) => {
     like.addEventListener('click', (evt) => {
       like.classList.toggle('elements__like_active');
-    })
-  })
-};
+    });
+  });
+}
 
 likesAll();
 //Удаление элементов (корзина)
@@ -135,9 +135,9 @@ function trashAllItems(){
   elem.addEventListener('click', () => {                          //Слушаем клики
     const listElem = elem.closest('.elements__item');             //Ищем ближайщий __item
     listElem.remove();                                            //Удаляем карточку
-    })
+    });
   });
-};
+}
 trashAllItems();                                                  //Вызываем функцию для всех существующих уже эл-тов
 
 // Добавление карточки
@@ -160,8 +160,8 @@ function formSubmitCard (evt) {
 //Закрытие с соханиением
 function formSubmitHandler (evt) {
     evt.preventDefault();
-    profileName.textContent = inputProfile.value;;
-    profileAbout.textContent = inputAbout.value;;
+    profileName.textContent = inputProfile.value;
+    profileAbout.textContent = inputAbout.value;
     modalOff();
 };
 //Закрытие зум-фотки

@@ -1,3 +1,9 @@
+@keyframes openMod {
+  from { opacity: 0; }
+    to { opacity: .9; }
+}
 .modal__overlay_background_dark {
   opacity: 0.9;
+  -webkit-animation: openMod .2s linear;
+  animation: openMod .2s linear;
 }
