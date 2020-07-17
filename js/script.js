@@ -2,6 +2,7 @@
 //Модалки
 const profileShow = document.querySelector('.modal_target_profile');        //Модалка с профайлом
 const addShow = document.querySelector('.modal_target_addCard');            //Модалка с карточками
+const zoomShow = document.querySelector('.modal_target_photoZoom');
 
 //Кнопки
 const profileEdit = document.querySelector('.profile__edit-btn');           //Кнопка редактирования профайла
@@ -12,7 +13,6 @@ const formCloseAdd = document.querySelector('.form__close-btn_target_add'); //К
 //Добавляемый контент
 const profileName = document.querySelector('.profile__title-name');         
 const profileAbout = document.querySelector('.profile__subtitle-name');
-// const addTitle = 
 
 //Формы
 const formProfile = document.querySelector('.form__section_target_profile');
@@ -27,6 +27,7 @@ const inputSrc = document.querySelector('.form__input_field_src');
 
 //Отдельные блоки
 const list = document.querySelector('.elements__list');                     //Список элементов
+
 
 //Массив карточек
 const initialCards = [
@@ -59,14 +60,42 @@ const initialCards = [
 const listTemplate = document.querySelector('#listItem').content;
 
 //Добавление элементов в список
-function addListItem (arr, blockUl) {
+function addListItems (arr, blockUl) {
   for (let i = 0; i < arr.length; i++) {
     const listElement = listTemplate.cloneNode(true);  
+    listElement.querySelector('.elements__image-description').textContent = arr[i].name;
+    listElement.querySelector('.elements__image').src = arr[i].link;
     blockUl.append(listElement);
   };
 };
 
-addListItem(initialCards, list);        //Вызов функции для создания карточек по массиву
+addListItems(initialCards, list);        //Вызов функции для создания карточек по массиву
+
+//Увеличение картинки
+function showModal(target) {
+  target.classList.toggle('modal_activ');
+}
+
+function zoomPicture() {
+  const pictures = document.querySelectorAll('.elements__item-card');
+  let zoomText = document.querySelector('.zoom__text-image');
+  let zoomImage = document.querySelector('.zoom__image');
+
+  pictures.forEach((elem) => {
+    const elementPicture = elem.querySelector('.elements__image');
+    const elementText = elem.querySelector('.elements__image-description');
+
+    elementPicture.addEventListener('click', (evt) => {
+      
+      zoomText.textContent = elementText.textContent;
+      zoomImage.src = elementPicture.src;
+      showModal(zoomShow);
+    });
+  });
+};
+
+zoomPicture();
+
 
 //Открытие-закрытие модалок
 function profileOn() {
@@ -77,6 +106,8 @@ function profileOn() {
 
 function addCardOn() {
   addShow.classList.add('modal_activ');
+  inputTitle.value = '';
+  inputSrc.value = '';
 }
 
 function modalOff() {
@@ -92,10 +123,10 @@ function likesAll() {
   likeButtons.forEach((like) => {
     like.addEventListener('click', (evt) => {
       like.classList.toggle('elements__like_active');
-      console.log(evt);
     })
   })
-}
+};
+
 likesAll();
 //Удаление элементов (корзина)
 function trashAllItems(){
@@ -115,17 +146,16 @@ function addCard (titleImage, srcImage) {
   listElement.querySelector('.elements__image-description').textContent = titleImage;
   listElement.querySelector('.elements__image').src = srcImage;
   list.prepend(listElement);
-}
+};
 
 function formSubmitCard (evt) {
   evt.preventDefault();
   addCard(inputTitle.value, inputSrc.value);
-  inputTitle.value = '';
-  inputSrc.src = '';
   modalOff();
   trashAllItems();
   likesAll();
-}
+  zoomPicture()
+};
 
 //Закрытие с соханиением
 function formSubmitHandler (evt) {
@@ -133,9 +163,14 @@ function formSubmitHandler (evt) {
     profileName.textContent = inputProfile.value;;
     profileAbout.textContent = inputAbout.value;;
     modalOff();
-}
+};
+//Закрытие зум-фотки
 
-
+const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
+zoomCLose.addEventListener('click', (evt) => {
+  showModal(zoomShow);
+  console.log(evt);
+});
 
 //События
 formProfile.addEventListener('submit', formSubmitHandler);  //Добавление инфы в профайл
