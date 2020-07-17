@@ -1,0 +1,7 @@
+.zoom {
+  max-width: 75vw;
+  position: relative;
+  box-sizing: border-box;
+  z-index: 100;
+  margin: 60px;
+}
