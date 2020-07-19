@@ -11,7 +11,7 @@
   box-sizing: border-box;
   z-index: 100;
   margin: 60px;
-  animation: showOn 2s linear;
+  animation: showOn .4s ease;
 }
 
 @media screen and (max-width: 480px) {

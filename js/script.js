@@ -1,7 +1,7 @@
 //Модалки
 const profileShow = document.querySelector('.modal_target_profile'); //Модалка с профайлом
 const addShow = document.querySelector('.modal_target_addCard'); //Модалка с карточками
-const zoomShow = document.querySelector('.modal_target_photoZoom');
+const zoomShow = document.querySelector('.modal_target_photoZoom'); //Модалка с увеличенными картинками
 
 //Кнопки
 const profileEdit = document.querySelector('.profile__edit-btn'); //Кнопка редактирования профайла
@@ -116,7 +116,7 @@ function closeModal() {
   formProfile.classList.add('modal_animation_close');
   addShow.classList.add('modal_animation_close');
   formAdd.classList.add('modal_animation_close');
-  setTimeout(modalOff, 1000);
+  setTimeout(modalOff, 400);
 }
 
 // Лайки
@@ -169,7 +169,7 @@ function showModal() {
 const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
 function zoomAnimation() {
   zoom.classList.add('zoom_animation_close');
-  setTimeout(showModal, 1000);
+  setTimeout(showModal, 400);
 };
 
 function zoomPicture() {

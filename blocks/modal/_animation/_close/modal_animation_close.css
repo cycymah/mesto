@@ -1,12 +1,14 @@
 
 @keyframes showOff {
-  from {opacity: 1;}
+  from {opacity: 1;
+        visibility: visible;}
         
-  to {opacity: 0;}
+  to {opacity: 0;
+      visibility: hidden;}
     
 }
 
 .modal_animation_close {
-  -moz-animation: showOff 1s linear;
-  animation: showOff 1s linear; 
+  -moz-animation: showOff 0.4s ease;
+  animation: showOff 0.4s ease; 
 }
