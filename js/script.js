@@ -26,7 +26,9 @@ const inputSrc = document.querySelector('.form__input_field_src');
 
 //Отдельные блоки
 const list = document.querySelector('.elements__list'); //Список элементов
-const zoom = document.querySelector('.zoom');
+const zoom = document.querySelector('.zoom'); //Раскрытая форма картинки
+
+
 
 
 //Массив карточек
@@ -39,7 +41,7 @@ const initialCards = [{
     name: 'Челябинская область',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
     alt: 'Лес в снегу и озеро'
-    
+
   },
   {
     name: 'Иваново',
@@ -69,12 +71,19 @@ const listTemplate = document.querySelector('#listItem').content;
 function addCard(titleImage, srcImage, altImage) {
   const listElement = listTemplate.cloneNode(true);
   const listImage = listElement.querySelector('.elements__image');
+  const RegExp = /^((http|https):\/\/)?(www\.)?([A-Za-zА-Яа-я0-9]{1}[A-Za-zА-Яа-я0-9\-]*\.?)*\.{1}[A-Za-zА-Яа-я0-9-]{2,8}(\/([\w#!:.?+=&%@!\-\/])*)?/;
   listElement.querySelector('.elements__image-description').textContent = titleImage;
-  listImage.src = srcImage;
-  if (!altImage){listImage.alt = titleImage;}
-    else {
-      listImage.alt = altImage;
-    }
+
+  if (RegExp.test(srcImage)) {
+    listImage.src = srcImage;
+  } else {
+    alert('Введите корректную ссылку!');
+  }
+  if (!altImage) {
+    listImage.alt = titleImage;
+  } else {
+    listImage.alt = altImage;
+  }
   list.prepend(listElement);
 };
 
@@ -97,7 +106,6 @@ function addCardOn() {
   addShow.classList.add('modal_activ');
   inputTitle.value = '';
   inputSrc.value = '';
-
 }
 
 function modalOff() {
@@ -110,7 +118,6 @@ function modalOff() {
 };
 
 //Затухание 
-
 function closeModal() {
   profileShow.classList.add('modal_animation_close');
   formProfile.classList.add('modal_animation_close');
@@ -120,36 +127,23 @@ function closeModal() {
 }
 
 // Лайки
-function likesAll() {
-  const likeButtons = document.querySelectorAll('.elements__like');
+
+function likeToggle(targetLike) {
+  let likeElem = targetLike.closest('.elements__like');
+  likeElem.classList.toggle('elements__like_active');
+};
+
+function likesAll() {                                                 //Находим все лайки
+  const likeButtons = list.querySelectorAll('.elements__like');
   likeButtons.forEach((like) => {
     like.addEventListener('click', (evt) => {
-      like.classList.toggle('elements__like_active');
+      likeToggle(like);
+      console.log(evt);
     });
   });
+  console.log(likeButtons);
 }
 likesAll();
-
-//Удаление элементов (корзина)
-function trashAllItems() {
-  const allTrash = document.querySelectorAll('.elements__trash'); //Все корзины
-  allTrash.forEach((elem) => { //Для каждой отдельной корзины
-    elem.addEventListener('click', () => { //Слушаем клики
-      const listElem = elem.closest('.elements__item'); //Ищем ближайщий __item
-      listElem.remove(); //Удаляем карточку
-    });
-  });
-}
-trashAllItems(); //Вызываем функцию для всех существующих уже эл-тов
-
-function formSubmitCard(evt) {
-  evt.preventDefault();
-  addCard(inputTitle.value, inputSrc.value);
-  closeModal();
-  trashAllItems();
-  likesAll();
-  zoomPicture()
-};
 
 //Закрытие с соханиением
 function formSubmitHandler(evt) {
@@ -159,14 +153,51 @@ function formSubmitHandler(evt) {
   closeModal();
 };
 
+
+//Удаление элементов (корзина)
+function oneTrashRemove(targetTrash) {
+  const listElem = targetTrash.closest('.elements__item'); //Ищем ближайщий __item
+  listElem.remove(); //Удаляем карточку
+}
+
+function trashAllItems() {
+  const allTrash = list.querySelectorAll('.elements__trash'); //Все корзины
+  allTrash.forEach((elem) => { //Для каждой отдельной корзины
+    elem.addEventListener('click', (evt) => { //Слушаем клики
+      oneTrashRemove(elem);
+      console.log(evt);
+    });
+  });
+};
+trashAllItems();
+//Вызываем функцию для всех существующих уже эл-тов
+
+function formSubmitCard(evt) {
+  evt.preventDefault();
+  addCard(inputTitle.value, inputSrc.value);
+  const oneLike = list.querySelector('.elements__like');  
+  const oneTrash = list.querySelector('.elements__trash');
+  oneLike.addEventListener('click', (evt) => {             //Подключаем лайки к добавленной карточке
+    likeToggle(oneLike);
+    console.log(evt);
+  });
+  oneTrash.addEventListener('click', (evt) => {           //Подключаем корзину к добавленной карточке
+    oneTrashRemove(oneTrash);
+  });
+  trashAllItems();
+  zoomPicture();
+  closeModal();
+};
+
 //Увеличение картинки
 function showModal() {
   zoomShow.classList.toggle('modal_activ');
   zoom.classList.remove('zoom_animation_close');
-}
+};
 
 //Закрытие уввеличенной картинки
 const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
+
 function zoomAnimation() {
   zoom.classList.add('zoom_animation_close');
   setTimeout(showModal, 400);
@@ -193,10 +224,11 @@ zoomPicture();
 //Закрытие зум-фотки
 zoomCLose.addEventListener('click', zoomAnimation);
 
-    //События
-    formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
-    profileEdit.addEventListener('click', profileOn); //Открытие формы профайла
-    formClose.addEventListener('click', closeModal); //Закрытие формы профайла
-    addButton.addEventListener('click', addCardOn); //Открытие формы добавления карточек
-    formCloseAdd.addEventListener('click', closeModal); //Закрытие формы добавления карточек
-    formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
+//События
+
+formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
+profileEdit.addEventListener('click', profileOn); //Открытие формы профайла
+formClose.addEventListener('click', closeModal); //Закрытие формы профайла
+addButton.addEventListener('click', addCardOn); //Открытие формы добавления карточек
+formCloseAdd.addEventListener('click', closeModal); //Закрытие формы добавления карточек
+formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
