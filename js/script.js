@@ -23,13 +23,9 @@ const inputAbout = document.querySelector('.form__input_field_about');
 const inputTitle = document.querySelector('.form__input_field_title');
 const inputSrc = document.querySelector('.form__input_field_src');
 
-
 //Отдельные блоки
 const list = document.querySelector('.elements__list'); //Список элементов
 const zoom = document.querySelector('.zoom'); //Раскрытая форма картинки
-
-
-
 
 //Массив карточек
 const initialCards = [{
@@ -153,7 +149,6 @@ function formSubmitHandler(evt) {
   closeModal();
 };
 
-
 //Удаление элементов (корзина)
 function oneTrashRemove(targetTrash) {
   const listElem = targetTrash.closest('.elements__item'); //Ищем ближайщий __item
@@ -169,8 +164,7 @@ function trashAllItems() {
     });
   });
 };
-trashAllItems();
-//Вызываем функцию для всех существующих уже эл-тов
+trashAllItems(); //Вызываем функцию для всех существующих уже эл-тов
 
 function formSubmitCard(evt) {
   evt.preventDefault();
@@ -225,10 +219,11 @@ zoomPicture();
 zoomCLose.addEventListener('click', zoomAnimation);
 
 //События
-
 formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
 profileEdit.addEventListener('click', profileOn); //Открытие формы профайла
 formClose.addEventListener('click', closeModal); //Закрытие формы профайла
 addButton.addEventListener('click', addCardOn); //Открытие формы добавления карточек
 formCloseAdd.addEventListener('click', closeModal); //Закрытие формы добавления карточек
 formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
+
+//Спасибо за труд! Чая кофе и печенек, много счастья тебе! Заранее прошу извинения, если код вызывает боль:) 
