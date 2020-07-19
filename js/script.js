@@ -65,18 +65,26 @@ const initialCards = [{
 //Template объект
 const listTemplate = document.querySelector('#listItem').content;
 
+// Добавление карточки
+function addCard(titleImage, srcImage, altImage) {
+  const listElement = listTemplate.cloneNode(true);
+  const listImage = listElement.querySelector('.elements__image');
+  listElement.querySelector('.elements__image-description').textContent = titleImage;
+  listImage.src = srcImage;
+  if (!altImage){listImage.alt = titleImage;}
+    else {
+      listImage.alt = altImage;
+    }
+  list.prepend(listElement);
+};
+
 //Добавление элементов в список
-function addListItems(arr, blockUl) {
+function addListItems(arr) {
   for (let i = 0; i < arr.length; i++) {
-    const listElement = listTemplate.cloneNode(true);
-    const listImage = listElement.querySelector('.elements__image');
-    listElement.querySelector('.elements__image-description').textContent = arr[i].name;
-    listImage.src = arr[i].link;
-    listImage.alt = arr[i].alt;
-    blockUl.append(listElement);
+    addCard(arr[i].name, arr[i].link, arr[i].alt);
   };
 };
-addListItems(initialCards, list); //Вызов функции для создания карточек по массиву
+addListItems(initialCards); //Вызов функции для создания карточек по массиву
 
 //Открытие-закрытие модалок
 function profileOn() {
@@ -133,14 +141,6 @@ function trashAllItems() {
   });
 }
 trashAllItems(); //Вызываем функцию для всех существующих уже эл-тов
-
-// Добавление карточки
-function addCard(titleImage, srcImage) {
-  const listElement = listTemplate.cloneNode(true);
-  listElement.querySelector('.elements__image-description').textContent = titleImage;
-  listElement.querySelector('.elements__image').src = srcImage;
-  list.prepend(listElement);
-};
 
 function formSubmitCard(evt) {
   evt.preventDefault();
