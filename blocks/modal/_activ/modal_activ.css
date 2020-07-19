@@ -1,4 +1,12 @@
+@keyframes showOn {
+  from {opacity: 0;
+        visibility: hidden;}
+  to {opacity: 1;
+    visibility: visible;}
+}
 
 .modal_activ {
   display: flex;
+  animation: showOn 1s linear;
+  opacity: 1;
 }

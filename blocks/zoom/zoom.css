@@ -1,7 +1,15 @@
+@keyframes showOn {
+  from {opacity: 0;
+        visibility: hidden;}
+  to {opacity: 1;
+    visibility: visible;}
+}
+
 .zoom {
   max-width: 75vw;
   position: relative;
   box-sizing: border-box;
   z-index: 100;
   margin: 60px;
+  animation: showOn 2s linear;
 }

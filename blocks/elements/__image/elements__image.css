@@ -10,6 +10,7 @@
 .elements__image:hover {
   cursor: pointer;
 }
+
 @media screen and (max-width: 690px) {
   .elements__image {
     height: 320px;
@@ -20,6 +21,7 @@
   .elements__image {
     height: 500px;
   }
+}
 
 @media screen and (max-width: 480px) {
   .elements__image {

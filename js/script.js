@@ -86,7 +86,6 @@ function zoomPicture() {
     const elementText = elem.querySelector('.elements__image-description');
 
     elementPicture.addEventListener('click', (evt) => {
-      
       zoomText.textContent = elementText.textContent;
       zoomImage.src = elementPicture.src;
       showModal(zoomShow);
@@ -111,10 +110,24 @@ function addCardOn() {
 }
 
 function modalOff() {
+  profileShow.classList.remove('modal_animation_close');
+  addShow.classList.remove('modal_animation_close');
   addShow.classList.remove('modal_activ');
   profileShow.classList.remove('modal_activ');
+  formAdd.classList.remove('modal_animation_close');
+  formProfile.classList.remove('modal_animation_close');
 };
 
+//Затухание 
+
+function closeModal() {
+    profileShow.classList.add('modal_animation_close');
+    formProfile.classList.add('modal_animation_close');
+    addShow.classList.add('modal_animation_close');
+    formAdd.classList.add('modal_animation_close');
+    setTimeout(modalOff, 1000);
+
+}
 
 // Лайки
 function likesAll() {
@@ -151,7 +164,7 @@ function addCard (titleImage, srcImage) {
 function formSubmitCard (evt) {
   evt.preventDefault();
   addCard(inputTitle.value, inputSrc.value);
-  modalOff();
+  closeModal();
   trashAllItems();
   likesAll();
   zoomPicture()
@@ -162,21 +175,19 @@ function formSubmitHandler (evt) {
     evt.preventDefault();
     profileName.textContent = inputProfile.value;
     profileAbout.textContent = inputAbout.value;
-    modalOff();
+    closeModal();
 };
 //Закрытие зум-фотки
 
 const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
 zoomCLose.addEventListener('click', (evt) => {
   showModal(zoomShow);
-  console.log(evt);
 });
 
 //События
 formProfile.addEventListener('submit', formSubmitHandler);  //Добавление инфы в профайл
 profileEdit.addEventListener('click', profileOn);           //Открытие формы профайла
-formClose.addEventListener('click', modalOff);              //Закрытие формы профайла
+formClose.addEventListener('click', closeModal);              //Закрытие формы профайла
 addButton.addEventListener('click', addCardOn);             //Открытие формы добавления карточек
-formCloseAdd.addEventListener('click', modalOff);           //Закрытие формы добавления карточек
+formCloseAdd.addEventListener('click', closeModal);           //Закрытие формы добавления карточек
 formAdd.addEventListener('submit', formSubmitCard);         //Добавление картинке по субмит
-
