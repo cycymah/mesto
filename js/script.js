@@ -1,17 +1,16 @@
-
 //Модалки
-const profileShow = document.querySelector('.modal_target_profile');        //Модалка с профайлом
-const addShow = document.querySelector('.modal_target_addCard');            //Модалка с карточками
+const profileShow = document.querySelector('.modal_target_profile'); //Модалка с профайлом
+const addShow = document.querySelector('.modal_target_addCard'); //Модалка с карточками
 const zoomShow = document.querySelector('.modal_target_photoZoom');
 
 //Кнопки
-const profileEdit = document.querySelector('.profile__edit-btn');           //Кнопка редактирования профайла
-const formClose = document.querySelector('.form__close-btn_target_profile');//Кнопка закрытия профала
-const addButton = document.querySelector('.profile__add-button');           //Кнопка добавления карточки 
+const profileEdit = document.querySelector('.profile__edit-btn'); //Кнопка редактирования профайла
+const formClose = document.querySelector('.form__close-btn_target_profile'); //Кнопка закрытия профала
+const addButton = document.querySelector('.profile__add-button'); //Кнопка добавления карточки 
 const formCloseAdd = document.querySelector('.form__close-btn_target_add'); //Кнопка закрытия модалки с карточками
 
 //Добавляемый контент
-const profileName = document.querySelector('.profile__title-name');         
+const profileName = document.querySelector('.profile__title-name');
 const profileAbout = document.querySelector('.profile__subtitle-name');
 
 //Формы
@@ -26,74 +25,52 @@ const inputSrc = document.querySelector('.form__input_field_src');
 
 
 //Отдельные блоки
-const list = document.querySelector('.elements__list');                     //Список элементов
+const list = document.querySelector('.elements__list'); //Список элементов
+const zoom = document.querySelector('.zoom');
 
 
 //Массив карточек
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+const initialCards = [{
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
 //Template объект
 const listTemplate = document.querySelector('#listItem').content;
 
 //Добавление элементов в список
-function addListItems (arr, blockUl) {
+function addListItems(arr, blockUl) {
   for (let i = 0; i < arr.length; i++) {
-    const listElement = listTemplate.cloneNode(true);  
+    const listElement = listTemplate.cloneNode(true);
     listElement.querySelector('.elements__image-description').textContent = arr[i].name;
     listElement.querySelector('.elements__image').src = arr[i].link;
     blockUl.append(listElement);
   };
 };
 
-addListItems(initialCards, list);        //Вызов функции для создания карточек по массиву
+addListItems(initialCards, list); //Вызов функции для создания карточек по массиву
 
-//Увеличение картинки
-function showModal(target) {
-  target.classList.toggle('modal_activ');
-}
 
-function zoomPicture() {
-  const pictures = document.querySelectorAll('.elements__item-card');
-  let zoomText = document.querySelector('.zoom__text-image');
-  let zoomImage = document.querySelector('.zoom__image');
-
-  pictures.forEach((elem) => {
-    const elementPicture = elem.querySelector('.elements__image');
-    const elementText = elem.querySelector('.elements__image-description');
-
-    elementPicture.addEventListener('click', (evt) => {
-      zoomText.textContent = elementText.textContent;
-      zoomImage.src = elementPicture.src;
-      showModal(zoomShow);
-    });
-  });
-};
-
-zoomPicture();
 
 
 //Открытие-закрытие модалок
@@ -121,11 +98,11 @@ function modalOff() {
 //Затухание 
 
 function closeModal() {
-    profileShow.classList.add('modal_animation_close');
-    formProfile.classList.add('modal_animation_close');
-    addShow.classList.add('modal_animation_close');
-    formAdd.classList.add('modal_animation_close');
-    setTimeout(modalOff, 1000);
+  profileShow.classList.add('modal_animation_close');
+  formProfile.classList.add('modal_animation_close');
+  addShow.classList.add('modal_animation_close');
+  formAdd.classList.add('modal_animation_close');
+  setTimeout(modalOff, 1000);
 
 }
 
@@ -142,26 +119,26 @@ function likesAll() {
 
 likesAll();
 //Удаление элементов (корзина)
-function trashAllItems(){
+function trashAllItems() {
   const allTrash = document.querySelectorAll('.elements__trash'); //Все корзины
-  allTrash.forEach((elem) => {                                      //Для каждой отдельной корзины
-  elem.addEventListener('click', () => {                          //Слушаем клики
-    const listElem = elem.closest('.elements__item');             //Ищем ближайщий __item
-    listElem.remove();                                            //Удаляем карточку
+  allTrash.forEach((elem) => { //Для каждой отдельной корзины
+    elem.addEventListener('click', () => { //Слушаем клики
+      const listElem = elem.closest('.elements__item'); //Ищем ближайщий __item
+      listElem.remove(); //Удаляем карточку
     });
   });
 }
-trashAllItems();                                                  //Вызываем функцию для всех существующих уже эл-тов
+trashAllItems(); //Вызываем функцию для всех существующих уже эл-тов
 
 // Добавление карточки
-function addCard (titleImage, srcImage) {
-  const listElement = listTemplate.cloneNode(true);  
+function addCard(titleImage, srcImage) {
+  const listElement = listTemplate.cloneNode(true);
   listElement.querySelector('.elements__image-description').textContent = titleImage;
   listElement.querySelector('.elements__image').src = srcImage;
   list.prepend(listElement);
 };
 
-function formSubmitCard (evt) {
+function formSubmitCard(evt) {
   evt.preventDefault();
   addCard(inputTitle.value, inputSrc.value);
   closeModal();
@@ -171,23 +148,51 @@ function formSubmitCard (evt) {
 };
 
 //Закрытие с соханиением
-function formSubmitHandler (evt) {
-    evt.preventDefault();
-    profileName.textContent = inputProfile.value;
-    profileAbout.textContent = inputAbout.value;
-    closeModal();
+function formSubmitHandler(evt) {
+  evt.preventDefault();
+  profileName.textContent = inputProfile.value;
+  profileAbout.textContent = inputAbout.value;
+  closeModal();
 };
-//Закрытие зум-фотки
+
+//Увеличение картинки
+function showModal() {
+  zoomShow.classList.toggle('modal_activ');
+  zoom.classList.remove('zoom_animation_close');
+}
 
 const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
-zoomCLose.addEventListener('click', (evt) => {
-  showModal(zoomShow);
-});
 
-//События
-formProfile.addEventListener('submit', formSubmitHandler);  //Добавление инфы в профайл
-profileEdit.addEventListener('click', profileOn);           //Открытие формы профайла
-formClose.addEventListener('click', closeModal);              //Закрытие формы профайла
-addButton.addEventListener('click', addCardOn);             //Открытие формы добавления карточек
-formCloseAdd.addEventListener('click', closeModal);           //Закрытие формы добавления карточек
-formAdd.addEventListener('submit', formSubmitCard);         //Добавление картинке по субмит
+function zoomAnimation() {
+  zoom.classList.add('zoom_animation_close');
+  setTimeout(showModal, 1000);
+};
+
+function zoomPicture() {
+  const pictures = document.querySelectorAll('.elements__item-card');
+  let zoomText = document.querySelector('.zoom__text-image');
+  let zoomImage = document.querySelector('.zoom__image');
+
+  pictures.forEach((elem) => {
+    const elementPicture = elem.querySelector('.elements__image');
+    const elementText = elem.querySelector('.elements__image-description');
+
+    elementPicture.addEventListener('click', (evt) => {
+      zoomText.textContent = elementText.textContent;
+      zoomImage.src = elementPicture.src;
+      showModal();
+    });
+  });
+};
+zoomPicture();
+
+//Закрытие зум-фотки
+zoomCLose.addEventListener('click', zoomAnimation);
+
+    //События
+    formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
+    profileEdit.addEventListener('click', profileOn); //Открытие формы профайла
+    formClose.addEventListener('click', closeModal); //Закрытие формы профайла
+    addButton.addEventListener('click', addCardOn); //Открытие формы добавления карточек
+    formCloseAdd.addEventListener('click', closeModal); //Закрытие формы добавления карточек
+    formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит

@@ -1,0 +1,12 @@
+
+@keyframes showOff {
+  from {opacity: 1;}
+        
+  to {opacity: 0;}
+    
+}
+
+.zoom_animation_close {
+  -moz-animation: showOff 1s linear;
+  animation: showOff 1s linear; 
+}
