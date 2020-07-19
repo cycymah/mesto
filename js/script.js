@@ -32,27 +32,34 @@ const zoom = document.querySelector('.zoom');
 //Массив карточек
 const initialCards = [{
     name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+    alt: 'Вид на горы вдали'
   },
   {
     name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+    alt: 'Лес в снегу и озеро'
+    
   },
   {
     name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+    alt: 'Изображения домов'
   },
   {
     name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+    alt: 'Лысое поле с лишайником и большая гора вдали'
   },
   {
     name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+    alt: 'Железная дорога уходящая за горизонт'
   },
   {
     name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+    alt: 'Гора, у подножья заледеневшее озеро'
   }
 ];
 //Template объект
@@ -62,16 +69,14 @@ const listTemplate = document.querySelector('#listItem').content;
 function addListItems(arr, blockUl) {
   for (let i = 0; i < arr.length; i++) {
     const listElement = listTemplate.cloneNode(true);
+    const listImage = listElement.querySelector('.elements__image');
     listElement.querySelector('.elements__image-description').textContent = arr[i].name;
-    listElement.querySelector('.elements__image').src = arr[i].link;
+    listImage.src = arr[i].link;
+    listImage.alt = arr[i].alt;
     blockUl.append(listElement);
   };
 };
-
 addListItems(initialCards, list); //Вызов функции для создания карточек по массиву
-
-
-
 
 //Открытие-закрытие модалок
 function profileOn() {
@@ -84,6 +89,7 @@ function addCardOn() {
   addShow.classList.add('modal_activ');
   inputTitle.value = '';
   inputSrc.value = '';
+
 }
 
 function modalOff() {
@@ -103,21 +109,19 @@ function closeModal() {
   addShow.classList.add('modal_animation_close');
   formAdd.classList.add('modal_animation_close');
   setTimeout(modalOff, 1000);
-
 }
 
 // Лайки
 function likesAll() {
   const likeButtons = document.querySelectorAll('.elements__like');
-
   likeButtons.forEach((like) => {
     like.addEventListener('click', (evt) => {
       like.classList.toggle('elements__like_active');
     });
   });
 }
-
 likesAll();
+
 //Удаление элементов (корзина)
 function trashAllItems() {
   const allTrash = document.querySelectorAll('.elements__trash'); //Все корзины
@@ -161,8 +165,8 @@ function showModal() {
   zoom.classList.remove('zoom_animation_close');
 }
 
+//Закрытие уввеличенной картинки
 const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
-
 function zoomAnimation() {
   zoom.classList.add('zoom_animation_close');
   setTimeout(showModal, 1000);
