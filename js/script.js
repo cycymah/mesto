@@ -88,7 +88,7 @@ function addListeners(trash, likes) {
   });
 }
 
-function createCard(titleImage, srcImage, altImage) {
+const card = function createCard(titleImage, srcImage, altImage) {
   const listElement = listTemplate.cloneNode(true);
   const imageTitle = listElement.querySelector('.elements__image-description');
   const listImage = listElement.querySelector('.elements__image'); //Находим картинки
@@ -96,31 +96,26 @@ function createCard(titleImage, srcImage, altImage) {
   const like = listElement.querySelector('.elements__like'); //находим лайки
   const RegExp = /^((http|https):\/\/)?(www\.)?([A-Za-zА-Яа-я0-9]{1}[A-Za-zА-Яа-я0-9\-]*\.?)*\.{1}[A-Za-zА-Яа-я0-9-]{2,8}(\/([\w#!:.?+=&%@!\-\/])*)?/;
 
-  imageTitle.textContent = titleImage; //Записываем название картинки в карту
-
   if (RegExp.test(srcImage)) { // проверяем валидность ссылки
+    imageTitle.textContent = titleImage; //Записывае
     listImage.src = srcImage;
-    list.prepend(listElement);
+    listImage.alt = altImage;
+    addListeners(oneTrash, like);
+    zoomPicture(listImage, imageTitle);
+    return listElement;
   } else {
     alert('Введите корректную ссылку!');
   }
-  if (!altImage) {
-    listImage.alt = titleImage;
-  } else {
-    listImage.alt = altImage;
-  }
-  addListeners(oneTrash, like);
-  zoomPicture(listImage, imageTitle);
 };
 
-function renderCards() {
-
+function renderCards(card) {
+  list.prepend(card);
 }
 
 //Добавление элементов в список
 function addListItems(arr) {
   arr.forEach((elem) => {
-    createCard(elem.name, elem.link, elem.alt);
+    renderCards(card(elem.name, elem.link, elem.alt));
   });
 };
 addListItems(initialCards); //Вызов функции для создания карточек по массиву
@@ -143,16 +138,15 @@ function addCardOn() {
 }
 //Закрытие профайла
 function profileOff() {
-
   profileShow.classList.add('modal_animation_close');
   formProfile.classList.add('modal_animation_close');
   profileShow.classList.remove('modal_activ');
 }
 
 function addOff() {
-  
+
   addShow.classList.remove('modal_activ');
-  
+
   addShow.classList.add('modal_animation_close');
   formAdd.classList.add('modal_animation_close');
 };
@@ -160,12 +154,13 @@ function addOff() {
 //Увеличение картинки
 function showZoom() {
   zoomShow.classList.add('modal_activ');
+  zoom.classList.add('zoom_animation_activ');
   zoom.classList.remove('zoom_animation_close');
 };
 //Закрытие уввеличенной картинки
 function zoomOff() {
   zoom.classList.add('zoom_animation_close');
-    zoomShow.classList.remove('modal_activ');
+  zoomShow.classList.remove('modal_activ');
 }
 //Закрытие с соханиением
 function formSubmitHandler(evt) {
@@ -178,7 +173,7 @@ function formSubmitHandler(evt) {
 
 function formSubmitCard(evt) {
   evt.preventDefault();
-  createCard(inputTitle.value, inputSrc.value);
+  renderCards(card(inputTitle.value, inputSrc.value));
   addOff();
 };
 

@@ -11,6 +11,6 @@
 .modal_animation_close {
   visibility: hidden; 
   opacity: 0;
-  -moz-animation: showOff 0.5s ease;
-  animation: showOff 0.5s ease; 
+  -moz-animation: showOff .5s ease;
+  animation: showOff .5s ease; 
 }

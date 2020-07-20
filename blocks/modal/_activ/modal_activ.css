@@ -7,7 +7,6 @@
 
 .modal_activ {
   visibility: visible;
-  display: flex;
-  animation: showOn .5s linear;
+  animation: showOn .5s ease;
   opacity: 1;
 }

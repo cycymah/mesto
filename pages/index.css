@@ -60,3 +60,4 @@
 @import url('../blocks/zoom/__image/zoom__image.css');
 @import url('../blocks/zoom/__text-image/zoom__text-image.css');
 @import url('../blocks/zoom/_animation/_close/zoom_animation_close.css');
+@import url('../blocks/zoom/_animation/_active/zoom_animation_active.css');

@@ -1,11 +1,11 @@
 @keyframes showOn {
   from {opacity: 0;
-        visibility: hidden;}
+        }
   to {opacity: 1;
-      visibility: visible;}
+      }
 }
 
 .modal__overlay_background_dark {
   opacity: 0.9;
-  animation: showOn 0.5s ease; 
+  animation: showOn .5s ease; 
 }
