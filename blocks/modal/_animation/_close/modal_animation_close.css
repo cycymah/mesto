@@ -9,6 +9,8 @@
 }
 
 .modal_animation_close {
-  -moz-animation: showOff 0.4s ease;
-  animation: showOff 0.4s ease; 
+  visibility: hidden; 
+  opacity: 0;
+  -moz-animation: showOff 0.5s ease;
+  animation: showOff 0.5s ease; 
 }

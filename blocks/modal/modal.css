@@ -1,11 +1,11 @@
 .modal {
-  display: none;
+  display: flex;
   width: 100vw;
   height: 100vh;
-  display: none;
   align-items: center;
   justify-content: center;
   position: fixed;
+  visibility: hidden;
   top: 0;
   left: 0;
 }
