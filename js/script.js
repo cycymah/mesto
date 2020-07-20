@@ -190,4 +190,4 @@ addButton.addEventListener('click', addCardOn); //Открытие формы д
 formCloseAdd.addEventListener('click', addOff); //Закрытие формы добавления карточек
 formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
 
-//Спасибо за труд! Чая кофе и печенек, много счастья тебе! Заранее прошу извинения, если код вызывает боль:) 
+//Спасибо за ревью, вроде разобрался. Надеюсь ничего не пропустил. Всех благ!
