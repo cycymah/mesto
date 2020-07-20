@@ -104,12 +104,16 @@ const card = function createCard(titleImage, srcImage, altImage) {
     zoomPicture(listImage, imageTitle);
     return listElement;
   } else {
-    alert('Введите корректную ссылку!');
+    return undefined;
   }
 };
 
 function renderCards(card) {
-  list.prepend(card);
+  if (card === undefined) {
+    return alert('Введите корректный адресс ссылки!');
+  } else {
+    return list.prepend(card);
+  }
 }
 
 //Добавление элементов в список
