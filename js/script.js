@@ -26,6 +26,7 @@ const inputSrc = document.querySelector('.form__input_field_src');
 //Отдельные блоки
 const list = document.querySelector('.elements__list'); //Список элементов
 const zoom = document.querySelector('.zoom'); //Раскрытая форма картинки
+const zoomCLose = zoom.querySelector('.zoom__close-btn');
 
 //Массив карточек
 const initialCards = [{
@@ -63,15 +64,44 @@ const initialCards = [{
 //Template объект
 const listTemplate = document.querySelector('#listItem').content;
 
-// Добавление карточки
-function addCard(titleImage, srcImage, altImage) {
+//Увеличение картинки
+function showZoom() {
+  zoomShow.classList.add('modal_activ');
+  zoom.classList.remove('zoom_animation_close');
+};
+//Закрытие уввеличенной картинки
+function zoomOff() {
+  zoomCLose.addEventListener('click', (evt) =>{
+    zoom.classList.add('zoom_animation_close');
+    zoomShow.classList.remove('modal_activ');
+  });
+}
+
+function zoomPicture() {
+  const picture = list.querySelector('.elements__image')
+  let zoomText = document.querySelector('.zoom__text-image');
+  let zoomImage = document.querySelector('.zoom__image');
+    picture.addEventListener('click', (evt) => {
+      zoomText.textContent = picture.textContent;
+      zoomImage.src = picture.src;
+      showZoom();
+  });
+};
+zoomCLose.addEventListener('click', zoomOff);
+
+
+let oneCard = function createCard(titleImage, srcImage, altImage) {
   const listElement = listTemplate.cloneNode(true);
   const listImage = listElement.querySelector('.elements__image');
+  const oneTrash = listElement.querySelector('.elements__trash');
+  const like = listElement.querySelector('.elements__like');
   const RegExp = /^((http|https):\/\/)?(www\.)?([A-Za-zА-Яа-я0-9]{1}[A-Za-zА-Яа-я0-9\-]*\.?)*\.{1}[A-Za-zА-Яа-я0-9-]{2,8}(\/([\w#!:.?+=&%@!\-\/])*)?/;
+  
   listElement.querySelector('.elements__image-description').textContent = titleImage;
 
   if (RegExp.test(srcImage)) {
     listImage.src = srcImage;
+    list.prepend(listElement);
   } else {
     alert('Введите корректную ссылку!');
   }
@@ -79,151 +109,79 @@ function addCard(titleImage, srcImage, altImage) {
     listImage.alt = titleImage;
   } else {
     listImage.alt = altImage;
-  }
-  list.prepend(listElement);
+  }  
+
+  oneTrash.addEventListener('click', (evt) => { //Слушаем клики
+    const trashElem = oneTrash.closest('.elements__item'); //Ищем ближайщий __item
+    trashElem.remove(); //Удаляем карточку
+  });
+  
+  like.addEventListener('click', (evt) => {
+    const trashElem = like.closest('.elements__like');
+    trashElem.classList.toggle('elements__like_active');
+    console.log(evt);
+  });
+  zoomPicture();
 };
 
 //Добавление элементов в список
 function addListItems(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    addCard(arr[i].name, arr[i].link, arr[i].alt);
+  arr.forEach((elem)=>{
+    oneCard(elem.name, elem.link, elem.alt);
+  });
   };
-};
 addListItems(initialCards); //Вызов функции для создания карточек по массиву
 
 //Открытие-закрытие модалок
 function profileOn() {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
+  profileShow.classList.add('modal_animation_close');
+  formProfile.classList.add('modal_animation_close');
   profileShow.classList.add('modal_activ');
 };
 
 function addCardOn() {
   addShow.classList.add('modal_activ');
+  addShow.classList.add('modal_animation_close');
+  formAdd.classList.add('modal_animation_close');
   inputTitle.value = '';
   inputSrc.value = '';
 }
 
-function modalOff() {
+function profileOff() {
   profileShow.classList.remove('modal_animation_close');
+  profileShow.classList.remove('modal_activ');
+  formProfile.classList.remove('modal_animation_close');
+}
+
+function addOff() {
   addShow.classList.remove('modal_animation_close');
   addShow.classList.remove('modal_activ');
-  profileShow.classList.remove('modal_activ');
   formAdd.classList.remove('modal_animation_close');
-  formProfile.classList.remove('modal_animation_close');
 };
-
-//Затухание 
-function closeModal() {
-  profileShow.classList.add('modal_animation_close');
-  formProfile.classList.add('modal_animation_close');
-  addShow.classList.add('modal_animation_close');
-  formAdd.classList.add('modal_animation_close');
-  setTimeout(modalOff, 400);
-}
-
-// Лайки
-
-function likeToggle(targetLike) {
-  let likeElem = targetLike.closest('.elements__like');
-  likeElem.classList.toggle('elements__like_active');
-};
-
-function likesAll() {                                                 //Находим все лайки
-  const likeButtons = list.querySelectorAll('.elements__like');
-  likeButtons.forEach((like) => {
-    like.addEventListener('click', (evt) => {
-      likeToggle(like);
-      console.log(evt);
-    });
-  });
-  console.log(likeButtons);
-}
-likesAll();
 
 //Закрытие с соханиением
 function formSubmitHandler(evt) {
   evt.preventDefault();
   profileName.textContent = inputProfile.value;
   profileAbout.textContent = inputAbout.value;
-  closeModal();
+  profileOff();
 };
 
-//Удаление элементов (корзина)
-function oneTrashRemove(targetTrash) {
-  const listElem = targetTrash.closest('.elements__item'); //Ищем ближайщий __item
-  listElem.remove(); //Удаляем карточку
-}
-
-function trashAllItems() {
-  const allTrash = list.querySelectorAll('.elements__trash'); //Все корзины
-  allTrash.forEach((elem) => { //Для каждой отдельной корзины
-    elem.addEventListener('click', (evt) => { //Слушаем клики
-      oneTrashRemove(elem);
-      console.log(evt);
-    });
-  });
-};
-trashAllItems(); //Вызываем функцию для всех существующих уже эл-тов
 
 function formSubmitCard(evt) {
   evt.preventDefault();
-  addCard(inputTitle.value, inputSrc.value);
-  const oneLike = list.querySelector('.elements__like');  
-  const oneTrash = list.querySelector('.elements__trash');
-  oneLike.addEventListener('click', (evt) => {             //Подключаем лайки к добавленной карточке
-    likeToggle(oneLike);
-    console.log(evt);
-  });
-  oneTrash.addEventListener('click', (evt) => {           //Подключаем корзину к добавленной карточке
-    oneTrashRemove(oneTrash);
-  });
-  trashAllItems();
-  zoomPicture();
-  closeModal();
+  createCard(inputTitle.value, inputSrc.value);
+  addOff();
 };
-
-//Увеличение картинки
-function showModal() {
-  zoomShow.classList.toggle('modal_activ');
-  zoom.classList.remove('zoom_animation_close');
-};
-
-//Закрытие уввеличенной картинки
-const zoomCLose = zoomShow.querySelector('.zoom__close-btn');
-
-function zoomAnimation() {
-  zoom.classList.add('zoom_animation_close');
-  setTimeout(showModal, 400);
-};
-
-function zoomPicture() {
-  const pictures = document.querySelectorAll('.elements__item-card');
-  let zoomText = document.querySelector('.zoom__text-image');
-  let zoomImage = document.querySelector('.zoom__image');
-
-  pictures.forEach((elem) => {
-    const elementPicture = elem.querySelector('.elements__image');
-    const elementText = elem.querySelector('.elements__image-description');
-
-    elementPicture.addEventListener('click', (evt) => {
-      zoomText.textContent = elementText.textContent;
-      zoomImage.src = elementPicture.src;
-      showModal();
-    });
-  });
-};
-zoomPicture();
-
-//Закрытие зум-фотки
-zoomCLose.addEventListener('click', zoomAnimation);
 
 //События
 formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
 profileEdit.addEventListener('click', profileOn); //Открытие формы профайла
-formClose.addEventListener('click', closeModal); //Закрытие формы профайла
+formClose.addEventListener('click', profileOff); //Закрытие формы профайла
 addButton.addEventListener('click', addCardOn); //Открытие формы добавления карточек
-formCloseAdd.addEventListener('click', closeModal); //Закрытие формы добавления карточек
+formCloseAdd.addEventListener('click', addOff); //Закрытие формы добавления карточек
 formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
 
 //Спасибо за труд! Чая кофе и печенек, много счастья тебе! Заранее прошу извинения, если код вызывает боль:) 
