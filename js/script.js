@@ -64,18 +64,6 @@ const initialCards = [{
 //Template объект
 const listTemplate = document.querySelector('#listItem').content;
 
-//Увеличение картинки
-function showZoom() {
-  zoomShow.classList.add('modal_activ');
-  zoom.classList.remove('zoom_animation_close');
-};
-//Закрытие уввеличенной картинки
-function zoomOff() {
-  zoomCLose.addEventListener('click', (evt) =>{
-    zoom.classList.add('zoom_animation_close');
-    zoomShow.classList.remove('modal_activ');
-  });
-}
 
 function zoomPicture() {
   const picture = list.querySelector('.elements__image')
@@ -87,19 +75,29 @@ function zoomPicture() {
       showZoom();
   });
 };
-zoomCLose.addEventListener('click', zoomOff);
 
+function addListeners(trash, likes) {
+  trash.addEventListener('click', (evt) => { //Слушаем клики
+    const trashElem = trash.closest('.elements__item'); //Ищем ближайщий __item
+    trashElem.remove(); //Удаляем карточку
+  });
+  
+  likes.addEventListener('click', (evt) => {
+    const trashElem = likes.closest('.elements__like');
+    trashElem.classList.toggle('elements__like_active');
+  });
+}
 
 let oneCard = function createCard(titleImage, srcImage, altImage) {
   const listElement = listTemplate.cloneNode(true);
-  const listImage = listElement.querySelector('.elements__image');
-  const oneTrash = listElement.querySelector('.elements__trash');
-  const like = listElement.querySelector('.elements__like');
+  const listImage = listElement.querySelector('.elements__image'); //Находим картинки
+  const oneTrash = listElement.querySelector('.elements__trash'); //Находим корзинки
+  const like = listElement.querySelector('.elements__like');     //находим лайки
   const RegExp = /^((http|https):\/\/)?(www\.)?([A-Za-zА-Яа-я0-9]{1}[A-Za-zА-Яа-я0-9\-]*\.?)*\.{1}[A-Za-zА-Яа-я0-9-]{2,8}(\/([\w#!:.?+=&%@!\-\/])*)?/;
   
-  listElement.querySelector('.elements__image-description').textContent = titleImage;
+  listElement.querySelector('.elements__image-description').textContent = titleImage; //Записываем название картинки в карту
 
-  if (RegExp.test(srcImage)) {
+  if (RegExp.test(srcImage)) { // проверяем валидность ссылки
     listImage.src = srcImage;
     list.prepend(listElement);
   } else {
@@ -109,20 +107,12 @@ let oneCard = function createCard(titleImage, srcImage, altImage) {
     listImage.alt = titleImage;
   } else {
     listImage.alt = altImage;
-  }  
-
-  oneTrash.addEventListener('click', (evt) => { //Слушаем клики
-    const trashElem = oneTrash.closest('.elements__item'); //Ищем ближайщий __item
-    trashElem.remove(); //Удаляем карточку
-  });
-  
-  like.addEventListener('click', (evt) => {
-    const trashElem = like.closest('.elements__like');
-    trashElem.classList.toggle('elements__like_active');
-    console.log(evt);
-  });
+  }
+  addListeners(oneTrash, like);
   zoomPicture();
 };
+
+
 
 //Добавление элементов в список
 function addListItems(arr) {
@@ -161,6 +151,16 @@ function addOff() {
   formAdd.classList.remove('modal_animation_close');
 };
 
+//Увеличение картинки
+function showZoom() {
+  zoomShow.classList.add('modal_activ');
+  zoom.classList.remove('zoom_animation_close');
+};
+//Закрытие уввеличенной картинки
+function zoomOff() {
+    zoom.classList.add('zoom_animation_close');
+    zoomShow.classList.remove('modal_activ');
+}
 //Закрытие с соханиением
 function formSubmitHandler(evt) {
   evt.preventDefault();
@@ -172,11 +172,12 @@ function formSubmitHandler(evt) {
 
 function formSubmitCard(evt) {
   evt.preventDefault();
-  createCard(inputTitle.value, inputSrc.value);
+  oneCard(inputTitle.value, inputSrc.value);
   addOff();
 };
 
 //События
+zoomCLose.addEventListener('click', zoomOff);
 formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
 profileEdit.addEventListener('click', profileOn); //Открытие формы профайла
 formClose.addEventListener('click', profileOff); //Закрытие формы профайла
