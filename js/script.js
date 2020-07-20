@@ -71,7 +71,6 @@ function zoomPicture(targetPicture, targetTitle) {
   targetPicture.addEventListener('click', (evt) => {
     zoomText.textContent = targetTitle.textContent;
     zoomImage.src = targetPicture.src;
-    console.log(targetPicture);
     showZoom();
   });
 };
@@ -172,12 +171,12 @@ function formSubmitHandler(evt) {
   profileName.textContent = inputProfile.value;
   profileAbout.textContent = inputAbout.value;
   profileOff();
-};
+}
 
 
 function formSubmitCard(evt) {
   evt.preventDefault();
-  renderCards(card(inputTitle.value, inputSrc.value));
+  renderCards(card(inputTitle.value, inputSrc.value, inputTitle.value));
   addOff();
 };
 
@@ -190,4 +189,4 @@ addButton.addEventListener('click', addCardOn); //Открытие формы д
 formCloseAdd.addEventListener('click', addOff); //Закрытие формы добавления карточек
 formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
 
-//Спасибо за ревью, вроде разобрался. Надеюсь ничего не пропустил. Всех благ!
+//пропустил:(
