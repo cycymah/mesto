@@ -1,0 +1,13 @@
+@keyframes showOn {
+  from {opacity: 0;
+        visibility: hidden;}
+  to {opacity: 1;
+    visibility: visible;}
+}
+
+.zoom_animation_active {
+  visibility: visible;
+  display: flex;
+  animation: showOn .5s ease;
+  opacity: 1;
+}
