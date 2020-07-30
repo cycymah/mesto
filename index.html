@@ -42,9 +42,15 @@
       <h2 class="form__title">
         Редактировать профиль
       </h2>
-      <form action="#" class="form__section form__section_target_profile" name="form">
-        <input type="text" class="form__input form__input_field_name" placeholder="Имя" name="name">
-        <input type="text" class="form__input form__input_field_about" placeholder="О себе" name="about">
+      <form action="#" class="form__section form__section_target_profile" name="formProfile" novalidate>
+        <label class="form__field">
+          <input type="text" class="form__input form__input_field_name" id="input-name" placeholder="Имя" name="name" required minlength="2" maxlength="40">
+          <span class="form__input-error" id="input-name-error"></span>
+        </label>
+        <label class="form__field">
+          <input type="text" class="form__input form__input_field_about" id="input-about" placeholder="О себе" name="about" required minlength="2" maxlength="200">
+          <span class="form__input-error" id="input-about-error"></span>
+        </label>
         <button class="form__submit-btn" type="submit">Сохранить</button>
       </form>
     </div>
@@ -56,10 +62,15 @@
       <h2 class="form__title">
         Новое место
       </h2>
-      <form action="#" class="form__section form__section_target_add" name="form">
-        <input type="text" class="form__input form__input_field_title" placeholder="Название" name="title">
-        <input type="text" class="form__input form__input_field_src" placeholder="Ссылка на картинку"
-          name="picturesource">
+      <form action="#" class="form__section form__section_target_add" name="formAdd" novalidate>
+        <label class="form__field">
+          <input type="text" class="form__input form__input_field_title" id="title-input" placeholder="Название" name="titleImage" minlength="1" maxlength="30" required>
+          <span class="form__input-error" id="title-input-error"></span>
+        </label>
+        <label class="form__field">
+          <input class="form__input form__input_field_src" id="src-input" placeholder="Ссылка на картинку" name="pictureSource" type="URL" required>
+          <span class="form__input-error" id="src-input-error"></span>
+        </label>
         <button class="form__submit-btn" type="submit">Сохранить</button>
       </form>
     </div>
@@ -88,6 +99,7 @@
     </li>
   </template>
   <script src="./js/script.js"></script>
+  <script src="./js/validate.js"></script>
 </body>
 
 </html>

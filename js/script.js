@@ -93,26 +93,19 @@ const card = function createCard(titleImage, srcImage, altImage) {
   const listImage = listElement.querySelector('.elements__image'); //Находим картинки
   const oneTrash = listElement.querySelector('.elements__trash'); //Находим корзинки
   const like = listElement.querySelector('.elements__like'); //находим лайки
-  const RegExp = /^((http|https):\/\/)?(www\.)?([A-Za-zА-Яа-я0-9]{1}[A-Za-zА-Яа-я0-9\-]*\.?)*\.{1}[A-Za-zА-Яа-я0-9-]{2,8}(\/([\w#!:.?+=&%@!\-\/])*)?/;
 
-  if (RegExp.test(srcImage)) { // проверяем валидность ссылки
+
     imageTitle.textContent = titleImage; //Записывае
     listImage.src = srcImage;
     listImage.alt = altImage;
     addListeners(oneTrash, like);
     zoomPicture(listImage, imageTitle);
     return listElement;
-  } else {
-    return undefined;
-  }
+
 };
 
 function renderCards(card) {
-  if (card === undefined) {
-    return alert('Введите корректный адресс ссылки!');
-  } else {
     return list.prepend(card);
-  }
 }
 
 //Добавление элементов в список
@@ -188,5 +181,4 @@ formClose.addEventListener('click', profileOff); //Закрытие формы �
 addButton.addEventListener('click', addCardOn); //Открытие формы добавления карточек
 formCloseAdd.addEventListener('click', addOff); //Закрытие формы добавления карточек
 formAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
-
 //пропустил:(
