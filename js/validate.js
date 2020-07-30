@@ -1,7 +1,3 @@
-const formErrorProfile = formProfile.querySelector('.form__input-error');
-const formErrorAdd = formAdd.querySelector('.form__input-error');
-
-
 
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`); //ищем нужный инпут
@@ -16,7 +12,7 @@ const hideInputError = (formElement, inputElement) => {
   errorElement.classList.remove('form__input-error_active');
 };
 
-const checkInputValidity = (formElement, inputElement) => { //Проверяем валидность
+const checkInputValidity = (formElement, inputElement) => { //Проверяем валидность инпутов
   if (!inputElement.validity.valid) {//Если не валидно
     showInputError(formElement, inputElement, inputElement.validationMessage); //показываем сообщение
   } else {
@@ -33,10 +29,10 @@ const setEventListeners = (formElement) => {
   });
 };
 
-const enableValidation = () => {
+function validationActiv() {
   let formList = Array.from(document.querySelectorAll('.form__section')); //находим все формы на странице
   formList.forEach((formElement) => {
     setEventListeners(formElement); //Добавляем слушатели формам
 });
 }
-enableValidation();
+validationActiv(); //Запускаем все проверки
