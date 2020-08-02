@@ -2,6 +2,7 @@
 const modalProfile = document.querySelector('.modal_target_profile'); //Модалка с профайлом
 const modalCard = document.querySelector('.modal_target_addCard'); //Модалка с карточками
 const modalZoom = document.querySelector('.modal_target_photoZoom'); //Модалка с увеличенными картинками
+const modalOverlayAll = document.querySelectorAll('.modal__overlay');
 
 //Кнопки
 const profileEditButton = document.querySelector('.profile__edit-btn'); //Кнопка редактирования профайла
@@ -9,6 +10,7 @@ const profileCloseButton = document.querySelector('.form__close-btn_target_profi
 const cardAddButton = document.querySelector('.profile__add-button'); //Кнопка добавления карточки 
 const cardCloseButton = document.querySelector('.form__close-btn_target_add'); //Кнопка закрытия модалки с карточками
 const zoomCLoseButton = modalZoom.querySelector('.zoom__close-btn');
+const profileSubmitButton = modalProfile.querySelector('.form__submit-btn');
 
 //Добавляемый контент
 const profileName = document.querySelector('.profile__title-name');
@@ -29,6 +31,7 @@ const list = document.querySelector('.elements__list'); //Список элем�
 const zoomWindow = document.querySelector('.zoom'); //Раскрытая форма картинки
 const zoomText = document.querySelector('.zoom__text-image');
 const zoomImage = document.querySelector('.zoom__image');
+const allDocumenPage = document.querySelector('.page');
 
 //Массив карточек
 const initialCards = [{
@@ -67,7 +70,7 @@ const initialCards = [{
 const listTemplate = document.querySelector('#listItem').content;
 
 
-function zoomPicture(targetPicture, targetTitle) {//
+function zoomPicture(targetPicture, targetTitle) { //Открытие картинки в
   targetPicture.addEventListener('click', (evt) => {
     zoomText.textContent = targetTitle.textContent;
     zoomImage.src = targetPicture.src;
@@ -87,22 +90,22 @@ function addCardListeners(trash, likes) {
   });
 }
 
-  const createPhotoCard = function createCard(titleImage, srcImage, altImage) {
+const createPhotoCard = function createCard(titleImage, srcImage, altImage) {
   const listElement = listTemplate.cloneNode(true);
   const imageTitle = listElement.querySelector('.elements__image-description');
   const listImage = listElement.querySelector('.elements__image'); //Находим картинки
   const oneTrash = listElement.querySelector('.elements__trash'); //Находим корзинки
   const like = listElement.querySelector('.elements__like'); //находим лайки
-    imageTitle.textContent = titleImage; //Записывае
-    listImage.src = srcImage;
-    listImage.alt = altImage;
-    addCardListeners(oneTrash, like);
-    zoomPicture(listImage, imageTitle);
-    return listElement;
+  imageTitle.textContent = titleImage; //Записывае
+  listImage.src = srcImage;
+  listImage.alt = altImage;
+  addCardListeners(oneTrash, like);
+  zoomPicture(listImage, imageTitle);
+  return listElement;
 };
 
 function renderCards(createPhotoCard) {
-    return list.prepend(createPhotoCard);
+  return list.prepend(createPhotoCard);
 }
 
 //Добавление элементов в список
@@ -113,10 +116,15 @@ function addListItems(arr) {
 };
 addListItems(initialCards); //Вызов функции для создания карточек по массиву
 
-//Открытие-закрытие модалок
-function profileOpen() {
+function profileFillInformation() {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
+}
+profileFillInformation();
+
+//Открытие-закрытие модалок
+function profileOpen() {
+  profileFillInformation();
   modalProfile.classList.remove('modal_animation_close');
   formProfile.classList.remove('modal_animation_close');
   modalProfile.classList.add('modal_activ');
@@ -136,7 +144,7 @@ function addCardOpen() {
   inputSrc.value = '';
 }
 
-function addCardClose() {
+function addCardClose() {//Закрытие карточки добавления 
   modalCard.classList.remove('modal_activ');
   modalCard.classList.add('modal_animation_close');
   formCardAdd.classList.add('modal_animation_close');
@@ -163,10 +171,24 @@ function formSubmitHandler(evt) {
 
 
 function formSubmitCard(evt) {
-  evt.preventDefault();
   renderCards(createPhotoCard(inputTitle.value, inputSrc.value, inputTitle.value));
   addCardClose();
 };
+
+function modalsCloseByOverlay(overlays) { //Закрытие модалок кликом на оверлей
+  const modalsOverlsyList = Array.from(overlays);
+
+  console.log(overlays);
+  overlays.forEach((elem) => {
+    elem.addEventListener('click', (evt) => {
+      zoomClose();
+      addCardClose();
+      profileClose();
+    })
+  })
+}
+
+modalsCloseByOverlay(modalOverlayAll);
 
 //События
 zoomCLoseButton.addEventListener('click', zoomClose); //Закрытие зум-картинки
@@ -176,3 +198,11 @@ profileCloseButton.addEventListener('click', profileClose); //Закрытие �
 cardAddButton.addEventListener('click', addCardOpen); //Открытие формы добавления карточек
 cardCloseButton.addEventListener('click', addCardClose); //Закрытие формы добавления карточек
 formCardAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
+
+allDocumenPage.addEventListener('keydown', (evt) => { //Закрытие модалок по Esc
+  if (evt.key === 'Escape') {
+    zoomClose();
+    addCardClose();
+    profileClose();
+  }
+})
