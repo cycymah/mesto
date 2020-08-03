@@ -47,7 +47,7 @@ function toggleSubmitStatus(inputList, buttonElem, inactiveButtonClass) { //Пе
 const setEventListeners = (formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) => {//слушатели
   const inputList = Array.from(formElement.querySelectorAll(inputSelector)); //находим все инпуты
   const submitBtnElem = formElement.querySelector(submitButtonSelector);
-
+  
   toggleSubmitStatus(inputList, submitBtnElem, inactiveButtonClass); //Переключаем кнопку до проверки
 
   inputList.forEach((inputElement) => {

@@ -1,0 +1,16 @@
+
+@keyframes showOn {
+  from {opacity: 0;
+        visibility: hidden;}
+        
+  to {opacity: 1;
+      visibility: visible;}
+    
+}
+
+.modal_animation_close {
+  visibility: visible; 
+  opacity: 1;
+  -moz-animation: showOn .5s ease;
+  animation: showOn .5s ease; 
+}

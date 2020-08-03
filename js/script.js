@@ -4,6 +4,9 @@ const modalCard = document.querySelector('.modal_target_addCard'); //Модал�
 const modalZoom = document.querySelector('.modal_target_photoZoom'); //Модалка с увеличенными картинками
 const modalOverlayAll = document.querySelectorAll('.modal__overlay');
 
+const modalsList = document.querySelectorAll('.modal');
+
+
 //Кнопки
 const profileEditButton = document.querySelector('.profile__edit-btn'); //Кнопка редактирования профайла
 const profileCloseButton = document.querySelector('.form__close-btn_target_profile'); //Кнопка закрытия профала
@@ -32,6 +35,7 @@ const zoomWindow = document.querySelector('.zoom'); //Раскрытая фор�
 const zoomText = document.querySelector('.zoom__text-image');
 const zoomImage = document.querySelector('.zoom__image');
 const allDocumenPage = document.querySelector('.page');
+// const validationMessage = form__input-error
 
 //Массив карточек
 const initialCards = [{
@@ -74,7 +78,7 @@ function zoomPicture(targetPicture, targetTitle) { //Открытие карти
   targetPicture.addEventListener('click', (evt) => {
     zoomText.textContent = targetTitle.textContent;
     zoomImage.src = targetPicture.src;
-    showZoom();
+    toggleModals(modalZoom);
   });
 };
 
@@ -104,8 +108,9 @@ const createPhotoCard = function createCard(titleImage, srcImage, altImage) {
   return listElement;
 };
 
-function renderCards(createPhotoCard) {
-  return list.prepend(createPhotoCard);
+//рендер карточек
+function renderCards(card) {
+  return list.prepend(card);
 }
 
 //Добавление элементов в список
@@ -120,89 +125,93 @@ function profileFillInformation() {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
 }
+
 profileFillInformation();
 
 //Открытие-закрытие модалок
-function profileOpen() {
-  profileFillInformation();
-  modalProfile.classList.remove('modal_animation_close');
-  formProfile.classList.remove('modal_animation_close');
-  modalProfile.classList.add('modal_activ');
-};
 
-function profileClose() {
-  modalProfile.classList.add('modal_animation_close');
-  formProfile.classList.add('modal_animation_close');
-  modalProfile.classList.remove('modal_activ');
+function toggleModals(targetModal) {
+  targetModal.classList.toggle('modal_animation_open');
+  targetModal.classList.toggle('modal_activ');
 }
 
-function addCardOpen() {
-  modalCard.classList.add('modal_activ');
-  formCardAdd.classList.remove('modal_animation_close');
-  modalCard.classList.remove('modal_animation_close');
-  inputTitle.value = '';
-  inputSrc.value = '';
-}
-
-function addCardClose() {//Закрытие карточки добавления 
-  modalCard.classList.remove('modal_activ');
-  modalCard.classList.add('modal_animation_close');
-  formCardAdd.classList.add('modal_animation_close');
-};
-
-//Увеличение картинки
-function showZoom() {
-  modalZoom.classList.add('modal_activ');
-  zoomWindow.classList.add('zoom_animation_activ');
-  zoomWindow.classList.remove('zoom_animation_close');
-};
-//Закрытие уввеличенной картинки
-function zoomClose() {
-  zoomWindow.classList.add('zoom_animation_close');
-  modalZoom.classList.remove('modal_activ');
-}
 //Закрытие с соханиением
 function formSubmitHandler(evt) {
   evt.preventDefault();
+  toggleModals(modalProfile);
   profileName.textContent = inputProfile.value;
   profileAbout.textContent = inputAbout.value;
-  profileClose();
+
 }
 
-
 function formSubmitCard(evt) {
+  evt.preventDefault();
   renderCards(createPhotoCard(inputTitle.value, inputSrc.value, inputTitle.value));
-  addCardClose();
+  toggleModals(modalCard);
 };
 
-function modalsCloseByOverlay(overlays) { //Закрытие модалок кликом на оверлей
-  const modalsOverlsyList = Array.from(overlays);
 
-  console.log(overlays);
-  overlays.forEach((elem) => {
-    elem.addEventListener('click', (evt) => {
-      zoomClose();
-      addCardClose();
-      profileClose();
+function modalsCloseByOverlay(modalsList) { //Закрытие модалок кликом на оверлей
+  modalsList.forEach((modal) => {
+    const overlayElement = modal.querySelector('.modal__overlay');
+    overlayElement.addEventListener('click', () => {
+      toggleModals(modal);
     })
   })
 }
+modalsCloseByOverlay(modalsList);
 
-modalsCloseByOverlay(modalOverlayAll);
+// allDocumenPage.addEventListener('keydown', (evt) => { //Закрытие модалок по Esc
+//   if (evt.key === 'Escape') {
+
+//   }
+// })
+
+//Сбрасываем состояние валидации на 0
+function resetValidation(modalName) { 
+  const validationTextField = Array.from(modalName.querySelectorAll('.form__input-error')); //Ищем поля с сообщением валидации
+  const modalInput = Array.from(modalName.querySelectorAll('.form__input')); //Ищем инпуты внутри модалки
+  const validationButton = modalName.querySelector('.form__submit-btn'); //Ищем субмиты
+
+  validationTextField.forEach((tetxField) => { //Обнуляем текст сообщений валидации
+    tetxField.textContent = "";
+  })
+  modalInput.forEach((input) => {//Обнуляем нижнее подчеркивание
+    input.classList.remove('form__input_type_error');
+  })
+  validationButton.classList.remove('form__submit_btn_inactiv'); //Обнуляем неактивную кнопку
+}
 
 //События
-zoomCLoseButton.addEventListener('click', zoomClose); //Закрытие зум-картинки
-formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
-profileEditButton.addEventListener('click', profileOpen); //Открытие формы профайла
-profileCloseButton.addEventListener('click', profileClose); //Закрытие формы профайла
-cardAddButton.addEventListener('click', addCardOpen); //Открытие формы добавления карточек
-cardCloseButton.addEventListener('click', addCardClose); //Закрытие формы добавления карточек
-formCardAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
+//Закрытие зум-картинки
+zoomCLoseButton.addEventListener('click', () => {
+  toggleModals(modalZoom);
+});
 
-allDocumenPage.addEventListener('keydown', (evt) => { //Закрытие модалок по Esc
-  if (evt.key === 'Escape') {
-    zoomClose();
-    addCardClose();
-    profileClose();
-  }
-})
+//Открытие формы профайла
+profileEditButton.addEventListener('click', () => {
+  
+  profileFillInformation();
+  toggleModals(modalProfile);
+});
+
+//Закрытие формы профайла
+profileCloseButton.addEventListener('click', () => {
+  toggleModals(modalProfile);
+  resetValidation(modalProfile);
+});
+
+//Открытие формы добавления карточек
+cardAddButton.addEventListener('click', () => {
+  resetValidation(modalCard);
+  toggleModals(modalCard);
+  inputTitle.value = '';
+  inputSrc.value = '';
+});
+
+//Закрытие формы добавления карточек
+cardCloseButton.addEventListener('click', () => {
+  toggleModals(modalCard);
+});
+formCardAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
+formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
