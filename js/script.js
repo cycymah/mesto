@@ -34,42 +34,8 @@ const list = document.querySelector('.elements__list'); //Список элем�
 const zoomWindow = document.querySelector('.zoom'); //Раскрытая форма картинки
 const zoomText = document.querySelector('.zoom__text-image');
 const zoomImage = document.querySelector('.zoom__image');
-const allDocumenPage = document.querySelector('.page');
-// const validationMessage = form__input-error
+const mainDocumentPage = document.querySelector('.page');
 
-//Массив карточек
-const initialCards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-    alt: 'Вид на горы вдали'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-    alt: 'Лес в снегу и озеро'
-
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-    alt: 'Изображения домов'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-    alt: 'Лысое поле с лишайником и большая гора вдали'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-    alt: 'Железная дорога уходящая за горизонт'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-    alt: 'Гора, у подножья заледеневшее озеро'
-  }
-];
 //Template объект
 const listTemplate = document.querySelector('#listItem').content;
 
@@ -156,19 +122,24 @@ function modalsCloseByOverlay(modalsList) { //Закрытие модалок к
     const overlayElement = modal.querySelector('.modal__overlay');
     overlayElement.addEventListener('click', () => {
       toggleModals(modal);
-    })
-  })
-}
+    });
+  });
+};
+
 modalsCloseByOverlay(modalsList);
 
-// allDocumenPage.addEventListener('keydown', (evt) => { //Закрытие модалок по Esc
-//   if (evt.key === 'Escape') {
-
-//   }
-// })
+mainDocumentPage.addEventListener('keydown', (evt) => { //Закрытие модалок по Esc
+  if (evt.key === 'Escape') {
+    modalsList.forEach((modalElem) => {
+      if (modalElem.classList.contains('modal_activ')) {
+        toggleModals(modalElem);
+      };
+    });
+  };
+});
 
 //Сбрасываем состояние валидации на 0
-function resetValidation(modalName) { 
+function resetValidation(modalName) {
   const validationTextField = Array.from(modalName.querySelectorAll('.form__input-error')); //Ищем поля с сообщением валидации
   const modalInput = Array.from(modalName.querySelectorAll('.form__input')); //Ищем инпуты внутри модалки
   const validationButton = modalName.querySelector('.form__submit-btn'); //Ищем субмиты
@@ -176,7 +147,7 @@ function resetValidation(modalName) {
   validationTextField.forEach((tetxField) => { //Обнуляем текст сообщений валидации
     tetxField.textContent = "";
   })
-  modalInput.forEach((input) => {//Обнуляем нижнее подчеркивание
+  modalInput.forEach((input) => { //Обнуляем нижнее подчеркивание
     input.classList.remove('form__input_type_error');
   })
   validationButton.classList.remove('form__submit_btn_inactiv'); //Обнуляем неактивную кнопку
@@ -190,7 +161,7 @@ zoomCLoseButton.addEventListener('click', () => {
 
 //Открытие формы профайла
 profileEditButton.addEventListener('click', () => {
-  
+
   profileFillInformation();
   toggleModals(modalProfile);
 });

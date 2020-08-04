@@ -1,4 +1,4 @@
-const elementsObject = {
+const validationConfig = {
   formSelector: '.form__section',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__submit-btn',
@@ -58,8 +58,8 @@ const setEventListeners = (formElement, inputSelector, submitButtonSelector, ina
   });
 };
 
-function validationActiv({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) {
-  let formList = Array.from(document.querySelectorAll(formSelector)); //находим все формы на странице
+function enableValidation({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) {
+  const formList = Array.from(document.querySelectorAll(formSelector)); //находим все формы на странице
   formList.forEach((formElement) => {
     setEventListeners(formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass); //Добавляем слушатели формам
     const fieldSectionList = Array.from(formElement.querySelectorAll(formSelector));
@@ -69,6 +69,6 @@ function validationActiv({formSelector, inputSelector, submitButtonSelector, ina
     })
   });
 }
-validationActiv(elementsObject); //Запускаем все проверки
+enableValidation(validationConfig); //Запускаем все проверки
 
 //Спасибо за ревью! Счастья, добра, печенек и всего самого лучшего:)
