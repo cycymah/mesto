@@ -1,17 +1,15 @@
 //Модалки
-const modalProfile = document.querySelector('.modal_target_profile'); //Модалка с профайлом
-const modalCard = document.querySelector('.modal_target_addCard'); //Модалка с карточками
-const modalZoom = document.querySelector('.modal_target_photoZoom'); //Модалка с увеличенными картинками
+const modalProfile = document.querySelector('.modal_target_profile'); 
+const modalCard = document.querySelector('.modal_target_addCard'); 
+const modalZoom = document.querySelector('.modal_target_photoZoom'); 
 const modalOverlayAll = document.querySelectorAll('.modal__overlay');
-
 const modalsList = document.querySelectorAll('.modal');
 
-
 //Кнопки
-const profileEditButton = document.querySelector('.profile__edit-btn'); //Кнопка редактирования профайла
-const profileCloseButton = document.querySelector('.form__close-btn_target_profile'); //Кнопка закрытия профала
-const cardAddButton = document.querySelector('.profile__add-button'); //Кнопка добавления карточки 
-const cardCloseButton = document.querySelector('.form__close-btn_target_add'); //Кнопка закрытия модалки с карточками
+const profileEditButton = document.querySelector('.profile__edit-btn');
+const profileCloseButton = document.querySelector('.form__close-btn_target_profile'); 
+const cardAddButton = document.querySelector('.profile__add-button'); 
+const cardCloseButton = document.querySelector('.form__close-btn_target_add'); 
 const zoomCLoseButton = modalZoom.querySelector('.zoom__close-btn');
 const profileSubmitButton = modalProfile.querySelector('.form__submit-btn');
 
@@ -30,8 +28,8 @@ const inputTitle = document.querySelector('.form__input_field_title');
 const inputSrc = document.querySelector('.form__input_field_src');
 
 //Отдельные блоки
-const list = document.querySelector('.elements__list'); //Список элементов
-const zoomWindow = document.querySelector('.zoom'); //Раскрытая форма картинки
+const list = document.querySelector('.elements__list'); 
+const zoomWindow = document.querySelector('.zoom'); 
 const zoomText = document.querySelector('.zoom__text-image');
 const zoomImage = document.querySelector('.zoom__image');
 const mainDocumentPage = document.querySelector('.page');
@@ -39,8 +37,12 @@ const mainDocumentPage = document.querySelector('.page');
 //Template объект
 const listTemplate = document.querySelector('#listItem').content;
 
+//Открытие-закрытие модалок
+function toggleModals(targetModal) {
+  targetModal.classList.toggle('modal_activ');
+}
 
-function zoomPicture(targetPicture, targetTitle) { //Открытие картинки в
+function zoomPicture(targetPicture, targetTitle) {
   targetPicture.addEventListener('click', (evt) => {
     zoomText.textContent = targetTitle.textContent;
     zoomImage.src = targetPicture.src;
@@ -49,9 +51,9 @@ function zoomPicture(targetPicture, targetTitle) { //Открытие карти
 };
 
 function addCardListeners(trash, likes) {
-  trash.addEventListener('click', (evt) => { //Слушаем клики
-    const trashElem = trash.closest('.elements__item'); //Ищем ближайщий __item
-    trashElem.remove(); //Удаляем карточку
+  trash.addEventListener('click', (evt) => {
+    const trashElem = trash.closest('.elements__item');
+    trashElem.remove();
   });
 
   likes.addEventListener('click', (evt) => {
@@ -63,10 +65,10 @@ function addCardListeners(trash, likes) {
 const createPhotoCard = function createCard(titleImage, srcImage, altImage) {
   const listElement = listTemplate.cloneNode(true);
   const imageTitle = listElement.querySelector('.elements__image-description');
-  const listImage = listElement.querySelector('.elements__image'); //Находим картинки
-  const oneTrash = listElement.querySelector('.elements__trash'); //Находим корзинки
-  const like = listElement.querySelector('.elements__like'); //находим лайки
-  imageTitle.textContent = titleImage; //Записывае
+  const listImage = listElement.querySelector('.elements__image'); 
+  const oneTrash = listElement.querySelector('.elements__trash'); 
+  const like = listElement.querySelector('.elements__like'); 
+  imageTitle.textContent = titleImage; 
   listImage.src = srcImage;
   listImage.alt = altImage;
   addCardListeners(oneTrash, like);
@@ -85,21 +87,13 @@ function addListItems(arr) {
     renderCards(createPhotoCard(elem.name, elem.link, elem.alt));
   });
 };
-addListItems(initialCards); //Вызов функции для создания карточек по массиву
+addListItems(initialCards);
 
 function profileFillInformation() {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
 }
-
 profileFillInformation();
-
-//Открытие-закрытие модалок
-
-function toggleModals(targetModal) {
-  targetModal.classList.toggle('modal_animation_open');
-  targetModal.classList.toggle('modal_activ');
-}
 
 //Закрытие с соханиением
 function formSubmitHandler(evt) {
@@ -107,15 +101,13 @@ function formSubmitHandler(evt) {
   toggleModals(modalProfile);
   profileName.textContent = inputProfile.value;
   profileAbout.textContent = inputAbout.value;
-
 }
 
 function formSubmitCard(evt) {
   evt.preventDefault();
-  renderCards(createPhotoCard(inputTitle.value, inputSrc.value, inputTitle.value));
+  renderCards(createPhotoCard(inputTitle.value, inputSrc.value));
   toggleModals(modalCard);
 };
-
 
 function modalsCloseByOverlay(modalsList) { //Закрытие модалок кликом на оверлей
   modalsList.forEach((modal) => {
@@ -125,10 +117,10 @@ function modalsCloseByOverlay(modalsList) { //Закрытие модалок к
     });
   });
 };
-
 modalsCloseByOverlay(modalsList);
 
-mainDocumentPage.addEventListener('keydown', (evt) => { //Закрытие модалок по Esc
+//Закрытие модалок по Esc
+mainDocumentPage.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     modalsList.forEach((modalElem) => {
       if (modalElem.classList.contains('modal_activ')) {
@@ -138,19 +130,19 @@ mainDocumentPage.addEventListener('keydown', (evt) => { //Закрытие мо�
   };
 });
 
-//Сбрасываем состояние валидации на 0
-function resetValidation(modalName) {
-  const validationTextField = Array.from(modalName.querySelectorAll('.form__input-error')); //Ищем поля с сообщением валидации
-  const modalInput = Array.from(modalName.querySelectorAll('.form__input')); //Ищем инпуты внутри модалки
-  const validationButton = modalName.querySelector('.form__submit-btn'); //Ищем субмиты
+//Сбрасываем состояние валидации
+function resetValidation(modalName, inactivButtonClass) {
+  const validationTextField = Array.from(modalName.querySelectorAll('.form__input-error'));
+  const modalInput = Array.from(modalName.querySelectorAll('.form__input'));
+  const validationButton = modalName.querySelector('.form__submit-btn');
 
-  validationTextField.forEach((tetxField) => { //Обнуляем текст сообщений валидации
+  validationTextField.forEach((tetxField) => {
     tetxField.textContent = "";
   })
-  modalInput.forEach((input) => { //Обнуляем нижнее подчеркивание
+  modalInput.forEach((input) => {
     input.classList.remove('form__input_type_error');
   })
-  validationButton.classList.remove('form__submit_btn_inactiv'); //Обнуляем неактивную кнопку
+  toggleSubmitStatus(modalInput, validationButton, inactivButtonClass);
 }
 
 //События
@@ -161,28 +153,27 @@ zoomCLoseButton.addEventListener('click', () => {
 
 //Открытие формы профайла
 profileEditButton.addEventListener('click', () => {
-
   profileFillInformation();
+  resetValidation(modalProfile, validationConfig.inactiveButtonClass);
   toggleModals(modalProfile);
 });
 
 //Закрытие формы профайла
 profileCloseButton.addEventListener('click', () => {
   toggleModals(modalProfile);
-  resetValidation(modalProfile);
 });
 
 //Открытие формы добавления карточек
 cardAddButton.addEventListener('click', () => {
-  resetValidation(modalCard);
   toggleModals(modalCard);
   inputTitle.value = '';
   inputSrc.value = '';
+  resetValidation(modalCard, validationConfig.inactiveButtonClass);
 });
 
 //Закрытие формы добавления карточек
 cardCloseButton.addEventListener('click', () => {
   toggleModals(modalCard);
 });
-formCardAdd.addEventListener('submit', formSubmitCard); //Добавление картинке по субмит
-formProfile.addEventListener('submit', formSubmitHandler); //Добавление инфы в профайл
+formCardAdd.addEventListener('submit', formSubmitCard);
+formProfile.addEventListener('submit', formSubmitHandler);
