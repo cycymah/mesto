@@ -1,11 +1,17 @@
-import {Card} from './Card.js';
-import {initialCards} from './initial-cards.js';
-import {validationConfig, toggleSubmitStatus} from './FormValidator.js';
+import {
+  Card
+} from './Card.js';
+import {
+  initialCards
+} from './initial-cards.js';
+import {
+  FormValidator,
+  validationConfig
+} from './FormValidator.js';
 
 //Модалки
 const modalProfile = document.querySelector('.modal_target_profile');
 const modalCard = document.querySelector('.modal_target_addCard');
-const modalZoom = document.querySelector('.modal_target_photoZoom');
 const modalsList = document.querySelectorAll('.modal');
 
 //Кнопки
@@ -13,7 +19,6 @@ const profileEditButton = document.querySelector('.profile__edit-btn');
 const profileCloseButton = document.querySelector('.form__close-btn_target_profile');
 const cardAddButton = document.querySelector('.profile__add-button');
 const cardCloseButton = document.querySelector('.form__close-btn_target_add');
-const zoomCLoseButton = modalZoom.querySelector('.zoom__close-btn');
 
 //Добавляемый контент
 const profileName = document.querySelector('.profile__title-name');
@@ -31,12 +36,11 @@ const inputSrc = document.querySelector('.form__input_field_src');
 
 //Отдельные блоки
 const list = document.querySelector('.elements__list');
-const zoomText = document.querySelector('.zoom__text-image');
-const zoomImage = document.querySelector('.zoom__image');
 const mainDocumentPage = document.querySelector('.page');
 
-//Template объект
-// const listTemplate = document.querySelector('#listItem').content;
+//Создание объекта класса для валидации формы
+const validationProfileEnabler = new FormValidator('.form__section_target_profile', validationConfig);
+const validationAddEnabler = new FormValidator('.form__section_target_add', validationConfig);
 
 ////Открытие-закрытие модалок
 const popupOpen = targetModal => {
@@ -49,10 +53,10 @@ const popupClose = targetModal => {
   mainDocumentPage.removeEventListener('keydown', popupCloseEsc);
 }
 
-//Закрытие попапа по 
-const popupCloseEsc = (evt) => {
+//Закрытие попапа по Esc
+const popupCloseEsc = evt => {
   if (evt.key === 'Escape') {
-    modalsList.forEach((modalElem) => {
+    modalsList.forEach(modalElem => {
       if (modalElem.classList.contains('modal_activ')) {
         popupClose(modalElem);
       };
@@ -61,13 +65,13 @@ const popupCloseEsc = (evt) => {
 }
 
 //рендер карточек
-const renderCards = (card) => {
+const renderCards = card => {
   return list.prepend(card);
 }
 
-//Добавление элементов в список
+//Добавление карточек на страницу
 const addListItems = arr => {
-  arr.forEach((elem) => {
+  arr.forEach(elem => {
     const card = new Card(elem.name, elem.link, elem.alt, '#listItem');
     const cardElement = card.generateCard();
 
@@ -76,64 +80,52 @@ const addListItems = arr => {
 };
 addListItems(initialCards);
 
-const profileFillInformation = _ => {
-  inputProfile.value = profileName.textContent;
-  inputAbout.value = profileAbout.textContent;
-}
-profileFillInformation();
-
 //Закрытие с соханиением
-const formSubmitHandler = (evt) => {
+const formSubmitHandler = evt => {
   evt.preventDefault();
   popupClose(modalProfile);
   profileName.textContent = inputProfile.value;
   profileAbout.textContent = inputAbout.value;
 }
 
-const formSubmitCard = (evt) => {
+const formSubmitCard = evt => {
   evt.preventDefault();
-  const card = new Card(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem');
-  const cardElement = card.generateCard();
+  const cardAdd = new Card(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem');
+  const cardElement = cardAdd.generateCard();
 
   renderCards(cardElement);
   popupClose(modalCard);
 };
 
 //Закрытие модалок кликом на оверлей
-const modalsCloseByOverlay = (modalsList) => { 
-  modalsList.forEach((modal) => {
+const modalsCloseByOverlay = modalsList => {
+  modalsList.forEach(modal => {
     const overlayElement = modal.querySelector('.modal__overlay');
     overlayElement.addEventListener('click', _ => popupClose(modal));
   });
 };
 modalsCloseByOverlay(modalsList);
 
-//Сбрасываем состояние валидации
-const resetValidation = (modalName, inactivButtonClass) => {
+// Сбрасываем декоративные состояния валидации
+const resetValidation = modalName => {
   const validationTextField = Array.from(modalName.querySelectorAll('.form__input-error'));
   const modalInput = Array.from(modalName.querySelectorAll('.form__input'));
-  const validationButton = modalName.querySelector('.form__submit-btn');
 
-  validationTextField.forEach((tetxField) => {
+  validationTextField.forEach(tetxField => {
     tetxField.textContent = "";
   })
-  modalInput.forEach((input) => {
+  modalInput.forEach(input => {
     input.classList.remove('form__input_type_error');
   })
-  toggleSubmitStatus(modalInput, validationButton, inactivButtonClass);
 }
-
-//События
-//Закрытие зум-картинки
-zoomCLoseButton.addEventListener('click', _ => {
-  popupClose(modalZoom);
-});
 
 //Открытие формы профайла
 profileEditButton.addEventListener('click', _ => {
-  profileFillInformation();
-  resetValidation(modalProfile, validationConfig);
   popupOpen(modalProfile);
+  inputProfile.value = profileName.textContent;
+  inputAbout.value = profileAbout.textContent;
+  resetValidation(modalProfile);
+  validationProfileEnabler.enableValidation();
 });
 
 //Закрытие формы профайла
@@ -146,7 +138,8 @@ cardAddButton.addEventListener('click', _ => {
   popupOpen(modalCard);
   inputTitle.value = '';
   inputSrc.value = '';
-  resetValidation(modalCard, validationConfig);
+  resetValidation(modalCard);
+  validationAddEnabler.enableValidation();
 });
 
 //Закрытие формы добавления карточек
@@ -154,5 +147,6 @@ cardCloseButton.addEventListener('click', _ => {
   popupClose(modalCard);
 });
 
+//Слушатели сабмитов
 formCardAdd.addEventListener('submit', formSubmitCard);
 formProfile.addEventListener('submit', formSubmitHandler);

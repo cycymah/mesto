@@ -12,9 +12,9 @@ export class Card {
       .querySelector(this._cardIdSelector)
       .content
       .cloneNode(true);
-
     return cardElement;
   }
+
   //Удаление карточки
   _cardRemoveByTrash(trash) {
     const trashElem = trash.closest('.elements__item');
@@ -34,7 +34,7 @@ export class Card {
       this._popupCloseByEsc(evt)}
       );
   }
-  
+
   //Закрытие модалки по Esc
   _popupCloseByEsc(evt) {
     if (evt.key === 'Escape') {
@@ -58,7 +58,7 @@ export class Card {
   }
 
   //Слушатели для карточек
-  _cardActionListeners(trash, likes, cardPicture) {
+  _cardActionListeners(trash, likes, cardPicture, modalCloseButton) {
     trash.addEventListener('click', _ => {
       this._cardRemoveByTrash(trash);
     })
@@ -66,7 +66,10 @@ export class Card {
       this._cardLikeToggle(likes);
     })
     cardPicture.addEventListener('click', _ => {
-      this._cardZoomPicture()
+      this._cardZoomPicture();
+    })
+    modalCloseButton.addEventListener('click', _ => {
+      this._zoomModalClose();
     })
   }
 
@@ -77,13 +80,14 @@ export class Card {
     this._likeButton = this._card.querySelector('.elements__like');
     this._imageTitle = this._card.querySelector('.elements__image-description');
     this._elementImage = this._card.querySelector('.elements__image');
+    const modalCloseButton = document.querySelector('.zoom__close-btn');
 
 
     this._imageTitle.textContent = this._name;
     this._elementImage.src = this._src;
     this._elementImage.alt = this._alt;
 
-    this._cardActionListeners(this._singleTrash, this._likeButton, this._elementImage);
+    this._cardActionListeners(this._singleTrash, this._likeButton, this._elementImage, modalCloseButton);
     return this._card;
   }
 }

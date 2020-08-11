@@ -1,34 +1,34 @@
 //Массив карточек
 const initialCards = [{
-  name: 'Архыз',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  alt: 'Вид на горы вдали'
+  name: 'Алтай',
+  link: '../images/places/altay.jpeg',
+  alt: 'Старинный мост через р. Катунь'
 },
 {
-  name: 'Челябинская область',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  alt: 'Лес в снегу и озеро'
+  name: 'Барнаул',
+  link: '../images/places/barnaul.jpeg',
+  alt: 'Вид на город Барнаул с обзорной площадки'
 
 },
 {
-  name: 'Иваново',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  alt: 'Изображения домов'
+  name: 'Озеро Белё',
+  link: '../images/places/bele.jpeg',
+  alt: 'Вид на озеро Белё на фоне палатки'
 },
 {
-  name: 'Камчатка',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  alt: 'Лысое поле с лишайником и большая гора вдали'
+  name: 'р. Енисей',
+  link: '../images/places/enisey.jpeg',
+  alt: 'Солнечные песочные пляжи на р. Енисей'
 },
 {
-  name: 'Холмогорский район',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  alt: 'Железная дорога уходящая за горизонт'
+  name: 'Игарка',
+  link: '../images/places/igarka.jpeg',
+  alt: 'Енисей во льду вблизи города Игарка'
 },
 {
-  name: 'Байкал',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  alt: 'Гора, у подножья заледеневшее озеро'
+  name: 'Тура',
+  link: '../images/places/nt.jpeg',
+  alt: 'Зимник по р. Нижняя тунгуска вблизи г. Тура'
 }
 ];
 
