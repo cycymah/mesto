@@ -5,7 +5,7 @@
     visibility: visible;}
 }
 
-.modal_activ {
+.modal_active {
   visibility: visible;
   animation: showOn .5s ease;
   opacity: 1;

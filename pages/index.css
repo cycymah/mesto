@@ -42,7 +42,7 @@
 /* Модалка */
 @import url('../blocks/modal/modal.css');
 @import url('../blocks/modal/__overlay/modal__overlay.css');
-@import url('../blocks/modal/_activ/modal_activ.css');
+@import url('../blocks/modal/_active/modal_active.css');
 @import url('../blocks/modal/__overlay/_background_dark/modal__overlay_background_dark.css');
 
 /* Блока формы */

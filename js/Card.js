@@ -28,25 +28,21 @@ export class Card {
 
   //Закрытие попапа картинки
   _zoomModalClose() {
-    document.querySelector('.modal_target_photoZoom').classList.remove('modal_activ');
-    document.removeEventListener('keydown', evt => {
-      this._popupCloseByEsc(evt)}
-      );
+    document.querySelector('.modal_target_photoZoom').classList.remove('modal_active');
+    document.removeEventListener('keydown', this._popupCloseByEsc.bind(this));
   }
 
   //Закрытие модалки по Esc
   _popupCloseByEsc(evt) {
     if (evt.key === 'Escape') {
-      this._zoomModalClose();
+        this._zoomModalClose();
     }
   }
 
   //Открытие попапа
   _zoomModalOpen() {
-    document.querySelector('.modal_target_photoZoom').classList.add('modal_activ');
-    document.addEventListener('keydown', evt => {
-      this._popupCloseByEsc(evt)
-    });
+    document.querySelector('.modal_target_photoZoom').classList.add('modal_active');
+    document.addEventListener('keydown', this._popupCloseByEsc.bind(this));
   }
 
   //Увеличение картинки по клику
@@ -57,7 +53,7 @@ export class Card {
   }
 
   //Слушатели для карточек
-  _cardActionListeners(trash, likes, cardPicture, modalCloseButton) {
+  _cardActionListeners(trash, likes, cardPicture) {
     trash.addEventListener('click', _ => {
       this._cardRemoveByTrash(trash);
     })
@@ -66,9 +62,6 @@ export class Card {
     })
     cardPicture.addEventListener('click', _ => {
       this._cardZoomPicture();
-    })
-    modalCloseButton.addEventListener('click', _ => {
-      this._zoomModalClose();
     })
   }
 
@@ -79,13 +72,12 @@ export class Card {
     this._likeButton = this._card.querySelector('.elements__like');
     this._imageTitle = this._card.querySelector('.elements__image-description');
     this._elementImage = this._card.querySelector('.elements__image');
-    const modalCloseButton = document.querySelector('.zoom__close-btn');
 
     this._imageTitle.textContent = this._name;
     this._elementImage.src = this._src;
     this._elementImage.alt = this._alt;
 
-    this._cardActionListeners(this._singleTrash, this._likeButton, this._elementImage, modalCloseButton);
+    this._cardActionListeners(this._singleTrash, this._likeButton, this._elementImage);
     return this._card;
   }
 }

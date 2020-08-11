@@ -6,12 +6,22 @@ import {
 } from './initial-cards.js';
 import {
   FormValidator,
-  validationConfig
 } from './FormValidator.js';
+
+//Параметры валидации
+export const validationConfig = {
+  inputSelector: '.form__input', 
+  submitButtonSelector: '.form__submit-btn', 
+  inactiveButtonClass: 'form__submit_btn_inactiv',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active',
+  formInputError: '.form__input-error'
+}
 
 //Модалки
 const modalProfile = document.querySelector('.modal_target_profile');
 const modalCard = document.querySelector('.modal_target_addCard');
+const modalZoom = document.querySelector('.modal_target_photoZoom');
 const modalsList = document.querySelectorAll('.modal');
 
 //Кнопки
@@ -19,6 +29,7 @@ const profileEditButton = document.querySelector('.profile__edit-btn');
 const profileCloseButton = document.querySelector('.form__close-btn_target_profile');
 const cardAddButton = document.querySelector('.profile__add-button');
 const cardCloseButton = document.querySelector('.form__close-btn_target_add');
+const modalCloseButton = modalZoom.querySelector('.zoom__close-btn');
 
 //Добавляемый контент
 const profileName = document.querySelector('.profile__title-name');
@@ -44,12 +55,12 @@ const validationAddEnabler = new FormValidator('.form__section_target_add', vali
 
 ////Открытие-закрытие модалок
 const popupOpen = targetModal => {
-  targetModal.classList.add('modal_activ');
+  targetModal.classList.add('modal_active');
   mainDocumentPage.addEventListener('keydown', popupCloseEsc);
 }
 
 const popupClose = targetModal => {
-  targetModal.classList.remove('modal_activ');
+  targetModal.classList.remove('modal_active');
   mainDocumentPage.removeEventListener('keydown', popupCloseEsc);
 }
 
@@ -57,16 +68,11 @@ const popupClose = targetModal => {
 const popupCloseEsc = evt => {
   if (evt.key === 'Escape') {
     modalsList.forEach(modalElem => {
-      if (modalElem.classList.contains('modal_activ')) {
+      if (modalElem.classList.contains('modal_active')) {
         popupClose(modalElem);
-      };
+      }
     });
-  };
-}
-
-//рендер карточек
-const renderCards = card => {
-  return list.prepend(card);
+  }
 }
 
 //Добавление карточек на страницу
@@ -75,7 +81,7 @@ const addListItems = arr => {
     const card = new Card(elem.name, elem.link, elem.alt, '#listItem');
     const cardElement = card.generateCard();
 
-    renderCards(cardElement);
+    list.append(cardElement);
   });
 };
 addListItems(initialCards);
@@ -93,7 +99,7 @@ const formSubmitCard = evt => {
   const cardAdd = new Card(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem');
   const cardElement = cardAdd.generateCard();
 
-  renderCards(cardElement);
+  list.prepend(cardElement);
   popupClose(modalCard);
 };
 
@@ -106,26 +112,13 @@ const modalsCloseByOverlay = modalsList => {
 };
 modalsCloseByOverlay(modalsList);
 
-// Сбрасываем декоративные состояния валидации
-const resetValidation = modalName => {
-  const validationTextField = Array.from(modalName.querySelectorAll('.form__input-error'));
-  const modalInput = Array.from(modalName.querySelectorAll('.form__input'));
-
-  validationTextField.forEach(tetxField => {
-    tetxField.textContent = "";
-  })
-  modalInput.forEach(input => {
-    input.classList.remove('form__input_type_error');
-  })
-}
-
 //Открытие формы профайла
 profileEditButton.addEventListener('click', _ => {
-  popupOpen(modalProfile);
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  resetValidation(modalProfile);
+  validationProfileEnabler.resetValidation(modalProfile);
   validationProfileEnabler.enableValidation();
+  popupOpen(modalProfile);
 });
 
 //Закрытие формы профайла
@@ -135,11 +128,11 @@ profileCloseButton.addEventListener('click', _ => {
 
 //Открытие формы добавления карточек
 cardAddButton.addEventListener('click', _ => {
-  popupOpen(modalCard);
   inputTitle.value = '';
   inputSrc.value = '';
-  resetValidation(modalCard);
+  validationAddEnabler.resetValidation(modalCard);
   validationAddEnabler.enableValidation();
+  popupOpen(modalCard);
 });
 
 //Закрытие формы добавления карточек
@@ -147,6 +140,12 @@ cardCloseButton.addEventListener('click', _ => {
   popupClose(modalCard);
 });
 
+//Закрытие формы с увеличенной картинкой
+modalCloseButton.addEventListener('click', _ => {
+  popupClose(modalZoom);
+})
+
 //Слушатели сабмитов
 formCardAdd.addEventListener('submit', formSubmitCard);
 formProfile.addEventListener('submit', formSubmitHandler);
+
