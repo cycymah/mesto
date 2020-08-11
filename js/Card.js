@@ -22,9 +22,8 @@ export class Card {
   }
 
   //Функционал лайков
-  _cardLikeToggle(likes) {
-    const likeElem = likes.closest('.elements__like');
-    likeElem.classList.toggle('elements__like_active');
+  _cardLikeToggle(evt) {
+    evt.target.classList.toggle('elements__like_active');
   }
 
   //Закрытие попапа картинки
@@ -62,8 +61,8 @@ export class Card {
     trash.addEventListener('click', _ => {
       this._cardRemoveByTrash(trash);
     })
-    likes.addEventListener('click', _ => {
-      this._cardLikeToggle(likes);
+    likes.addEventListener('click', evt => {
+      this._cardLikeToggle(evt);
     })
     cardPicture.addEventListener('click', _ => {
       this._cardZoomPicture();
