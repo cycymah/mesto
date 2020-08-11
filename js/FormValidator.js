@@ -1,4 +1,14 @@
 
+//Параметры валидации
+const validationConfig = {
+  formSelector: '.form__section',
+  inputSelector: '.form__input', 
+  submitButtonSelector: '.form__submit-btn', 
+  inactiveButtonClass: 'form__submit_btn_inactiv',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active'
+}
+
 const showInputError = (formElement, inputElement, errorMessage, inputErrorClass, errorClass) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   inputElement.classList.add(inputErrorClass);
@@ -63,3 +73,5 @@ const enableValidation = ({formSelector, ...rest}) => {
   });
 }
 enableValidation(validationConfig);
+
+export {validationConfig, toggleSubmitStatus}

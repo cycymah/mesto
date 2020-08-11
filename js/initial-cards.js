@@ -31,3 +31,5 @@ const initialCards = [{
   alt: 'Гора, у подножья заледеневшее озеро'
 }
 ];
+
+export {initialCards};
