@@ -1,5 +1,5 @@
 //Параметры валидации
-export const validationConfig = {
+const validationConfig = {
   inputSelector: '.form__input', 
   submitButtonSelector: '.form__submit-btn', 
   inactiveButtonClass: 'form__submit_btn_inactiv',
@@ -7,7 +7,7 @@ export const validationConfig = {
   errorClass: 'form__input-error_active'
 }
 
-export class FormValidator {
+class FormValidator {
   constructor(formSelector, data) {
     this._formSelector = formSelector;
     this._data = data;
@@ -69,3 +69,4 @@ export class FormValidator {
       this._setEventListeners(formSelector, this._data);
   }
 }
+export {validationConfig, FormValidator}

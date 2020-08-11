@@ -82,7 +82,6 @@ export class Card {
     this._elementImage = this._card.querySelector('.elements__image');
     const modalCloseButton = document.querySelector('.zoom__close-btn');
 
-
     this._imageTitle.textContent = this._name;
     this._elementImage.src = this._src;
     this._elementImage.alt = this._alt;
