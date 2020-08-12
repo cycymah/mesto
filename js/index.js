@@ -1,14 +1,10 @@
 //Спасибо за ревью и труд! Печенек, радости и чтобы код радовал глаз!:)
 
-import {
-  Card
-} from './Card.js';
+import Card from './Card.js';
 import {
   initialCards
 } from './initial-cards.js';
-import {
-  FormValidator,
-} from './FormValidator.js';
+import FormValidator from './FormValidator.js';
 
 //Параметры валидации
 export const validationConfig = {
@@ -77,13 +73,16 @@ const popupCloseEsc = evt => {
   }
 }
 
+// Подготовка карточки
+const createCard = (titleImage, srcImage, altImage, cardIdSelector) => {
+  const card = new Card(titleImage, srcImage, altImage, cardIdSelector);
+  return card.generateCard();
+}
+
 //Добавление карточек на страницу
 const addListItems = arr => {
   arr.forEach(elem => {
-    const card = new Card(elem.name, elem.link, elem.alt, '#listItem');
-    const cardElement = card.generateCard();
-
-    list.append(cardElement);
+    list.append(createCard(elem.name, elem.link, elem.alt, '#listItem'));
   });
 };
 addListItems(initialCards);
@@ -98,10 +97,7 @@ const formSubmitHandler = evt => {
 
 const formSubmitCard = evt => {
   evt.preventDefault();
-  const cardAdd = new Card(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem');
-  const cardElement = cardAdd.generateCard();
-
-  list.prepend(cardElement);
+  list.prepend(createCard(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem'));
   popupClose(modalCard);
 };
 
@@ -118,7 +114,7 @@ modalsCloseByOverlay(modalsList);
 profileEditButton.addEventListener('click', _ => {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  validationProfileEnabler.resetValidation(modalProfile);
+  validationProfileEnabler.resetValidation();
   validationProfileEnabler.enableValidation();
   popupOpen(modalProfile);
 });
@@ -132,7 +128,7 @@ profileCloseButton.addEventListener('click', _ => {
 cardAddButton.addEventListener('click', _ => {
   inputTitle.value = '';
   inputSrc.value = '';
-  validationAddEnabler.resetValidation(modalCard);
+  validationAddEnabler.resetValidation();
   validationAddEnabler.enableValidation();
   popupOpen(modalCard);
 });

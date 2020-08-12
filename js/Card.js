@@ -1,9 +1,10 @@
-export class Card {
+export default class Card {
   constructor(titleImage, srcImage, altImage, cardIdSelector) {
     this._name = titleImage;
     this._src = srcImage;
     this._alt = altImage;
     this._cardIdSelector = cardIdSelector;
+    this._popupCloseByEsc = this._popupCloseByEsc.bind(this);
   }
 
   //Создаем template клон
@@ -29,7 +30,7 @@ export class Card {
   //Закрытие попапа картинки
   _zoomModalClose() {
     document.querySelector('.modal_target_photoZoom').classList.remove('modal_active');
-    document.removeEventListener('keydown', this._popupCloseByEsc.bind(this));
+    document.removeEventListener('keydown', this._popupCloseByEsc);
   }
 
   //Закрытие модалки по Esc
@@ -42,7 +43,7 @@ export class Card {
   //Открытие попапа
   _zoomModalOpen() {
     document.querySelector('.modal_target_photoZoom').classList.add('modal_active');
-    document.addEventListener('keydown', this._popupCloseByEsc.bind(this));
+    document.addEventListener('keydown', this._popupCloseByEsc);
   }
 
   //Увеличение картинки по клику
