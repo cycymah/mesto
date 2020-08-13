@@ -51,6 +51,10 @@ const mainDocumentPage = document.querySelector('.page');
 const validationProfileEnabler = new FormValidator('.form__section_target_profile', validationConfig);
 const validationAddEnabler = new FormValidator('.form__section_target_add', validationConfig);
 
+//Установка валидации
+validationProfileEnabler.enableValidation();
+validationAddEnabler.enableValidation();
+
 ////Открытие-закрытие модалок
 const popupOpen = targetModal => {
   targetModal.classList.add('modal_active');
@@ -115,7 +119,6 @@ profileEditButton.addEventListener('click', _ => {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
   validationProfileEnabler.resetValidation();
-  validationProfileEnabler.enableValidation();
   popupOpen(modalProfile);
 });
 
@@ -129,7 +132,6 @@ cardAddButton.addEventListener('click', _ => {
   inputTitle.value = '';
   inputSrc.value = '';
   validationAddEnabler.resetValidation();
-  validationAddEnabler.enableValidation();
   popupOpen(modalCard);
 });
 

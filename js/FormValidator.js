@@ -12,7 +12,6 @@ export default class FormValidator {
     this._inputList = Array.from(this._formElement.querySelectorAll(data.inputSelector));
     this._submitBtnElem = this._formElement.querySelector(data.submitButtonSelector);
     this._validationTextFields = Array.from(this._formElement.querySelectorAll(data.formInputError));
-    this._modalInputs = Array.from(this._formElement.querySelectorAll(data.inputSelector));
   }
 
   _showInputError(inputElement, errorMessage){
@@ -51,29 +50,24 @@ export default class FormValidator {
       this._submitBtnElem.disabled = false;
     }
   }
-  
-  _setEventListeners () {
-    this._toggleSubmitStatus();
-  
-    this._inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', _ => {
-        this._checkInputValidity(inputElement);
-        this._toggleSubmitStatus();
-      });
-    });
-  };
 
   // Сбрасываем декоративные состояния валидации
   resetValidation () {
+  this._toggleSubmitStatus();
   this._validationTextFields.forEach(tetxField => {
     tetxField.textContent = "";
   })
-  this._modalInputs.forEach(input => {
+  this._inputList.forEach(input => {
     input.classList.remove(this._inputErrorClass);
   })
 }
 
   enableValidation() {
-      this._setEventListeners(this._formElement, this._data);
+      this._inputList.forEach((inputElement) => {
+        inputElement.addEventListener('input', _ => {
+          this._checkInputValidity(inputElement);
+          this._toggleSubmitStatus();
+        });
+      });
   }
 }
