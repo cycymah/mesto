@@ -1,13 +1,8 @@
 export default class FormValidator {
-
   constructor(formSelector, data) {
-    this._formSelector = formSelector;
-    this._inputSelector = data.inputSelector;
-    this._submitButtonSelector = data.submitButtonSelector;
     this._inactiveButtonClass = data.inactiveButtonClass;
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
-    this._formInputError = data.formInputError;
     this._formElement = document.querySelector(formSelector);
     this._inputList = Array.from(this._formElement.querySelectorAll(data.inputSelector));
     this._submitBtnElem = this._formElement.querySelector(data.submitButtonSelector);
@@ -19,13 +14,13 @@ export default class FormValidator {
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._errorClass);
-  };
+  }
   
   _hideInputError(inputElement){
     const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
-  };
+  }
   
   _checkInputValidity(inputElement){
     if (!inputElement.validity.valid) {
@@ -33,10 +28,10 @@ export default class FormValidator {
     } else {
       this._hideInputError(inputElement);
     }
-  };
+  }
   
   _findInvalidInput(){
-    return this._inputList.some((inputElement) => {
+    return this._inputList.some(inputElement => {
       return !inputElement.validity.valid;
     });
   }
@@ -54,16 +49,16 @@ export default class FormValidator {
   // Сбрасываем декоративные состояния валидации
   resetValidation () {
   this._toggleSubmitStatus();
-  this._validationTextFields.forEach(tetxField => {
-    tetxField.textContent = "";
-  })
+  this._validationTextFields.forEach(textField => {
+    textField.textContent = "";
+  });
   this._inputList.forEach(input => {
     input.classList.remove(this._inputErrorClass);
-  })
+  });
 }
 
   enableValidation() {
-      this._inputList.forEach((inputElement) => {
+      this._inputList.forEach(inputElement => {
         inputElement.addEventListener('input', _ => {
           this._checkInputValidity(inputElement);
           this._toggleSubmitStatus();

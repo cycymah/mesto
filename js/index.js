@@ -5,16 +5,18 @@ import {
   initialCards
 } from './initial-cards.js';
 import FormValidator from './FormValidator.js';
+import Section from './Section.js';
+import PopupWithForm from './PopupWithForm.js';
 
 //Параметры валидации
 export const validationConfig = {
-  inputSelector: '.form__input', 
-  submitButtonSelector: '.form__submit-btn', 
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__submit-btn',
   inactiveButtonClass: 'form__submit_btn_inactiv',
   inputErrorClass: 'form__input_type_error',
   errorClass: 'form__input-error_active',
   formInputError: '.form__input-error'
-}
+};
 
 //Модалки
 const modalProfile = document.querySelector('.modal_target_profile');
@@ -47,7 +49,7 @@ const inputSrc = document.querySelector('.form__input_field_src');
 const list = document.querySelector('.elements__list');
 const mainDocumentPage = document.querySelector('.page');
 
-//Создание объекта класса для валидации формы
+//Создание элемет класса для валидации формы
 const validationProfileEnabler = new FormValidator('.form__section_target_profile', validationConfig);
 const validationAddEnabler = new FormValidator('.form__section_target_add', validationConfig);
 
@@ -55,54 +57,107 @@ const validationAddEnabler = new FormValidator('.form__section_target_add', vali
 validationProfileEnabler.enableValidation();
 validationAddEnabler.enableValidation();
 
-////Открытие-закрытие модалок
-const popupOpen = targetModal => {
-  targetModal.classList.add('modal_active');
-  mainDocumentPage.addEventListener('keydown', popupCloseEsc);
-}
+//Открытие/закрытие попапов 
+const profilePopup = new PopupWithForm({
+  popupSelector: '.modal_target_profile',
+  formSubmitHandler: _ => {
+    console.log('сработал профайл');
+    profilePopup.close();
+  }
+});
 
-const popupClose = targetModal => {
-  targetModal.classList.remove('modal_active');
-  mainDocumentPage.removeEventListener('keydown', popupCloseEsc);
-}
+
+//Создаем элемент класса
+const newCardsSection = new Section({
+    data: initialCards,
+    renderer: elem => {
+      const card = new Card(elem, '#listItem');
+      const elementCard = card.generateCard();
+      newCardsSection.addItem(elementCard);
+    }
+  },
+  '.elements__list');
+
+newCardsSection.renderElements();
+
+//Форма добавления карточки на страницу
+const addCardPopup = new PopupWithForm({
+  popupSelector: '.modal_target_addCard',
+  formSubmitHandler: _ => {
+    console.log('Сработало добавление');
+    const singleCard = new Section({
+        data: {
+          name: inputTitle.value,
+          link: inputSrc.value,
+          alt: inputTitle.value
+        },
+        renderer: elem => {
+          console.log('Ренлерер!');
+          const card = new Card(elem, '#listItem');
+          const elementCard = card.generateCard();
+          console.log(elementCard);
+          singleCard.addItem(elementCard);
+          
+        }
+      },
+      '.elements__list');
+      singleCard.renderOneElement();
+    addCardPopup.close();
+  }
+});
+
+profilePopup.setEventListeners();
+addCardPopup.setEventListeners();
+
+
+////Открытие-закрытие модалок
+// const popupOpen = targetModal => {
+//   targetModal.classList.add('modal_active');
+//   mainDocumentPage.addEventListener('keydown', popupCloseEsc);
+// };
+
+// const popupClose = targetModal => {
+//   targetModal.classList.remove('modal_active');
+//   mainDocumentPage.removeEventListener('keydown', popupCloseEsc);
+// };
 
 //Закрытие попапа по Esc
-const popupCloseEsc = evt => {
-  if (evt.key === 'Escape') {
-    modalsList.forEach(modalElem => {
-      if (modalElem.classList.contains('modal_active')) {
-        popupClose(modalElem);
-      }
-    });
-  }
-}
+// const popupCloseEsc = evt => {
+//   if (evt.key === 'Escape') {
+//     modalsList.forEach(modalElem => {
+//       if (modalElem.classList.contains('modal_active')) {
+//         popupClose(modalElem);
+//       }
+//     });
+//   }
+// };
 
 // Подготовка карточки
-const createCard = (titleImage, srcImage, altImage, cardIdSelector) => {
-  const card = new Card(titleImage, srcImage, altImage, cardIdSelector);
-  return card.generateCard();
-}
+// const createCard = (titleImage, srcImage, altImage, cardIdSelector) => {
+//   const card = new Card(titleImage, srcImage, altImage, cardIdSelector);
+//   return card.generateCard();
+// };
 
-//Добавление карточек на страницу
-const addListItems = arr => {
-  arr.forEach(elem => {
-    list.append(createCard(elem.name, elem.link, elem.alt, '#listItem'));
-  });
-};
-addListItems(initialCards);
+// //Добавление карточек на страницу
+// const addListItems = arr => {
+//   arr.forEach(elem => {
+//     list.append(createCard(elem.name, elem.link, elem.alt, '#listItem'));
+//   });
+// };
+// addListItems(initialCards);
 
 //Закрытие с соханиением
-const formSubmitHandler = evt => {
-  evt.preventDefault();
-  popupClose(modalProfile);
-  profileName.textContent = inputProfile.value;
-  profileAbout.textContent = inputAbout.value;
-}
+// const formSubmitHandler = evt => {
+//   evt.preventDefault();
+// popupClose(modalProfile);
+// profileName.textContent = inputProfile.value;
+// profileAbout.textContent = inputAbout.value;
+// };
 
 const formSubmitCard = evt => {
   evt.preventDefault();
   list.prepend(createCard(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem'));
-  popupClose(modalCard);
+  // popupClose(modalCard);
 };
 
 //Закрытие модалок кликом на оверлей
@@ -119,33 +174,32 @@ profileEditButton.addEventListener('click', _ => {
   inputProfile.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
   validationProfileEnabler.resetValidation();
-  popupOpen(modalProfile);
+  profilePopup.open();
 });
 
 //Закрытие формы профайла
-profileCloseButton.addEventListener('click', _ => {
-  popupClose(modalProfile);
-});
+// profileCloseButton.addEventListener('click', _ => {
+//   profilePopup.close();
+// });
 
 //Открытие формы добавления карточек
 cardAddButton.addEventListener('click', _ => {
   inputTitle.value = '';
   inputSrc.value = '';
   validationAddEnabler.resetValidation();
-  popupOpen(modalCard);
+  addCardPopup.open();
 });
 
 //Закрытие формы добавления карточек
-cardCloseButton.addEventListener('click', _ => {
-  popupClose(modalCard);
-});
+// cardCloseButton.addEventListener('click', _ => {
+//   popupClose(modalCard);
+// });
 
 //Закрытие формы с увеличенной картинкой
-modalCloseButton.addEventListener('click', _ => {
-  popupClose(modalZoom);
-})
+// modalCloseButton.addEventListener('click', _ => {
+//   popupClose(modalZoom);
+// })
 
 //Слушатели сабмитов
-formCardAdd.addEventListener('submit', formSubmitCard);
-formProfile.addEventListener('submit', formSubmitHandler);
-
+// formCardAdd.addEventListener('submit', formSubmitCard);
+// formProfile.addEventListener('submit', formSubmitHandler);

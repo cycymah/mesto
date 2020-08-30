@@ -1,10 +1,10 @@
 export default class Card {
-  constructor(titleImage, srcImage, altImage, cardIdSelector) {
-    this._name = titleImage;
-    this._src = srcImage;
-    this._alt = altImage;
+  constructor({ name, link, alt }, cardIdSelector) {
+    this._name = name;
+    this._src = link;
+    this._alt = alt;
     this._cardIdSelector = cardIdSelector;
-    this._popupCloseByEsc = this._popupCloseByEsc.bind(this);
+    // this._popupCloseByEsc = this._popupCloseByEsc.bind(this);
   }
 
   //Создаем template клон
@@ -28,42 +28,42 @@ export default class Card {
   }
 
   //Закрытие попапа картинки
-  _zoomModalClose() {
-    document.querySelector('.modal_target_photoZoom').classList.remove('modal_active');
-    document.removeEventListener('keydown', this._popupCloseByEsc);
-  }
+  // _zoomModalClose() {
+  //   document.querySelector('.modal_target_photoZoom').classList.remove('modal_active');
+  //   document.removeEventListener('keydown', this._popupCloseByEsc);
+  // }
 
   //Закрытие модалки по Esc
-  _popupCloseByEsc(evt) {
-    if (evt.key === 'Escape') {
-        this._zoomModalClose();
-    }
-  }
+  // _popupCloseByEsc(evt) {
+  //   if (evt.key === 'Escape') {
+  //       this._zoomModalClose();
+  //   }
+  // }
 
   //Открытие попапа
-  _zoomModalOpen() {
-    document.querySelector('.modal_target_photoZoom').classList.add('modal_active');
-    document.addEventListener('keydown', this._popupCloseByEsc);
-  }
+  // _zoomModalOpen() {
+  //   document.querySelector('.modal_target_photoZoom').classList.add('modal_active');
+  //   document.addEventListener('keydown', this._popupCloseByEsc);
+  // }
 
   //Увеличение картинки по клику
-  _cardZoomPicture() {
-    document.querySelector('.zoom__text-image').textContent = this._imageTitle.textContent;
-    document.querySelector('.zoom__image').src = this._elementImage.src;
-    this._zoomModalOpen();
-  }
+  // _cardZoomPicture() {
+  //   document.querySelector('.zoom__text-image').textContent = this._imageTitle.textContent;
+  //   document.querySelector('.zoom__image').src = this._elementImage.src;
+    // this._zoomModalOpen();
+  // }
 
   //Слушатели для карточек
   _cardActionListeners(trash, likes, cardPicture) {
     trash.addEventListener('click', _ => {
       this._cardRemoveByTrash(trash);
-    })
+    });
     likes.addEventListener('click', evt => {
       this._cardLikeToggle(evt);
-    })
+    });
     cardPicture.addEventListener('click', _ => {
-      this._cardZoomPicture();
-    })
+      this._handleCardClick();
+    });
   }
 
   //Наполняем карточку

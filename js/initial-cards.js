@@ -1,5 +1,5 @@
 //Массив карточек
-const initialCards = [{
+export const initialCards = [{
   name: 'Алтай',
   link: './images/places/altay.jpeg',
   alt: 'Старинный мост через р. Катунь'
@@ -32,4 +32,3 @@ const initialCards = [{
 }
 ];
 
-export {initialCards};
