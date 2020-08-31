@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto - Russia</title>
-  <link rel="stylesheet" href="pages/index.css">
+
 </head>
 
 <body class="page">
@@ -44,11 +44,13 @@
       </h2>
       <form action="#" class="form__section form__section_target_profile" name="formProfile" novalidate>
         <label class="form__field">
-          <input type="text" class="form__input form__input_field_name" id="input-name" placeholder="Имя" name="name" required minlength="2" maxlength="40">
+          <input type="text" class="form__input form__input_field_name" id="input-name" placeholder="Имя" name="name"
+            required minlength="2" maxlength="40">
           <span class="form__input-error" id="input-name-error"></span>
         </label>
         <label class="form__field">
-          <input type="text" class="form__input form__input_field_about" id="input-about" placeholder="О себе" name="about" required minlength="2" maxlength="200">
+          <input type="text" class="form__input form__input_field_about" id="input-about" placeholder="О себе"
+            name="about" required minlength="2" maxlength="200">
           <span class="form__input-error" id="input-about-error"></span>
         </label>
         <button class="form__submit-btn" type="submit">Сохранить</button>
@@ -64,11 +66,13 @@
       </h2>
       <form action="#" class="form__section form__section_target_add" name="formAdd" novalidate>
         <label class="form__field">
-          <input type="text" class="form__input form__input_field_title" id="title-input" placeholder="Название" name="titleImage" minlength="1" maxlength="30" required>
+          <input type="text" class="form__input form__input_field_title" id="title-input" placeholder="Название"
+            name="titleImage" minlength="1" maxlength="30" required>
           <span class="form__input-error" id="title-input-error"></span>
         </label>
         <label class="form__field">
-          <input class="form__input form__input_field_src" id="src-input" placeholder="Ссылка на картинку" name="pictureSource" type="URL" required>
+          <input class="form__input form__input_field_src" id="src-input" placeholder="Ссылка на картинку"
+            name="pictureSource" type="URL" required>
           <span class="form__input-error" id="src-input-error"></span>
         </label>
         <button class="form__submit-btn" type="submit">Сохранить</button>
@@ -97,13 +101,7 @@
         </figcaption>
       </figure>
     </li>
-  
-    <script type="module" src="./js/Section.js"></script>  </template>
-  <script type="module" src="./js/Card.js"></script>  
-  <script type="module" src="./js/initial-cards.js"></script>  
-  <script type="module" src="./js/FormValidator.js"></script>  
-  <script type="module" src="./js/index.js"></script>
-  
+
 </body>
 
 </html>

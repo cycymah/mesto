@@ -8,6 +8,7 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
+  //Позиция рендеринга карточек
   addItem(newCard) {
     if (!Array.isArray(this._renderItems)) {
       this._container.prepend(newCard);
