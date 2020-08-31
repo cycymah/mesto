@@ -9,6 +9,12 @@ import Section from './Section.js';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import UserInfo from './UserInfo.js';
+import {
+  profileEditButton,
+  cardAddButton,
+  inputProfile,
+  inputAbout
+} from './constants.js'
 
 
 //Параметры валидации
@@ -21,23 +27,17 @@ export const validationConfig = {
   formInputError: '.form__input-error'
 };
 
-//Кнопки
-const profileEditButton = document.querySelector('.profile__edit-btn');
-const cardAddButton = document.querySelector('.profile__add-button');
-
-//Инпуты
-const inputProfile = document.querySelector('.form__input_field_name');
-const inputAbout = document.querySelector('.form__input_field_about');
-
 //Элемент класса для попапов с картинкой 
-const popupWithImage = new PopupWithImage('.modal_target_photoZoom', '.zoom__close-btn');
+const popupWithImage = new PopupWithImage({
+  popupSelector: '.modal_target_photoZoom',
+  closeBtnSelector: '.zoom__close-btn'
+});
 
 //Элемент класса UserInfo
 const userProfileInformation = new UserInfo({
   profileName: '.profile__title-name',
   profileAbout: '.profile__subtitle-name'
 });
-
 
 //Создание элемет класса для валидации формы
 const validationProfileEnabler = new FormValidator('.form__section_target_profile', validationConfig);
@@ -47,7 +47,7 @@ const validationAddEnabler = new FormValidator('.form__section_target_add', vali
 validationProfileEnabler.enableValidation();
 validationAddEnabler.enableValidation();
 
-//Открытие-закрытие профайла 
+//Элемент класа профайла 
 const profilePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile',
   formSubmitHandler: inputValues => {
@@ -56,6 +56,7 @@ const profilePopup = new PopupWithForm({
   },
   closeBtnSelector: '.form__close-btn'
 });
+
 
 //Создаем элемент класса для рендера всех карточек на странице
 const newCardsSection = new Section({
@@ -69,8 +70,6 @@ const newCardsSection = new Section({
     }
   },
   '.elements__list');
-
-
 newCardsSection.renderElements();
 
 //Форма добавления карточки на страницу
@@ -102,69 +101,6 @@ const addCardPopup = new PopupWithForm({
   closeBtnSelector: '.form__close-btn'
 });
 
-//Слушатели для попапов
-// profilePopup.setEventListeners();
-// addCardPopup.setEventListeners();
-
-
-////Открытие-закрытие модалок
-// const popupOpen = targetModal => {
-//   targetModal.classList.add('modal_active');
-//   mainDocumentPage.addEventListener('keydown', popupCloseEsc);
-// };
-
-// const popupClose = targetModal => {
-//   targetModal.classList.remove('modal_active');
-//   mainDocumentPage.removeEventListener('keydown', popupCloseEsc);
-// };
-
-//Закрытие попапа по Esc
-// const popupCloseEsc = evt => {
-//   if (evt.key === 'Escape') {
-//     modalsList.forEach(modalElem => {
-//       if (modalElem.classList.contains('modal_active')) {
-//         popupClose(modalElem);
-//       }
-//     });
-//   }
-// };
-
-// Подготовка карточки
-// const createCard = (titleImage, srcImage, altImage, cardIdSelector) => {
-//   const card = new Card(titleImage, srcImage, altImage, cardIdSelector);
-//   return card.generateCard();
-// };
-
-// //Добавление карточек на страницу
-// const addListItems = arr => {
-//   arr.forEach(elem => {
-//     list.append(createCard(elem.name, elem.link, elem.alt, '#listItem'));
-//   });
-// };
-// addListItems(initialCards);
-
-//Закрытие с соханиением
-// const formSubmitHandler = evt => {
-//   evt.preventDefault();
-// popupClose(modalProfile);
-
-// };
-
-// const formSubmitCard = evt => {
-//   evt.preventDefault();
-//   list.prepend(createCard(inputTitle.value, inputSrc.value, inputTitle.value, '#listItem'));
-// popupClose(modalCard);
-// };
-
-//Закрытие модалок кликом на оверлей
-// const modalsCloseByOverlay = modalsList => {
-//   modalsList.forEach(modal => {
-//     const overlayElement = modal.querySelector('.modal__overlay');
-//     overlayElement.addEventListener('click', _ => Popup.close());
-//   });
-// };
-// modalsCloseByOverlay(modalsList);
-
 //Открытие формы профайла
 const profileOpen = _ => {
   const userInfoGet = userProfileInformation.getUserInfo();
@@ -172,35 +108,18 @@ const profileOpen = _ => {
   inputAbout.value = userInfoGet.about;
   validationProfileEnabler.resetValidation();
   profilePopup.open();
-}
+};
 
 const cardAddOpen = _ => {
   validationAddEnabler.resetValidation();
   addCardPopup.open();
-}
-//Открытие формы добавления карточек
+};
 
+//Открытие формы добавления карточек
 profileEditButton.addEventListener('click', profileOpen);
 cardAddButton.addEventListener('click', cardAddOpen);
 
-//Закрытие формы профайла
-// profileCloseButton.addEventListener('click', _ => {
-//   profilePopup.close();
-// });
-
-
-
-
-//Закрытие формы добавления карточек
-// cardCloseButton.addEventListener('click', _ => {
-//   popupClose(modalCard);
-// });
-
-// Закрытие формы с увеличенной картинкой
-// modalCloseButton.addEventListener('click', _ => {
-//   popupWithImage.close();
-// });
-
-//Слушатели сабмитов
-// formCardAdd.addEventListener('submit', formSubmitCard);
-// formProfile.addEventListener('submit', formSubmitHandler);
+//Слушатели на модалки
+profilePopup.setEventListeners();
+addCardPopup.setEventListeners();
+popupWithImage.setEventListeners();

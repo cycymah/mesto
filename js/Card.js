@@ -31,38 +31,11 @@ export default class Card {
     evt.target.classList.toggle('elements__like_active');
   }
 
-  //Закрытие попапа картинки
-  // _zoomModalClose() {
-  //   document.querySelector('.modal_target_photoZoom').classList.remove('modal_active');
-  //   document.removeEventListener('keydown', this._popupCloseByEsc);
-  // }
-
-  //Закрытие модалки по Esc
-  // _popupCloseByEsc(evt) {
-  //   if (evt.key === 'Escape') {
-  //       this._zoomModalClose();
-  //   }
-  // }
-
-  //Открытие попапа
-  // _zoomModalOpen() {
-  //   document.querySelector('.modal_target_photoZoom').classList.add('modal_active');
-  //   document.addEventListener('keydown', this._popupCloseByEsc);
-  // }
-
-  //Увеличение картинки по клику
-  // _cardZoomPicture() {
-  //   document.querySelector('.zoom__text-image').textContent = this._imageTitle.textContent;
-  //   document.querySelector('.zoom__image').src = this._elementImage.src;
-  // this._zoomModalOpen();
-  // }
-
   //Слушатели для карточек
   _cardActionListeners(trash, likes, cardPicture) {
     trash.addEventListener('click', _ => this._cardRemoveByTrash(trash));
     likes.addEventListener('click', evt => this._cardLikeToggle(evt));
     cardPicture.addEventListener('click', _ => {
-
       this._handleCardClick(this._imageTitle, this._elementImage);
     });
   }
