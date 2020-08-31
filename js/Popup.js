@@ -1,7 +1,8 @@
 export default class Popup {
-  constructor(popupSelector) {
+  constructor(popupSelector, closeBtnSelector) {
     this._popup = document.querySelector(popupSelector);
-    this._closeBtn = this._popup.querySelector('.form__close-btn');
+    this._closeBtn = this._popup.querySelector(closeBtnSelector);
+    this._modal = this._popup.querySelector('.modal__overlay');
     this._handleCloseEsc = this._handleCloseEsc.bind(this);
   }
 
@@ -13,6 +14,7 @@ export default class Popup {
   open() {
     this._popup.classList.add('modal_active');
     document.addEventListener('keydown', this._handleCloseEsc);
+    this.setEventListeners();
   }
 
   _handleCloseEsc(evt) {
@@ -22,6 +24,7 @@ export default class Popup {
   }
 
   setEventListeners() {
+    this._modal.addEventListener('click', _ => this.close());
     this._closeBtn.addEventListener('click', _ => this.close());
   }
 }

@@ -1,10 +1,14 @@
 export default class Card {
-  constructor({ name, link, alt }, cardIdSelector) {
+  constructor({
+    name,
+    link,
+    alt
+  }, cardIdSelector, handleCardClick) {
     this._name = name;
     this._src = link;
     this._alt = alt;
     this._cardIdSelector = cardIdSelector;
-    // this._popupCloseByEsc = this._popupCloseByEsc.bind(this);
+    this._handleCardClick = handleCardClick;
   }
 
   //Создаем template клон
@@ -50,19 +54,16 @@ export default class Card {
   // _cardZoomPicture() {
   //   document.querySelector('.zoom__text-image').textContent = this._imageTitle.textContent;
   //   document.querySelector('.zoom__image').src = this._elementImage.src;
-    // this._zoomModalOpen();
+  // this._zoomModalOpen();
   // }
 
   //Слушатели для карточек
   _cardActionListeners(trash, likes, cardPicture) {
-    trash.addEventListener('click', _ => {
-      this._cardRemoveByTrash(trash);
-    });
-    likes.addEventListener('click', evt => {
-      this._cardLikeToggle(evt);
-    });
+    trash.addEventListener('click', _ => this._cardRemoveByTrash(trash));
+    likes.addEventListener('click', evt => this._cardLikeToggle(evt));
     cardPicture.addEventListener('click', _ => {
-      this._handleCardClick();
+
+      this._handleCardClick(this._imageTitle, this._elementImage);
     });
   }
 

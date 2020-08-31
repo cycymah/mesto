@@ -9,7 +9,11 @@ export default class Section {
   }
 
   addItem(newCard) {
-    this._container.prepend(newCard);
+    if (!Array.isArray(this._renderItems)) {
+      this._container.prepend(newCard);
+    } else {
+      this._container.append(newCard);
+    }
   }
 
   renderElements() {
@@ -19,7 +23,6 @@ export default class Section {
   }
 
   renderOneElement() {
-    console.log(this._renderItems);
     this._renderer(this._renderItems);
   }
 }
