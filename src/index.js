@@ -1,21 +1,21 @@
 //Спасибо за ревью и труд! Печенек, радости и чтобы код радовал глаз!:)
-import '../pages/index.css';
+import './pages/index.css';
 
-import Card from './Card.js';
+import Card from './js/Card.js';
 import {
   initialCards
-} from './initial-cards.js';
-import FormValidator from './FormValidator.js';
-import Section from './Section.js';
-import PopupWithForm from './PopupWithForm.js';
-import PopupWithImage from './PopupWithImage.js';
-import UserInfo from './UserInfo.js';
+} from './js/initial-cards.js';
+import FormValidator from './js/FormValidator.js';
+import Section from './js/Section.js';
+import PopupWithForm from './js/PopupWithForm.js';
+import PopupWithImage from './js/PopupWithImage.js';
+import UserInfo from './js/UserInfo.js';
 import {
   profileEditButton,
   cardAddButton,
   inputProfile,
   inputAbout
-} from './constants.js';
+} from './js/constants.js';
 
 
 //Параметры валидации
