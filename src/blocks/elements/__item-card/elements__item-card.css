@@ -1,9 +1,0 @@
-.elements__item-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 0;
-  background-color: white;
-  border-radius: 10px;
-  height: 100%;
-}
