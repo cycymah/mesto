@@ -90,9 +90,8 @@ const addCardPopup = new PopupWithForm({
         },
         renderer: elem => {
           const newCard = createCard(elem, '#listItem', (titleImage, srcImage) => {
-              popupWithImage.open(titleImage, srcImage);
-            }
-          );
+            popupWithImage.open(titleImage, srcImage);
+          });
           singleCard.addItem(newCard);
         }
       },
