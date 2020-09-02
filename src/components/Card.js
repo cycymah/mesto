@@ -47,7 +47,6 @@ export default class Card {
     this._likeButton = this._card.querySelector('.elements__like');
     this._imageTitle = this._card.querySelector('.elements__image-description');
     this._elementImage = this._card.querySelector('.elements__image');
-
     this._imageTitle.textContent = this._name;
     this._elementImage.src = this._src;
     this._elementImage.alt = this._alt;

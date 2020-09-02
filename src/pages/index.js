@@ -1,21 +1,21 @@
 //Спасибо за ревью и труд! Печенек, радости и чтобы код радовал глаз!:)
-import './pages/index.css';
+import './index.css';
 
-import Card from './js/Card.js';
-import {
-  initialCards
-} from './js/initial-cards.js';
-import FormValidator from './js/FormValidator.js';
-import Section from './js/Section.js';
-import PopupWithForm from './js/PopupWithForm.js';
-import PopupWithImage from './js/PopupWithImage.js';
-import UserInfo from './js/UserInfo.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import UserInfo from '../components/UserInfo.js';
 import {
   profileEditButton,
   cardAddButton,
   inputProfile,
   inputAbout
-} from './js/constants.js';
+} from '../utils/constants.js';
+import {
+  initialCards
+} from '../utils/initial-cards.js';
 
 
 //Параметры валидации
@@ -26,6 +26,13 @@ export const validationConfig = {
   inputErrorClass: 'form__input_type_error',
   errorClass: 'form__input-error_active',
   formInputError: '.form__input-error'
+};
+
+//Функция подготовки карточки
+const createCard = (cardData, cardIdSelector, handleCardClick) => {
+  const card = new Card(cardData, cardIdSelector, handleCardClick);
+  const elementCard = card.generateCard();
+  return elementCard;
 };
 
 //Элемент класса для попапов с картинкой 
@@ -58,16 +65,14 @@ const profilePopup = new PopupWithForm({
   closeBtnSelector: '.form__close-btn'
 });
 
-
 //Создаем элемент класса для рендера всех карточек на странице
 const newCardsSection = new Section({
     data: initialCards,
     renderer: elem => {
-      const card = new Card(elem, '#listItem', (titleImage, srcImage) => {
+      const newCard = createCard(elem, '#listItem', (titleImage, srcImage) => {
         popupWithImage.open(titleImage, srcImage);
       });
-      const elementCard = card.generateCard();
-      newCardsSection.addItem(elementCard);
+      newCardsSection.addItem(newCard);
     }
   },
   '.elements__list');
@@ -84,15 +89,11 @@ const addCardPopup = new PopupWithForm({
           alt: inputValues.titleImage
         },
         renderer: elem => {
-          const card = new Card(
-            elem,
-            '#listItem',
-            (titleImage, srcImage) => {
+          const newCard = createCard(elem, '#listItem', (titleImage, srcImage) => {
               popupWithImage.open(titleImage, srcImage);
             }
           );
-          const elementCard = card.generateCard();
-          singleCard.addItem(elementCard);
+          singleCard.addItem(newCard);
         }
       },
       '.elements__list');
@@ -124,5 +125,3 @@ cardAddButton.addEventListener('click', cardAddOpen);
 profilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
-
-console.log('Hello, World!')
