@@ -1,0 +1,41 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && webpack",
+    "dev": "webpack-dev-server --open --watch",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cycymah/mesto.git"
+  },
+  "author": "Ivan Solnyshkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cycymah/mesto/issues"
+  },
+  "homepage": "https://github.com/cycymah/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "autoprefixer": "^9.8.6",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^4.2.2",
+    "file-loader": "^6.1.0",
+    "gh-pages": "^3.1.0",
+    "html-loader": "^1.3.0",
+    "html-webpack-plugin": "^4.4.1",
+    "mini-css-extract-plugin": "^0.11.0",
+    "postcss-loader": "^3.0.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "cssnano": "^4.1.10"
+  }
+}
