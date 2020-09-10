@@ -15,7 +15,12 @@
     </header>
     <main class="content page__content">
       <section class="profile">
-        <img src="./images/Avatar.jpeg" alt="Фотография аватара" class="profile__avatar">
+        <div class="profile__avatar-box">
+          <img src="./images/Avatar.jpeg" alt="Фотография аватара" class="profile__avatar">
+          <button class="profile__edit-avatar-btn" type="button">
+            <div class="profile__edit-avatar-img"></div>
+          </button>
+        </div>
         <div class="profile__profile-info">
           <h1 class="profile__title-name">Солнышкин Иван</h1>
           <button class="profile__edit-btn"></button>
@@ -89,6 +94,18 @@
       </figcaption>
     </figure>
   </div>
+
+  <div class="modal page__modal modal_target_confirm">
+    <div class="modal__overlay"></div>
+    <div class="confirm">
+      <button class="confirm__close-btn" type="button"></button>
+      <h2 class="confirm__title">
+        Вы уверены?
+      </h2>
+      <button class="confirm__confirm-btn" type="button">Да</button>
+    </div>
+  </div>
+
   <template id="listItem">
     <li class="elements__item">
       <button class="elements__trash" type="button"></button>
@@ -97,7 +114,10 @@
         <figcaption class="elements__image-content-box">
           <p class="elements__image-description">
           </p>
-          <button class="elements__like"></button>
+          <div class="elements__like-button-box">
+            <button class="elements__like"></button>
+            <span class="elements__like-counter">1</span>
+          </div>
         </figcaption>
       </figure>
     </li>

@@ -1,0 +1,14 @@
+.confirm__title {
+  margin: 0;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+@media screen and (max-width: 480px) {
+  .confirm__title {
+    margin-bottom: 34px;
+    text-align: center;
+    font-size: 1.25rem;
+  }
+}

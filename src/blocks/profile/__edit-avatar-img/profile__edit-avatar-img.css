@@ -1,0 +1,5 @@
+.profile__edit-avatar-img {
+  width: 26px;
+  height: 26px;
+  background: url('../../../images/profile-edit-hover.svg') no-repeat center;
+}

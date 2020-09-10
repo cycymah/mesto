@@ -1,0 +1,23 @@
+.confirm__confirm-btn {
+  width: 100%;
+  min-height: 50px;
+  background: #000000;
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  border: 0;
+  margin-top: 38px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  transition: .5s ease-in-out;
+  outline: none;
+  padding: 0;
+  text-align: center;
+}
+
+.confirm__confirm-btn:hover {
+  transition: .5s ease-in-out;
+  background-color: rgba(0, 0, 0, .8);
+}

@@ -21,8 +21,11 @@
 @import url('../blocks/profile/__profile-info/profile__profile-info.css');
 @import url('../blocks/profile/__subtitle-name/profile__subtitle-name.css');
 @import url('../blocks/profile/__title-name/profile__title-name.css');
+@import url('../blocks/profile/__avatar-box/profile__avatar-box.css');
 @import url('../blocks/profile/__edit-btn/profile__edit-btn.css');
 @import url('../blocks/profile/__add-button/profile__add-button.css');
+@import url('../blocks/profile/__edit-avatar-btn/profile__edit-avatar-btn.css');
+@import url('../blocks/profile/__edit-avatar-img/profile__edit-avatar-img.css');
 
 /* Список карточек */
 @import url('../blocks/elements/elements.css');
@@ -34,6 +37,9 @@
 @import url('../blocks/elements/__image-description/elements__image-description.css');
 @import url('../blocks/elements/__trash/elements__trash.css');
 @import url('../blocks/elements/__like/elements__like.css');
+@import url('../blocks/elements/__like-button-box/elements__like-button-box.css');
+@import url('../blocks/elements/__like-counter/elements__like-counter.css');
+@import url('../blocks/elements/__like-counter/_active/elements__like-counter_active.css');
 @import url('../blocks/elements/__like/_active/elements__like_active.css');
 
 /* Футер */
@@ -66,3 +72,9 @@
 @import url('../blocks/zoom/__text-image/zoom__text-image.css');
 @import url('../blocks/zoom/_animation/_close/zoom_animation_close.css');
 @import url('../blocks/zoom/_animation/_active/zoom_animation_active.css');
+
+/* Модалка с согласием на удаление */
+@import url('../blocks/confirm/confirm.css');
+@import url('../blocks/confirm/__close-btn/confirm__close-btn.css');
+@import url('../blocks/confirm/__confirm-btn/confirm__confirm-btn.css');
+@import url('../blocks/confirm/__title/confirm__title.css');
