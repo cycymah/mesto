@@ -2,14 +2,18 @@ export default class Card {
   constructor({
     name,
     link,
-    alt
+    alt,
+    _id,
+    owner
   }, cardIdSelector, handleCardClick, api) {
     this._name = name;
     this._src = link;
     this._alt = alt;
+    this._id = _id;
     this._cardIdSelector = cardIdSelector;
     this._handleCardClick = handleCardClick;
     this._api = api;
+    this._owner = owner.name;
   }
 
   //Создаем template клон
@@ -21,15 +25,17 @@ export default class Card {
     return cardElement;
   }
 
-  // Удаление карточки
-  // _cardRemoveByTrash(trash) {
-  //   this._api._cardRemoveByTrash()
-  //   .then(_ => {
-  //     const trashElem = trash.closest('.elements__item');
-  //     trashElem.remove();
-  //   })
-  //   .catch(err => console.log(err));
-  // }
+  //Удаление карточки
+  _cardRemoveByTrash(trash) {
+    console.log(this._api);
+    console.log(this._id);
+    this._api.removeCard(this._id)
+    .then(_ => {
+      const trashElem = trash.closest('.elements__item');
+      trashElem.remove();
+    })
+    .catch(err => console.log(err));
+  }
 
   //Функционал лайков
   _cardLikeToggle(evt) {
@@ -48,6 +54,7 @@ export default class Card {
   //Наполняем карточку
   generateCard() {
     this._card = this._getTemplate();
+    const profileInfo = document.querySelector('.profile__title-name');
     this._singleTrash = this._card.querySelector('.elements__trash');
     this._likeButton = this._card.querySelector('.elements__like');
     this._imageTitle = this._card.querySelector('.elements__image-description');
@@ -55,6 +62,10 @@ export default class Card {
     this._imageTitle.textContent = this._name;
     this._elementImage.src = this._src;
     this._elementImage.alt = this._alt;
+
+    if (this._owner !== profileInfo.textContent) {
+      this._singleTrash.classList.add('elements__trash_display_none');
+    }
 
     this._cardActionListeners(this._singleTrash, this._likeButton, this._elementImage);
     return this._card;

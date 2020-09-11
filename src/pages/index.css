@@ -36,6 +36,7 @@
 @import url('../blocks/elements/__image-content-box/elements__image-content-box.css');
 @import url('../blocks/elements/__image-description/elements__image-description.css');
 @import url('../blocks/elements/__trash/elements__trash.css');
+@import url('../blocks/elements/__trash/_display/_none/elements__trash_display_none.css');
 @import url('../blocks/elements/__like/elements__like.css');
 @import url('../blocks/elements/__like-button-box/elements__like-button-box.css');
 @import url('../blocks/elements/__like-counter/elements__like-counter.css');

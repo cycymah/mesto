@@ -13,8 +13,10 @@ import {
   cardAddButton,
   inputProfile,
   inputAbout,
-  profileAvatarButton
+  profileAvatarButton,
+  avatarImage
 } from '../utils/constants.js';
+
 
 //Параметры валидации
 export const validationConfig = {
@@ -50,9 +52,32 @@ const apiProfileInformation = new Api({
   }
 });
 
+const apiAvatarUpdate = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-15/users/me/avatar',
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: 'e25f3c22-3477-48f3-a377-dbd53dc14614'
+  }
+});
+
 const renderCards = apiCard.getInitialData();
 const userInformation = apiProfileInformation.getInitialData();
-console.log(userInformation);
+
+//Элемент класса UserInfo
+const userProfileInformation = new UserInfo({
+  profileName: '.profile__title-name',
+  profileAbout: '.profile__subtitle-name',
+  profileAvatar: '.profile__avatar'
+});
+
+const userInfoGet = userProfileInformation.getUserInfo();
+
+userInformation
+  .then(inputValues => {
+    userProfileInformation.setUserInfo(inputValues);
+  })
+  .catch(err => console.log(err));
+
 
 //Функция подготовки карточки
 const createCard = (cardData, cardIdSelector, handleCardClick, api) => {
@@ -61,11 +86,7 @@ const createCard = (cardData, cardIdSelector, handleCardClick, api) => {
   return elementCard;
 };
 
-//Элемент класса UserInfo
-const userProfileInformation = new UserInfo({
-  profileName: '.profile__title-name',
-  profileAbout: '.profile__subtitle-name'
-});
+
 
 //Создание элемет класса для валидации формы
 const validationProfileEnabler = new FormValidator('.form__section_target_profile', validationConfig);
@@ -81,19 +102,33 @@ validationAvatarEnabler.enableValidation();
 const profilePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile',
   formSubmitHandler: inputValues => {
-    userProfileInformation.setUserInfo(inputValues);
-    profilePopup.close();
+    console.log(inputValues);
+    apiProfileInformation.updateInformation({
+        name: inputValues.profileName,
+        about: inputValues.about
+      })
+      .then(inputValues => {
+        userProfileInformation.setUserInfo(inputValues);
+        profilePopup.close();
+      })
+      .catch(err => console.log(err));
   },
   closeBtnSelector: '.form__close-btn'
 });
 
 //Элемент класса Попап Аватара
 const avatarUpdatePopup = new PopupWithForm({
-  popupSelector:'.modal_target_profile-avatar',
+  popupSelector: '.modal_target_profile-avatar',
   formSubmitHandler: inputValues => {
     console.log(inputValues.pictureSource);
-    document.querySelector('.profile__avatar').src = inputValues.pictureSource; 
-    avatarUpdatePopup.close();
+    apiAvatarUpdate.updateInformation({
+        avatar: inputValues.pictureSource,
+      })
+      .then(inputValues => {
+        avatarImage.src = inputValues.pictureSource;
+        avatarUpdatePopup.close();
+      })
+      .catch(err => console.log(err));
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -101,19 +136,20 @@ const avatarUpdatePopup = new PopupWithForm({
 //Создаем элемент класса для рендера всех карточек на странице
 renderCards
   .then(data => {
-    console.log(data);
     const newCardsSection = new Section({
         data,
         renderer: elem => {
           const newCard = createCard(elem, '#listItem', (titleImage, srcImage) => {
             popupWithImage.open(titleImage, srcImage);
-          });
+          }, apiCard);
           newCardsSection.addItem(newCard);
         }
       },
-      '.elements__list', apiCard);
+      '.elements__list');
+
     newCardsSection.renderElements();
-  });
+  })
+  .catch(err => console.log(err));
 
 
 //Форма добавления карточки на страницу
@@ -121,7 +157,7 @@ const addCardPopup = new PopupWithForm({
   popupSelector: '.modal_target_addCard',
   formSubmitHandler: inputValues => {
     console.log(inputValues);
-    apiCard.addNewCard({
+    apiCard.addNewInformation({
         name: inputValues.name,
         link: inputValues.link
       })
@@ -130,12 +166,15 @@ const addCardPopup = new PopupWithForm({
             data: {
               name: data.name,
               link: data.link,
-              alt: data.name
+              alt: data.name,
+              owner: {
+                name: userInfoGet.name
+              }
             },
             renderer: elem => {
               const newCard = createCard(elem, '#listItem', (titleImage, srcImage) => {
                 popupWithImage.open(titleImage, srcImage);
-              });
+              }, apiCard);
               singleCard.addItem(newCard);
             }
           },
@@ -150,7 +189,7 @@ const addCardPopup = new PopupWithForm({
 
 //Открытие формы профайла
 const profileOpen = _ => {
-  const userInfoGet = userProfileInformation.getUserInfo();
+  // const userInfoGet = userProfileInformation.getUserInfo();
   inputProfile.value = userInfoGet.name;
   inputAbout.value = userInfoGet.about;
   validationProfileEnabler.resetValidation();

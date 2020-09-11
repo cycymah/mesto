@@ -24,10 +24,6 @@ export default class PopupWithForm extends Popup {
     return this._inputValues;
   }
 
-  // _saveCardsToServer() {
-  //   this._api.addNewCard()
-  // }
-
   setEventListeners() {
     super.setEventListeners();
     this._formSection.addEventListener('submit', evt => {

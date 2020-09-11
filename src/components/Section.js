@@ -6,6 +6,7 @@ export default class Section {
     this._renderer = renderer;
     this._renderItems = data;
     this._container = document.querySelector(containerSelector);
+    
   }
 
   //Позиция рендеринга карточек

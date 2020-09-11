@@ -1,4 +1,4 @@
-const errorReturn = res => {
+const errorCheck = res => {
   if (res.ok) {
     return res.json();
   }
@@ -16,27 +16,36 @@ export default class Api {
         method: "GET",
         headers: this._headers
       })
-      .then(errorReturn)
+      .then(errorCheck)
       .catch(err => console.log(err));
   }
 
-  addNewCard(data) {
+  addNewInformation(data) {
     return fetch(this._serverUrl, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify(data)
       })
-      .then(errorReturn)
-      .catch(err => console.log(err));
+      .then(errorCheck)
+      .catch(err => consoe.log(err));
   }
 
-  // removeCard(id) {
-  //   return fetch(this._serverUrl, {
-  //       method: "DELETE",
-  //       headers: this._headers,
-  //       body: JSON.stringify(data)
-  //     })
-  //     .then(errorReturn)
-  //     .catch(err => console.log(err));
-  // }
+  updateInformation(data) {
+    return fetch(this._serverUrl, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(data)
+    })
+    .then(errorCheck)
+    .catch(err => console.log(err));
+  }
+
+  removeCard(id) {
+    return fetch(`${this._serverUrl}/${id}`, {
+        method: "DELETE",
+        headers: this._headers,
+      })
+      .then(errorCheck)
+      .catch(err => console.log(err));
+  }
 }

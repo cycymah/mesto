@@ -8,4 +8,7 @@ const profileAvatarButton = document.querySelector('.profile__edit-avatar-btn');
 const inputProfile = document.querySelector('.form__input_field_name');
 const inputAbout = document.querySelector('.form__input_field_about');
 
-export {profileEditButton, cardAddButton, inputProfile, inputAbout, profileAvatarButton};
+//Форма картинки аватара 
+const avatarImage = document.querySelector('.profile__avatar');
+
+export {profileEditButton, cardAddButton, inputProfile, inputAbout, profileAvatarButton, avatarImage};
