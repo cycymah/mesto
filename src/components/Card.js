@@ -3,12 +3,13 @@ export default class Card {
     name,
     link,
     alt
-  }, cardIdSelector, handleCardClick) {
+  }, cardIdSelector, handleCardClick, api) {
     this._name = name;
     this._src = link;
     this._alt = alt;
     this._cardIdSelector = cardIdSelector;
     this._handleCardClick = handleCardClick;
+    this._api = api;
   }
 
   //Создаем template клон
@@ -20,11 +21,15 @@ export default class Card {
     return cardElement;
   }
 
-  //Удаление карточки
-  _cardRemoveByTrash(trash) {
-    const trashElem = trash.closest('.elements__item');
-    trashElem.remove();
-  }
+  // Удаление карточки
+  // _cardRemoveByTrash(trash) {
+  //   this._api._cardRemoveByTrash()
+  //   .then(_ => {
+  //     const trashElem = trash.closest('.elements__item');
+  //     trashElem.remove();
+  //   })
+  //   .catch(err => console.log(err));
+  // }
 
   //Функционал лайков
   _cardLikeToggle(evt) {

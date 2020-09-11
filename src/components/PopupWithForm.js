@@ -5,12 +5,13 @@ export default class PopupWithForm extends Popup {
     popupSelector,
     formSubmitHandler,
     closeBtnSelector
-  }) {
+  }, api) {
     super(popupSelector, closeBtnSelector);
     this._popup = document.querySelector(popupSelector);
     this._formSubmitHandler = formSubmitHandler;
     this._formInputs = Array.from(this._popup.querySelectorAll('.form__input'));
     this._formSection = this._popup.querySelector('.form__section');
+    this._api = api;
 
   }
 
@@ -22,6 +23,10 @@ export default class PopupWithForm extends Popup {
     });
     return this._inputValues;
   }
+
+  // _saveCardsToServer() {
+  //   this._api.addNewCard()
+  // }
 
   setEventListeners() {
     super.setEventListeners();
