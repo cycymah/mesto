@@ -34,7 +34,6 @@ const popupWithImage = new PopupWithImage({
   closeBtnSelector: '.zoom__close-btn'
 });
 
-//
 //Элемент API для карточек
 const apiCard = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-15/cards',
@@ -70,11 +69,9 @@ const userProfileInformation = new UserInfo({
   profileAvatar: '.profile__avatar'
 });
 
-const userInfoGet = userProfileInformation.getUserInfo();
-
 userInformation
-  .then(inputValues => {
-    userProfileInformation.setUserInfo(inputValues);
+  .then(data => {
+    userProfileInformation.setUserInfo(data);
   })
   .catch(err => console.log(err));
 
@@ -85,8 +82,6 @@ const createCard = (cardData, cardIdSelector, handleCardClick, api) => {
   const elementCard = card.generateCard();
   return elementCard;
 };
-
-
 
 //Создание элемет класса для валидации формы
 const validationProfileEnabler = new FormValidator('.form__section_target_profile', validationConfig);
@@ -120,7 +115,6 @@ const profilePopup = new PopupWithForm({
 const avatarUpdatePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile-avatar',
   formSubmitHandler: inputValues => {
-    console.log(inputValues.pictureSource);
     apiAvatarUpdate.updateInformation({
         avatar: inputValues.pictureSource,
       })
@@ -146,7 +140,6 @@ renderCards
         }
       },
       '.elements__list');
-
     newCardsSection.renderElements();
   })
   .catch(err => console.log(err));
@@ -168,7 +161,7 @@ const addCardPopup = new PopupWithForm({
               link: data.link,
               alt: data.name,
               owner: {
-                name: userInfoGet.name
+                name: userProfileInformation.getUserInfo().name
               }
             },
             renderer: elem => {
@@ -189,7 +182,7 @@ const addCardPopup = new PopupWithForm({
 
 //Открытие формы профайла
 const profileOpen = _ => {
-  // const userInfoGet = userProfileInformation.getUserInfo();
+  const userInfoGet = userProfileInformation.getUserInfo();
   inputProfile.value = userInfoGet.name;
   inputAbout.value = userInfoGet.about;
   validationProfileEnabler.resetValidation();

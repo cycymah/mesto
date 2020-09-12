@@ -14,6 +14,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._api = api;
     this._owner = owner.name;
+    this._likeCounter = document.querySelector('.elements__like-counter');
   }
 
   //Создаем template клон
@@ -27,19 +28,34 @@ export default class Card {
 
   //Удаление карточки
   _cardRemoveByTrash(trash) {
-    console.log(this._api);
-    console.log(this._id);
     this._api.removeCard(this._id)
-    .then(_ => {
-      const trashElem = trash.closest('.elements__item');
-      trashElem.remove();
-    })
-    .catch(err => console.log(err));
+      .then(_ => {
+        const trashElem = trash.closest('.elements__item');
+        trashElem.remove();
+      })
+      .catch(err => console.log(err));
+  }
+
+  _getLikesNumber() {
+    this._api.getInitialData()
+      .then(({likes}) => {
+        console.log(likes);
+      })
+      .then(likesNumber => {
+        this._likeCounter.textContent = likesNumber;
+      })
+      .catch(err => console.log(err));
   }
 
   //Функционал лайков
   _cardLikeToggle(evt) {
-    evt.target.classList.toggle('elements__like_active');
+    this._getLikesNumber();
+
+    if (evt.target.classList.contains('elements__like_active')) {
+      evt.target.classList.remove('elements__like_active');
+    } else {
+      evt.target.classList.add('elements__like_active');
+    }
   }
 
   //Слушатели для карточек
@@ -66,7 +82,7 @@ export default class Card {
     if (this._owner !== profileInfo.textContent) {
       this._singleTrash.classList.add('elements__trash_display_none');
     }
-
+    // this._getLikesNumber();
     this._cardActionListeners(this._singleTrash, this._likeButton, this._elementImage);
     return this._card;
   }
