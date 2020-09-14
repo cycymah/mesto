@@ -12,10 +12,8 @@ export default class PopupWithFormSubmit extends Popup {
     this._confirmButton = this._popup.querySelector('.confirm__confirm-btn');
   }
 
-  setConfrimListener(parametr) {
-    return this._confirmButton.addEventListener('click', evt => {
-      console.log(evt);
-      this._handleOkRemove(parametr);
-    });
+  setEventListeners() {
+    super.setEventListeners();
+    this._confirmButton.addEventListener('click', _ => this._handleOkRemove(this._confirmButton));
   }
 }

@@ -16,8 +16,7 @@ export default class Api {
         method: "GET",
         headers: this._headers
       })
-      .then(errorCheck)
-      .catch(err => console.log(err));
+      .then(errorCheck);
   }
 
   getPrifileInformation(profileUrl) {
@@ -25,8 +24,7 @@ export default class Api {
         method: "GET",
         headers: this._headers
       })
-      .then(errorCheck)
-      .catch(err => console.log(err));
+      .then(errorCheck);
   }
 
   addNewInformation(data, urlCard) {
@@ -35,8 +33,7 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(data)
       })
-      .then(errorCheck)
-      .catch(err => consoe.log(err));
+      .then(errorCheck);
   }
 
   updateInformation(data, url) {
@@ -45,8 +42,7 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(data)
       })
-      .then(errorCheck)
-      .catch(err => console.log(err));
+      .then(errorCheck);
   }
   updateProfileInformation() {
         return fetch(`${this._serverUrl}/${url}`, {
@@ -54,17 +50,15 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(data)
       })
-      .then(errorCheck)
-      .catch(err => console.log(err));
+      .then(errorCheck);
   }
-  
+
   removeCard(id) {
     return fetch(`${this._serverUrl}/cards/${id}`, {
         method: "DELETE",
         headers: this._headers,
       })
-      .then(errorCheck)
-      .catch(err => console.log(err));
+      .then(errorCheck);
   }
 
   putInformation(id) {
@@ -72,8 +66,7 @@ export default class Api {
         method: "PUT",
         headers: this._headers,
       })
-      .then(errorCheck)
-      .catch(err => console.log(err));
+      .then(errorCheck);
   }
 
   putLike(id) {
@@ -81,8 +74,7 @@ export default class Api {
       method: "PUT",
       headers: this._headers,
     })
-    .then(errorCheck)
-    .catch(err => console.log(err));
+    .then(errorCheck);
   }
 
   deleteLike(id) {
@@ -90,7 +82,6 @@ export default class Api {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(errorCheck)
-    .catch(err => console.log(err));
+    .then(errorCheck);
   }
 }

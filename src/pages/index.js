@@ -1,4 +1,4 @@
-//Еще раз спасибо! Приношу извинения за тупеж в начале! Отличного дня!
+//Добрый день! Спасибо за труд! Плюшек, радости и счатья. Извиняюсь, если мой код приносит боль и страдания:)
 import './index.css';
 
 import Card from '../components/Card.js';
@@ -18,6 +18,11 @@ import {
   avatarImage
 } from '../utils/constants.js';
 
+//Записываем ID удаляемой карточки
+let itemDelete;
+let trashElem;
+const messageForm = document.querySelector('.loading');
+const messageText = messageForm.querySelector('.loading__message');
 
 //Параметры валидации
 export const validationConfig = {
@@ -29,12 +34,23 @@ export const validationConfig = {
   formInputError: '.form__input-error'
 };
 
-//Информация о загрузке информации
-const renderLoading = (loading, submitBtn) => {
-  if (loading) {
-    submitBtn.textContent = 'Сохранение...';
+//Сообщение о загрузке
+const renderLoading = (loading, message) => {
+
+  if (loading === 'start') {
+    messageForm.classList.add('loading_active');
+    messageText.classList.add('loading__message_color_green');
+    messageText.textContent = message;
+  } else if (loading === 'catch') {
+    document.querySelector('.loading__button').classList.add('loading__button_active');
+    messageText.classList.remove('loading__message_color_green');
+    messageText.classList.add('loading__message_color_red');
+    messageText.textContent = message;
   } else {
-    submitBtn.textContent = 'Сохранить';
+    messageForm.classList.remove('loading_active');
+    messageText.classList.remove('loading__message_color_green');
+    messageText.classList.remove('loading__message_color_red');
+    messageText.textContent = message;
   }
 };
 
@@ -47,38 +63,14 @@ const api = new Api({
   }
 });
 
-//Элемент класса для попапов с картинкой 
-const popupWithImage = new PopupWithImage({
-  popupSelector: '.modal_target_photoZoom',
-  closeBtnSelector: '.zoom__close-btn'
-});
-
-const popupDeleteCard = new PopupWithFormSubmit({
-  popupSelector: '.modal_target_confirm',
-  handleOkRemove: id => {
-    console.log(id);
-    api.removeCard(id).
-    catch(err => console.log(err));
-  },
-  closeBtnSelector: '.confirm__close-btn'
-});
-
 const renderCards = api.getInitialCards('cards');
 const userInformation = api.getPrifileInformation('users/me');
-
-//Элемент класса UserInfo
-const userProfileInformation = new UserInfo({
-  profileName: '.profile__title-name',
-  profileAbout: '.profile__subtitle-name',
-  profileAvatar: '.profile__avatar'
-});
 
 userInformation
   .then(data => {
     userProfileInformation.setUserInfo(data);
   })
   .catch(err => console.log(err));
-
 
 //Функция подготовки карточки
 const createCard = (cardData, cardIdSelector, handleCardClick, handleTrashClick, api) => {
@@ -97,11 +89,43 @@ validationProfileEnabler.enableValidation();
 validationAddEnabler.enableValidation();
 validationAvatarEnabler.enableValidation();
 
-//Элемент класа профайла 
+//Элемент класса UserInfo
+const userProfileInformation = new UserInfo({
+  profileName: '.profile__title-name',
+  profileAbout: '.profile__subtitle-name',
+  profileAvatar: '.profile__avatar'
+});
+
+//Элемент класса для попапов с картинкой 
+const popupWithImage = new PopupWithImage({
+  popupSelector: '.modal_target_photoZoom',
+  closeBtnSelector: '.zoom__close-btn'
+});
+
+//Элемент класса формы подтверждения
+const popupDeleteCard = new PopupWithFormSubmit({
+  popupSelector: '.modal_target_confirm',
+  handleOkRemove: _ => {
+    renderLoading('start', 'Удаление...');
+    api.removeCard(itemDelete)
+      .then(_ => {
+        popupDeleteCard.close();
+      })
+      .then(_ => trashElem.remove())
+      .then(_ => renderLoading(false, ''),
+        err => {
+          renderLoading('catch', 'Ошибка: ' + err);
+          console.log(err);
+        });
+  },
+  closeBtnSelector: '.confirm__close-btn'
+});
+
+//Элемент класса формы профайла 
 const profilePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile',
-  formSubmitHandler: (inputValues, formBtn) => {
-    renderLoading(true, formBtn);
+  formSubmitHandler: inputValues => {
+    renderLoading('start', 'Сохранение...');
     api.updateInformation({
         name: inputValues.profileName,
         about: inputValues.about
@@ -110,8 +134,11 @@ const profilePopup = new PopupWithForm({
         userProfileInformation.setUserInfo(inputValues);
         profilePopup.close();
       })
-      .catch(err => console.log(err))
-      .finally(renderLoading(false, formBtn));
+      .then(_ => renderLoading(false, ''),
+      err => {
+        renderLoading('catch', 'Ошибка: ' + err);
+        console.log(err);
+      });
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -119,90 +146,109 @@ const profilePopup = new PopupWithForm({
 //Элемент класса Попап Аватара
 const avatarUpdatePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile-avatar',
-  formSubmitHandler: (inputValues, formBtn) => {
-    renderLoading(true, formBtn);
+  formSubmitHandler: inputValues => {
+    renderLoading('start', 'Сохранение...');
     api.updateInformation({
         avatar: inputValues.pictureSource,
       }, 'users/me/avatar')
-      .catch(err => console.log(err))
-      .finally(renderLoading(false, formBtn));
+      .then(_ => renderLoading(false, ''),
+      err => {
+        renderLoading('catch', 'Ошибка: ' + err);
+        console.log(err);
+      });
     avatarImage.src = inputValues.pictureSource;
     avatarUpdatePopup.close();
   },
   closeBtnSelector: '.form__close-btn'
 });
 
+//Форма добавления карточки на страницу
+const addCardPopup = new PopupWithForm({
+  popupSelector: '.modal_target_addCard',
+  formSubmitHandler: inputValues => {
+    renderLoading('start', 'Создание...');
+    api.addNewInformation({
+        name: inputValues.name,
+        link: inputValues.link
+      }, 'cards')
+      .then(data => renderCard(data, api))
+      .then(_ => renderLoading(false, ''),
+      err => {
+        renderLoading('catch', 'Ошибка: ' + err);
+        console.log(err);
+      });
+  },
+  closeBtnSelector: '.form__close-btn'
+});
+
+//Подготовка карточек
+const allCardsPrepare = cardData => {
+  const newCard = createCard(
+    cardData, {
+      cardIdSelector: '#listItem',
+      handleCardClick: _ => {
+        popupWithImage.open(cardData);
+      },
+      handleTrashClick: evt => {
+        trashElem = evt.target.closest('.elements__item');
+        itemDelete = cardData._id;
+        popupDeleteCard.open();
+      },
+      popupConfirmClose: _ => {
+        popupDeleteCard.close();
+      },
+      api: api
+    });
+    return newCard;
+}
+
 //Подготовка и рендер всех карточек на страницу
-const renderAllCards = (data, api) => {
+const renderAllCards = data => {
   const newCardsSection = new Section({
       data,
       renderer: elem => {
-        const newCard = createCard(
-          elem, {
-            cardIdSelector: '#listItem',
-            handleCardClick: (titleImage, srcImage) => popupWithImage.open(titleImage, srcImage),
-            handleTrashClick: _ => {
-              popupDeleteCard.open();
-            },
-            popupConfirmClose: _ => {
-              popupDeleteCard.close();
-            },
-            api: api
-          });
-        newCardsSection.addItem(newCard);
+        newCardsSection.addItem(allCardsPrepare(elem));
       }
     },
     '.elements__list');
   newCardsSection.renderElements();
 };
 
+//Подготовка одиночной карты для рендера
+const singleCardPrepare = cardData => {
+  const newCard = createCard(
+    cardData, {
+      cardIdSelector: '#listItem',
+      handleCardClick: _ => {
+        popupWithImage.open(cardData);
+      },
+      handleTrashClick: evt => {
+        trashElem = evt.target.closest('.elements__item'); //Получаем нужный элемент корзины
+        itemDelete = cardData._id; //Получаем ID карточки
+        popupDeleteCard.open();
+      },
+      api: api
+    });
+    return newCard;
+}
+
 //Подготовка и рендер одной карточки на страницу
 renderCards
-  .then(data => renderAllCards(data, api))
+  .then(data => renderAllCards(data))
   .catch(err => console.log(err));
 
 //Добавление карточки на страницу
-const renderCard = (data, api) => {
+const renderCard = data => {
   {
     const singleCard = new Section({
         data,
-        renderer: elem => {
-          const newCard = createCard(
-            elem, {
-              cardIdSelector: '#listItem',
-              handleCardClick: (titleImage, srcImage) => {
-                popupWithImage.open(titleImage, srcImage);
-              },
-              handleTrashClick: _ => {
-                popupDeleteCard.open()
-              },
-              api: api
-            });
-          singleCard.addItem(newCard);
-        }
+        renderer: elem => singleCard.addItem(singleCardPrepare(elem))
       },
       '.elements__list');
     singleCard.renderOneElement();
     addCardPopup.close();
   }
 }
-
-//Форма добавления карточки на страницу
-const addCardPopup = new PopupWithForm({
-  popupSelector: '.modal_target_addCard',
-  formSubmitHandler: (inputValues, formBtn) => {
-    console.log(formBtn);
-    renderLoading(true, formBtn);
-    api.addNewInformation({
-        name: inputValues.name,
-        link: inputValues.link
-      }, 'cards')
-      .then(data => renderCard(data, api))
-      .catch(err => console.log(err))
-      .finally(renderLoading(false, formBtn));
-  },
-  closeBtnSelector: '.form__close-btn'
-});
 
 //Открытие формы профайла
 const profileOpen = _ => {
@@ -223,14 +269,20 @@ const profileAvatarOpen = _ => {
   avatarUpdatePopup.open();
 };
 
-//Открытие формы добавления карточек
+//Открытие форм
 profileEditButton.addEventListener('click', profileOpen);
 cardAddButton.addEventListener('click', cardAddOpen);
 profileAvatarButton.addEventListener('click', profileAvatarOpen);
 
-//Слушатели на модалки
+//Слушатели
 avatarUpdatePopup.setEventListeners();
 profilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
 popupDeleteCard.setEventListeners();
+//Слушатель подтверждения ошибки
+document.querySelector('.loading__button').addEventListener('click', _ => {
+  messageForm.classList.remove('loading_active');
+  document.querySelector('.loading__button').classList.remove('loading__button_active');
+  messageText.classList.remove('loading__message_color_red');
+})

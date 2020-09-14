@@ -1,0 +1,16 @@
+.loading {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid whitesmoke;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  max-width: 15%;
+  max-width: 30%;
+  min-height: 50px;
+  top: 20px;
+  right: 30px;
+}

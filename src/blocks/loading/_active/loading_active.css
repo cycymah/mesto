@@ -1,0 +1,12 @@
+@keyframes showOn {
+  from {opacity: 0;
+        visibility: hidden;}
+  to {opacity: 1;
+    visibility: visible;}
+}
+
+.loading_active {
+  visibility: visible;
+  animation: showOn .5s ease;
+  opacity: 1;
+}

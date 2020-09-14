@@ -10,7 +10,6 @@ export default class Card {
     cardIdSelector,
     handleCardClick,
     handleTrashClick,
-    popupConfirmClose,
     api
   }) {
     this._name = name;
@@ -36,13 +35,8 @@ export default class Card {
   }
 
   //Удаление карточки
-  _cardRemoveByTrash(trash) {
-    this._api.removeCard(this._id)
-      .then(_ => {
-        const trashElem = trash.closest('.elements__item');
-        trashElem.remove();
-      })
-      .catch(err => console.log(err));
+  cardRemoveByTrash(trash) {
+
   }
 
   _checkTrashToOwner() {
@@ -68,7 +62,6 @@ export default class Card {
   //Функционал лайков
   _cardLikeToggle(evt) {
     const targetButton = evt.target;
-
     if (targetButton.classList.contains('elements__like_active')) {
       this._api.deleteLike(this._id)
         .then(data => {
@@ -88,15 +81,9 @@ export default class Card {
 
   //Слушатели для карточек
   _cardActionListeners(trash, likes, cardPicture) {
-    trash.addEventListener('click', _ => {
-      this._handleTrashClick();
-    });
-    
+    trash.addEventListener('click', evt => this._handleTrashClick(evt));
     likes.addEventListener('click', evt => this._cardLikeToggle(evt));
-    cardPicture.addEventListener('click', _ => {
-      this._handleCardClick(this._imageTitle, this._elementImage);
-    });
-
+    cardPicture.addEventListener('click', this._handleCardClick);
   }
 
   //Наполняем карточку

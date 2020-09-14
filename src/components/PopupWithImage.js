@@ -9,10 +9,10 @@ export default class PopupWithImage extends Popup {
     this._zoomImage = document.querySelector('.zoom__image');
   }
 
-  open(titleImage, srcImage) {
-    this._imageTitle.textContent = titleImage.textContent;
-    this._zoomImage.src = srcImage.src;
-    this._zoomImage.alt = srcImage.alt;
+  open(elem) {
+    this._imageTitle.textContent = elem.name;
+    this._zoomImage.src = elem.link;
+    this._zoomImage.alt = elem.name;
     super.open();
   }
 }
