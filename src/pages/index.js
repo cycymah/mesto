@@ -179,8 +179,8 @@ const addCardPopup = new PopupWithForm({
   closeBtnSelector: '.form__close-btn'
 });
 
-//Подготовка карточек
-const allCardsPrepare = cardData => {
+//Подготовка карточеки
+const createNewCard = cardData => {
   const newCard = createCard(
     cardData, {
       cardIdSelector: '#listItem',
@@ -205,30 +205,12 @@ const renderAllCards = data => {
   const newCardsSection = new Section({
       data,
       renderer: elem => {
-        newCardsSection.addItem(allCardsPrepare(elem));
+        newCardsSection.addItem(createNewCard(elem));
       }
     },
     '.elements__list');
   newCardsSection.renderElements();
 };
-
-//Подготовка одиночной карты для рендера
-const singleCardPrepare = cardData => {
-  const newCard = createCard(
-    cardData, {
-      cardIdSelector: '#listItem',
-      handleCardClick: _ => {
-        popupWithImage.open(cardData);
-      },
-      handleTrashClick: evt => {
-        trashElem = evt.target.closest('.elements__item'); //Получаем нужный элемент корзины
-        itemDelete = cardData._id; //Получаем ID карточки
-        popupDeleteCard.open();
-      },
-      api: api
-    });
-  return newCard;
-}
 
 //Подготовка и рендер одной карточки на страницу
 renderCards
@@ -240,7 +222,7 @@ const renderCard = data => {
   {
     const singleCard = new Section({
         data,
-        renderer: elem => singleCard.addItem(singleCardPrepare(elem))
+        renderer: elem => singleCard.addItem(createNewCard(elem))
       },
       '.elements__list');
     singleCard.renderOneElement();
