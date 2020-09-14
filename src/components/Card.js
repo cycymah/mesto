@@ -10,7 +10,8 @@ export default class Card {
     cardIdSelector,
     handleCardClick,
     handleTrashClick,
-    api
+    likeDeleteApi, 
+    likePutApi
   }) {
     this._name = name;
     this._src = link;
@@ -21,7 +22,8 @@ export default class Card {
     this._cardIdSelector = cardIdSelector;
     this._handleCardClick = handleCardClick;
     this._handleTrashClick = handleTrashClick;
-    this._api = api;
+    this._likeDeleteApi = likeDeleteApi;
+    this._likePutApi = likePutApi;
     this._pageOwner = document.querySelector('.profile__title-name').textContent;
   }
 
@@ -34,17 +36,14 @@ export default class Card {
     return cardElement;
   }
 
-  //Удаление карточки
-  cardRemoveByTrash(trash) {
-
-  }
-
+  //Проверям мои карточки
   _checkTrashToOwner() {
     if (this._owner !== this._pageOwner) {
       this._singleTrash.classList.add('elements__trash_display_none');
     }
   }
 
+  //Вытягиваем количество уже проставленных лайков
   _likeCounterGet(likes) {
     if (!likes.length) {
       this._likeCounter.textContent = '';
@@ -53,6 +52,7 @@ export default class Card {
     }
   }
 
+  //проверка на мои лайки
   _likesOwnerCheck() {
     this._likes.some(item => {
       if (item.name === this._pageOwner) this._likeButton.classList.add('elements__like_active');
@@ -63,15 +63,15 @@ export default class Card {
   _cardLikeToggle(evt) {
     const targetButton = evt.target;
     if (targetButton.classList.contains('elements__like_active')) {
-      this._api.deleteLike(this._id)
-        .then(data => {
+      this._likeDeleteApi
+      .then(data => {
           targetButton.classList.remove('elements__like_active');
           this._likeCounterGet(data.likes);
         })
         .catch(err => console.log(err));
     } else {
-      this._api.putLike(this._id)
-        .then(data => {
+      this._likePutApi
+      .then(data => {
           targetButton.classList.add('elements__like_active');
           this._likeCounterGet(data.likes);
         })
@@ -99,7 +99,7 @@ export default class Card {
     this._elementImage.src = this._src;
     this._elementImage.alt = this._alt;
 
-
+    //Проверка на ужеотмеченные корзины и клики
     this._checkTrashToOwner();
     this._likesOwnerCheck();
     this._likeCounterGet(this._likes);

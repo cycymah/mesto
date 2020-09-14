@@ -197,7 +197,8 @@ const allCardsPrepare = cardData => {
       popupConfirmClose: _ => {
         popupDeleteCard.close();
       },
-      api: api
+      likeDeleteApi: api.deleteLike(cardData._id),
+      likePutApi: api.putLike(cardData._id)
     });
     return newCard;
 }
@@ -227,7 +228,8 @@ const singleCardPrepare = cardData => {
         itemDelete = cardData._id; //Получаем ID карточки
         popupDeleteCard.open();
       },
-      api: api
+      likeDeleteApi: api.deleteLike(cardData._id),
+      likePutApi: api.putLike(cardData._id)
     });
     return newCard;
 }
