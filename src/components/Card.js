@@ -10,8 +10,7 @@ export default class Card {
     cardIdSelector,
     handleCardClick,
     handleTrashClick,
-    likeDeleteApi, 
-    likePutApi
+    api
   }) {
     this._name = name;
     this._src = link;
@@ -22,8 +21,7 @@ export default class Card {
     this._cardIdSelector = cardIdSelector;
     this._handleCardClick = handleCardClick;
     this._handleTrashClick = handleTrashClick;
-    this._likeDeleteApi = likeDeleteApi;
-    this._likePutApi = likePutApi;
+    this._api = api;
     this._pageOwner = document.querySelector('.profile__title-name').textContent;
   }
 
@@ -63,14 +61,14 @@ export default class Card {
   _cardLikeToggle(evt) {
     const targetButton = evt.target;
     if (targetButton.classList.contains('elements__like_active')) {
-      this._likeDeleteApi
+      this._api.deleteLike(this._id)
       .then(data => {
           targetButton.classList.remove('elements__like_active');
           this._likeCounterGet(data.likes);
         })
         .catch(err => console.log(err));
     } else {
-      this._likePutApi
+      this._api.putLike(this._id)
       .then(data => {
           targetButton.classList.add('elements__like_active');
           this._likeCounterGet(data.likes);
