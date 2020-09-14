@@ -35,10 +35,10 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "cssnano": "^4.1.10",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "jshint": "^2.12.0"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "jshint": "^2.12.0"
+    "core-js": "^3.6.5"
   }
 }
