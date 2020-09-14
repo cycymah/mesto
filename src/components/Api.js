@@ -11,8 +11,8 @@ export default class Api {
     this._headers = options.headers;
   }
 
-  getInitialData() {
-    return fetch(this._serverUrl, {
+  getInitialCards(cardsUrl) {
+    return fetch(`${this._serverUrl}/${cardsUrl}`, {
         method: "GET",
         headers: this._headers
       })
@@ -20,8 +20,17 @@ export default class Api {
       .catch(err => console.log(err));
   }
 
-  addNewInformation(data) {
-    return fetch(this._serverUrl, {
+  getPrifileInformation(profileUrl) {
+    return fetch(`${this._serverUrl}/${profileUrl}`, {
+        method: "GET",
+        headers: this._headers
+      })
+      .then(errorCheck)
+      .catch(err => console.log(err));
+  }
+
+  addNewInformation(data, urlCard) {
+    return fetch(`${this._serverUrl}/${urlCard}`, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify(data)
@@ -30,22 +39,58 @@ export default class Api {
       .catch(err => consoe.log(err));
   }
 
-  updateInformation(data) {
-    return fetch(this._serverUrl, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify(data)
-    })
-    .then(errorCheck)
-    .catch(err => console.log(err));
+  updateInformation(data, url) {
+    return fetch(`${this._serverUrl}/${url}`, {
+        method: "PATCH",
+        headers: this._headers,
+        body: JSON.stringify(data)
+      })
+      .then(errorCheck)
+      .catch(err => console.log(err));
   }
-
+  updateProfileInformation() {
+        return fetch(`${this._serverUrl}/${url}`, {
+        method: "PATCH",
+        headers: this._headers,
+        body: JSON.stringify(data)
+      })
+      .then(errorCheck)
+      .catch(err => console.log(err));
+  }
+  
   removeCard(id) {
-    return fetch(`${this._serverUrl}/${id}`, {
+    return fetch(`${this._serverUrl}/cards/${id}`, {
         method: "DELETE",
         headers: this._headers,
       })
       .then(errorCheck)
       .catch(err => console.log(err));
+  }
+
+  putInformation(id) {
+    return fetch(`${this._serverUrl}/${id}`, {
+        method: "PUT",
+        headers: this._headers,
+      })
+      .then(errorCheck)
+      .catch(err => console.log(err));
+  }
+
+  putLike(id) {
+    return fetch(`${this._serverUrl}/cards/likes/${id}`, {
+      method: "PUT",
+      headers: this._headers,
+    })
+    .then(errorCheck)
+    .catch(err => console.log(err));
+  }
+
+  deleteLike(id) {
+    return fetch(`${this._serverUrl}/cards/likes/${id}`, {
+      method: "DELETE",
+      headers: this._headers,
+    })
+    .then(errorCheck)
+    .catch(err => console.log(err));
   }
 }
