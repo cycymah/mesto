@@ -15,14 +15,14 @@ import {
   inputProfile,
   inputAbout,
   profileAvatarButton,
-  avatarImage
+  avatarImage,
+  messageForm,
+  messageText
 } from '../utils/constants.js';
 
 //Записываем ID удаляемой карточки
 let itemDelete;
 let trashElem;
-const messageForm = document.querySelector('.loading');
-const messageText = messageForm.querySelector('.loading__message');
 
 //Параметры валидации
 export const validationConfig = {
@@ -36,7 +36,6 @@ export const validationConfig = {
 
 //Сообщение о загрузке
 const renderLoading = (loading, message) => {
-
   if (loading === 'start') {
     messageForm.classList.add('loading_active');
     messageText.classList.add('loading__message_color_green');
@@ -135,10 +134,10 @@ const profilePopup = new PopupWithForm({
         profilePopup.close();
       })
       .then(_ => renderLoading(false, ''),
-      err => {
-        renderLoading('catch', 'Ошибка: ' + err);
-        console.log(err);
-      });
+        err => {
+          renderLoading('catch', 'Ошибка: ' + err);
+          console.log(err);
+        });
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -152,10 +151,10 @@ const avatarUpdatePopup = new PopupWithForm({
         avatar: inputValues.pictureSource,
       }, 'users/me/avatar')
       .then(_ => renderLoading(false, ''),
-      err => {
-        renderLoading('catch', 'Ошибка: ' + err);
-        console.log(err);
-      });
+        err => {
+          renderLoading('catch', 'Ошибка: ' + err);
+          console.log(err);
+        });
     avatarImage.src = inputValues.pictureSource;
     avatarUpdatePopup.close();
   },
@@ -173,10 +172,10 @@ const addCardPopup = new PopupWithForm({
       }, 'cards')
       .then(data => renderCard(data, api))
       .then(_ => renderLoading(false, ''),
-      err => {
-        renderLoading('catch', 'Ошибка: ' + err);
-        console.log(err);
-      });
+        err => {
+          renderLoading('catch', 'Ошибка: ' + err);
+          console.log(err);
+        });
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -199,7 +198,7 @@ const allCardsPrepare = cardData => {
       },
       api: api
     });
-    return newCard;
+  return newCard;
 }
 
 //Подготовка и рендер всех карточек на страницу
@@ -229,7 +228,7 @@ const singleCardPrepare = cardData => {
       },
       api: api
     });
-    return newCard;
+  return newCard;
 }
 
 //Подготовка и рендер одной карточки на страницу

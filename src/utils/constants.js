@@ -11,4 +11,7 @@ const inputAbout = document.querySelector('.form__input_field_about');
 //Форма картинки аватара 
 const avatarImage = document.querySelector('.profile__avatar');
 
-export {profileEditButton, cardAddButton, inputProfile, inputAbout, profileAvatarButton, avatarImage};
+//Формы окна-сообщения об ошибках
+const messageForm = document.querySelector('.loading');
+const messageText = messageForm.querySelector('.loading__message');
+export {profileEditButton, cardAddButton, inputProfile, inputAbout, profileAvatarButton, avatarImage, messageForm, messageText};
