@@ -62,7 +62,7 @@ const api = new Api({
 });
 
 const renderCards = api.getInitialCards('cards');
-const userInformation = api.getPrifileInformation('users/me');
+const userInformation = api.getProfileInformation('users/me');
 
 userInformation
   .then(data => {
@@ -71,8 +71,8 @@ userInformation
   .catch(err => console.log(err));
 
 //Функция подготовки карточки
-const createCard = (cardData, cardIdSelector, handleCardClick, handleTrashClick, api) => {
-  const card = new Card(cardData, cardIdSelector, handleCardClick, handleTrashClick, api);
+const createCard = (cardData, cardIdSelector, handleCardClick, handleTrashClick, handlePutLike, handleLikeDelete) => {
+  const card = new Card(cardData, cardIdSelector, handleCardClick, handleTrashClick, handlePutLike, handleLikeDelete);
   const elementCard = card.generateCard();
   return elementCard;
 };
@@ -149,13 +149,16 @@ const avatarUpdatePopup = new PopupWithForm({
     api.updateInformation({
         avatar: inputValues.pictureSource,
       }, 'users/me/avatar')
-      .then(_ => renderLoading(false, ''),
+      .then( _ => renderLoading(false, ''),
         err => {
           renderLoading('catch', 'Ошибка: ' + err);
           console.log(err);
-        });
-    avatarImage.src = inputValues.pictureSource;
-    avatarUpdatePopup.close();
+        })
+      .then( _ => {
+        avatarImage.src = inputValues.pictureSource;
+        avatarUpdatePopup.close();
+      });
+
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -182,21 +185,23 @@ const addCardPopup = new PopupWithForm({
 //Подготовка карточеки
 const createNewCard = cardData => {
   const newCard = createCard(
-    cardData, {
-      cardIdSelector: '#listItem',
-      handleCardClick: _ => {
+    cardData, 
+      '#listItem',
+      _ => {
         popupWithImage.open(cardData);
       },
-      handleTrashClick: evt => {
+      evt => {
         trashElem = evt.target.closest('.elements__item');
         itemDelete = cardData._id;
         popupDeleteCard.open();
       },
-      popupConfirmClose: _ => {
-        popupDeleteCard.close();
+      cardId => {
+        return api.putLike(cardId)
       },
-      api: api
-    });
+      cardId => {
+        return api.deleteLike(cardId)
+      }
+    );
   return newCard;
 }
 
@@ -260,6 +265,7 @@ profilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
 popupDeleteCard.setEventListeners();
+
 //Слушатель подтверждения ошибки
 document.querySelector('.loading__button').addEventListener('click', _ => {
   messageForm.classList.remove('loading_active');

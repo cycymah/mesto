@@ -1,10 +1,3 @@
-const errorCheck = res => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-};
-
 export default class Api {
   constructor(options) {
     this._serverUrl = options.url;
@@ -16,15 +9,15 @@ export default class Api {
         method: "GET",
         headers: this._headers
       })
-      .then(errorCheck);
+      .then(this._errorCheck);
   }
 
-  getPrifileInformation(profileUrl) {
+  getProfileInformation(profileUrl) {
     return fetch(`${this._serverUrl}/${profileUrl}`, {
         method: "GET",
         headers: this._headers
       })
-      .then(errorCheck);
+      .then(this._errorCheck);
   }
 
   addNewInformation(data, urlCard) {
@@ -33,7 +26,7 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(data)
       })
-      .then(errorCheck);
+      .then(this._errorCheck);
   }
 
   updateInformation(data, url) {
@@ -42,15 +35,7 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(data)
       })
-      .then(errorCheck);
-  }
-  updateProfileInformation() {
-        return fetch(`${this._serverUrl}/${url}`, {
-        method: "PATCH",
-        headers: this._headers,
-        body: JSON.stringify(data)
-      })
-      .then(errorCheck);
+      .then(this._errorCheck);
   }
 
   removeCard(id) {
@@ -58,7 +43,7 @@ export default class Api {
         method: "DELETE",
         headers: this._headers,
       })
-      .then(errorCheck);
+      .then(this._errorCheck);
   }
 
   putInformation(id) {
@@ -66,7 +51,7 @@ export default class Api {
         method: "PUT",
         headers: this._headers,
       })
-      .then(errorCheck);
+      .then(this._errorCheck);
   }
 
   putLike(id) {
@@ -74,7 +59,7 @@ export default class Api {
       method: "PUT",
       headers: this._headers,
     })
-    .then(errorCheck);
+    .then(this._errorCheck);
   }
 
   deleteLike(id) {
@@ -82,6 +67,13 @@ export default class Api {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(errorCheck);
+    .then(this._errorCheck);
+  }
+
+  _errorCheck(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 }
