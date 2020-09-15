@@ -80,10 +80,3 @@
 @import url('../blocks/confirm/__confirm-btn/confirm__confirm-btn.css');
 @import url('../blocks/confirm/__title/confirm__title.css');
 
-@import url('../blocks/loading/loading.css');
-@import url('../blocks/loading/_active/loading_active.css');
-@import url('../blocks/loading/__message/loading__message.css');
-@import url('../blocks/loading/__message/_color/_green/loading__message_color_green.css');
-@import url('../blocks/loading/__message/_color/_red/loading__message_color_red.css');
-@import url('../blocks/loading/__button/loading__button.css');
-@import url('../blocks/loading/__button/_active/loading__button_active.css');

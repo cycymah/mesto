@@ -15,8 +15,6 @@ import {
   inputAbout,
   profileAvatarButton,
   avatarImage,
-  messageForm,
-  messageText
 } from '../utils/constants.js';
 
 //Записываем ID удаляемой карточки
@@ -34,21 +32,11 @@ export const validationConfig = {
 };
 
 //Сообщение о загрузке
-const renderLoading = (loading, message) => {
-  if (loading === 'start') {
-    messageForm.classList.add('loading_active');
-    messageText.classList.add('loading__message_color_green');
-    messageText.textContent = message;
-  } else if (loading === 'catch') {
-    document.querySelector('.loading__button').classList.add('loading__button_active');
-    messageText.classList.remove('loading__message_color_green');
-    messageText.classList.add('loading__message_color_red');
-    messageText.textContent = message;
+const renderLoading = (loading, button, message) => {
+  if (loading) {
+    button.textContent = message;
   } else {
-    messageForm.classList.remove('loading_active');
-    messageText.classList.remove('loading__message_color_green');
-    messageText.classList.remove('loading__message_color_red');
-    messageText.textContent = message;
+    button.textContent = message;
   }
 };
 
@@ -103,18 +91,15 @@ const popupWithImage = new PopupWithImage({
 //Элемент класса формы подтверждения
 const popupDeleteCard = new PopupWithFormSubmit({
   popupSelector: '.modal_target_confirm',
-  handleOkRemove: _ => {
-    renderLoading('start', 'Удаление...');
+  handleOkRemove: button => {
+    renderLoading(true, button, 'Ок...');
     api.removeCard(itemDelete)
       .then(_ => {
         popupDeleteCard.close();
       })
       .then(_ => trashElem.remove())
-      .then(_ => renderLoading(false, ''),
-        err => {
-          renderLoading('catch', 'Ошибка: ' + err);
-          console.log(err);
-        });
+      .catch(err => console.log(err))
+      .finally(_ => renderLoading(false, button, 'Ок'));
   },
   closeBtnSelector: '.confirm__close-btn'
 });
@@ -122,21 +107,19 @@ const popupDeleteCard = new PopupWithFormSubmit({
 //Элемент класса формы профайла 
 const profilePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile',
-  formSubmitHandler: inputValues => {
-    renderLoading('start', 'Сохранение...');
+  formSubmitHandler: (inputValues, button) => {
+    
     api.updateInformation({
         name: inputValues.profileName,
         about: inputValues.about
       }, 'users/me')
+      .then(renderLoading(true, button, 'Сохранение...'))
       .then(inputValues => {
         userProfileInformation.setUserInfo(inputValues);
         profilePopup.close();
       })
-      .then(_ => renderLoading(false, ''),
-        err => {
-          renderLoading('catch', 'Ошибка: ' + err);
-          console.log(err);
-        });
+      .catch(err => console.log(err))
+      .finally(_ => renderLoading(false, button, 'Сохранить'));
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -144,21 +127,17 @@ const profilePopup = new PopupWithForm({
 //Элемент класса Попап Аватара
 const avatarUpdatePopup = new PopupWithForm({
   popupSelector: '.modal_target_profile-avatar',
-  formSubmitHandler: inputValues => {
-    renderLoading('start', 'Сохранение...');
+  formSubmitHandler: (inputValues, button) => {
+    renderLoading(true, button, 'Сохранение...');
     api.updateInformation({
         avatar: inputValues.pictureSource,
       }, 'users/me/avatar')
-      .then( _ => renderLoading(false, ''),
-        err => {
-          renderLoading('catch', 'Ошибка: ' + err);
-          console.log(err);
-        })
       .then( _ => {
         avatarImage.src = inputValues.pictureSource;
         avatarUpdatePopup.close();
-      });
-
+      })
+      .catch(err => console.log(err))
+      .finally(_ => renderLoading(false, button, 'Сохранить'));
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -166,18 +145,16 @@ const avatarUpdatePopup = new PopupWithForm({
 //Форма добавления карточки на страницу
 const addCardPopup = new PopupWithForm({
   popupSelector: '.modal_target_addCard',
-  formSubmitHandler: inputValues => {
-    renderLoading('start', 'Создание...');
+  formSubmitHandler: (inputValues, button) => {
+    console.log('Сработало!')
+    renderLoading(true, button, 'Создание...');
     api.addNewInformation({
         name: inputValues.name,
         link: inputValues.link
       }, 'cards')
       .then(data => renderCard(data, api))
-      .then(_ => renderLoading(false, ''),
-        err => {
-          renderLoading('catch', 'Ошибка: ' + err);
-          console.log(err);
-        });
+      .catch(err => console.log(err))
+      .finally(_ => renderLoading(false, button, 'Создать'));
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -187,20 +164,14 @@ const createNewCard = cardData => {
   const newCard = createCard(
     cardData, 
       '#listItem',
-      _ => {
-        popupWithImage.open(cardData);
-      },
+      _ => { popupWithImage.open(cardData) },
       evt => {
         trashElem = evt.target.closest('.elements__item');
         itemDelete = cardData._id;
         popupDeleteCard.open();
       },
-      cardId => {
-        return api.putLike(cardId)
-      },
-      cardId => {
-        return api.deleteLike(cardId)
-      }
+      cardId => { return api.putLike(cardId) },
+      cardId => { return api.deleteLike(cardId)}
     );
   return newCard;
 }
@@ -265,10 +236,3 @@ profilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
 popupDeleteCard.setEventListeners();
-
-//Слушатель подтверждения ошибки
-document.querySelector('.loading__button').addEventListener('click', _ => {
-  messageForm.classList.remove('loading_active');
-  document.querySelector('.loading__button').classList.remove('loading__button_active');
-  messageText.classList.remove('loading__message_color_red');
-})
