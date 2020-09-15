@@ -59,11 +59,4 @@
 .confirm__close-btn{background:url(./images/close-icon.svg) no-repeat;background-position:50%;width:41px;height:41px;position:absolute;top:-40px;right:-40px;border:0;cursor:pointer;padding:0;transition:.5s ease-in-out;outline:none}.confirm__close-btn:hover{transition:.5s ease-in-out;opacity:.6}@media screen and (max-width:480px){.confirm__close-btn{top:-25px;right:-25px;width:20px;height:20px}}
 .confirm__confirm-btn{width:100%;min-height:50px;background:#000;border-radius:2px;color:#fff;cursor:pointer;border:0;margin-top:38px;font-style:normal;font-weight:400;font-size:1.1rem;line-height:1.25;transition:.5s ease-in-out;outline:none;padding:0;text-align:center}.confirm__confirm-btn:hover{transition:.5s ease-in-out;background-color:rgba(0,0,0,.8)}
 .confirm__title{margin:0;font-weight:900;font-size:1.5rem;line-height:1.2}@media screen and (max-width:480px){.confirm__title{margin-bottom:34px;text-align:center;font-size:1.25rem}}
-.loading{display:flex;flex-direction:column;border-radius:5px;border:1px solid #f5f5f5;justify-content:space-around;align-items:center;position:fixed;visibility:hidden;opacity:0;max-width:15%;max-width:30%;min-height:50px;top:20px;right:30px}
-@-webkit-keyframes showOn{0%{opacity:0;visibility:hidden}to{opacity:1;visibility:visible}}@keyframes showOn{0%{opacity:0;visibility:hidden}to{opacity:1;visibility:visible}}.loading_active{visibility:visible;-webkit-animation:showOn .5s ease;animation:showOn .5s ease;opacity:1}
-.loading__message{font-size:1rem;line-height:.8;margin:5px;padding:0;text-align:center;color:#fff}
-.loading__message_color_green{color:green}
-.loading__message_color_red{color:red}
-.loading__button{display:none;justify-content:center;width:100%;min-height:30px;background:#000;border-radius:2px;color:#fff;cursor:pointer;border-top:1px solid #fff;margin-top:15px;font-style:normal;font-weight:400;font-size:1.1rem;line-height:1.25;transition:.5s ease-in-out;outline:none;padding:0}.loading__button:hover{transition:.5s ease-in-out;background-color:rgba(243,104,104,.8)}
-.loading__button_active{display:flex}
 
