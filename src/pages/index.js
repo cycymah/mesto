@@ -146,7 +146,6 @@ const avatarUpdatePopup = new PopupWithForm({
 const addCardPopup = new PopupWithForm({
   popupSelector: '.modal_target_addCard',
   formSubmitHandler: (inputValues, button) => {
-    console.log('Сработало!')
     renderLoading(true, button, 'Создание...');
     api.addNewInformation({
         name: inputValues.name,

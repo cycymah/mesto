@@ -64,6 +64,7 @@ export default class Card {
   _cardLikeToggle(evt) {
     const targetButton = evt.target;
     if (targetButton.classList.contains('elements__like_active')) {
+      console.log(this._handleLikeDelete(this._id));
       this._handleLikeDelete(this._id).
       then(data => {
         targetButton.classList.remove('elements__like_active');
