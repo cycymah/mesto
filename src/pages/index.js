@@ -137,7 +137,7 @@ const avatarUpdatePopup = new PopupWithForm({
         avatarUpdatePopup.close();
       })
       .catch(err => console.log(err))
-      .finally(_ => renderLoading(false, button, 'Сохранить'));
+      .finally( _ => renderLoading(false, button, 'Сохранить'));
   },
   closeBtnSelector: '.form__close-btn'
 });
@@ -153,7 +153,7 @@ const addCardPopup = new PopupWithForm({
       }, 'cards')
       .then(data => renderCard(data, api))
       .catch(err => console.log(err))
-      .finally(_ => renderLoading(false, button, 'Создать'));
+      .finally( _ => renderLoading(false, button, 'Создать'));
   },
   closeBtnSelector: '.form__close-btn'
 });
